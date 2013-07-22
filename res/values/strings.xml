@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <!-- Below are the API string and other details -->
+    <string name="feed_format">format=xml</string>
+    <string name="no_of_days">num_of_days=</string>
+    <string name="feed_weather_details_base_url">http://api.worldweatheronline.com/free/v1/weather.ashx?q=</string>
+    <string name="api_key">hkk8gqf7n85dhzns5xmhxa5f</string>
+
+    <string name="app_name">Weather Expert</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world! This is demo to Andrew</string>
+    <string name="main_actvity_name">Current Location</string>
+    <string name="search_location">Search Location</string>
+    
+    <string name="favourites_list">Favorites List</string>
+    
+    <string name="hint_search_location">Enter the name of location here..</string>
+    <string name="recent_locations">Recently searched locations</string>
+    
+    <!-- Below is all the default values for the weather_details.xml layout -->
+	<string name="default_location">[Location]</string>
+	<string name="default_current_time">--:-- --</string>
+	<string name="default_weather_icon_desc">This is the weather icon</string>
+	<string name="default_min_temp">--C</string>
+	<string name="default_max_temp">--C</string>
+	<string name="lbl_weather_desc">Weather Desc</string>
+	<string name="lbl_humidity">Humidity</string>
+	<string name="lbl_visibility">Visibility</string>
+	<string name="lbl_wind_speed">Wind Speed</string>
+	<string name="lbl_wind_direction">Wind Direction</string>
+	<string name="lbl_pressure">Pressure</string>
+	<string name="lbl_cloud_cover">Cloud Cover</string>
+	<string name="lbl_precipitation">Precipitaion</string>
+	
+	<string name="default_weather_desc">[Description]</string>
+	<string name="default_humidity">-- %</string>
+	<string name="default_visibility">- km</string>
+	<string name="default_wind_speed">-- km</string>
+	<string name="default_wind_direction">--</string>
+	<string name="default_pressure">--- mbar</string>
+	<string name="default_cloud_cover">-- %</string>
+	<string name="default_precipitation">-.- mm</string>
+	
+	<string name="menu_settings">Settings</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="android_sax">Android SAX</string>
+    <string name="sax">Classic SAX</string>
+    <string name="dom">DOM</string>
+    <string name="pull">XML Pull</string>
+    <string name="menu_search">Search Location</string>
+    <string name="menu_refresh">Refresh</string>
+    <string name="weather_picture">Weather Picture</string>
+    <string name="lbl_text_multiple_day_weather">5 Day Weather</string>
+    <string name="celcius_symbol">2103</string>
+    <string name="menu_icon">Menu Icon</string>
+    
+    <!-- Shared Prefrences menu items. -->
+    <string name="menu_update">Referesh Weather Details</string>
+    <string name="auto_update_prompt">Auto Update?</string>
+    <string name="update_frequency_prompt">Update Frequency</string>
+    
+    <!-- weather img names -->
+<!--     <string name="">@drawable/clear</string> -->
+<!--     <string name="">@drawable/cloudy</string> -->
+<!--     <string name="">@drawable/cold</string> -->
+<!--     <string name="">@drawable/default_weather_icon</string> -->
+<!--     <string name="">@drawable/drizzle</string> -->
+<!--     <string name="">@drawable/fair</string> -->
+<!--     <string name="">@drawable/fog</string> -->
+<!--     <string name="">@drawable/foggy</string> -->
+<!--     <string name="">@drawable/frezing_rain</string> -->
+<!--     <string name="">@drawable/hail</string> -->
+<!--     <string name="">@drawable/haze</string> -->
+<!--     <string name="">@drawable/heavy_snow</string> -->
+<!--     <string name="">@drawable/hot</string> -->
+<!--     <string name="">@drawable/mostly_cloudy</string> -->
+<!--     <string name="">@drawable/night_clear</string> -->
+<!--     <string name="">@drawable/night_drizzle</string> -->
+<!--     <string name="">@drawable/night_fair</string> -->
+<!--     <string name="">@drawable/night_half_moon</string> -->
+<!--     <string name="">@drawable/night_light_rain</string> -->
+<!--     <string name="">@drawable/night_mostly_cloudy</string> -->
+<!--     <string name="">@drawable/night_rain</string> -->
+<!--     <string name="">@drawable/night_showers</string> -->
+<!--     <string name="">@drawable/no_connect_ion</string> -->
+<!--     <string name="">@drawable/no_weather</string> -->
+<!--     <string name="">@drawable/rain</string> -->
+<!--     <string name="">@drawable/scattered_thunderstorms</string> -->
+<!--     <string name="">@drawable/showers</string> -->
+<!--     <string name="">@drawable/smoky</string> -->
+<!--     <string name="">@drawable/snow</string> -->
+<!--     <string name="">@drawable/sunny</string> -->
+<!--     <string name="">@drawable/thunderstorms</string> -->
+<!--     <string name="">@drawable/tropical_storm</string> -->
+<!--     <string name="">@drawable/umbrella</string> -->
+<!--     <string name="">@drawable/windy</string> -->
+    
+    
+	
+</resources>

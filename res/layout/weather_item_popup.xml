@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/popup_background"
+    android:id="@+id/wdPopupWindow"
+    android:columnCount="2"
+    android:padding="10dp" >
+
+    <ImageButton
+        android:id="@+id/btnClosePopup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/ic_menu_close_clear_cancel"
+        android:layout_row="0"
+        android:layout_column="0"
+        android:layout_columnSpan="2"
+        android:layout_gravity="right" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="I'm a Popup"
+        android:layout_row="1"
+        android:layout_column="0"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+</GridLayout>

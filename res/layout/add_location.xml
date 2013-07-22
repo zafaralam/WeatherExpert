@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="5dp"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/dark_blue_gray"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="@string/search_location"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textStyle="bold"
+        android:textColor="@color/WhiteSmoke"
+        android:typeface="monospace" />
+    
+<!--     <View -->
+<!--         android:layout_width="fill_parent" -->
+<!--         android:layout_height="1dp" -->
+<!--         android:background="@color/dark_gray" -->
+<!--          /> -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/backgroud_rectangle"
+        android:weightSum="100"
+        android:paddingTop="5dp"
+        android:layout_marginTop="5dp" >
+
+        <EditText
+            android:id="@+id/etSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="95"
+            android:inputType="textPersonName"
+            android:hint="@string/hint_search_location" >
+
+            <requestFocus />
+        </EditText>
+
+        <ProgressBar
+            android:id="@+id/pbSearchProg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            
+            android:visibility="gone" />
+<!--         style="?android:attr/progressBarStyleSmall" -->
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:background="@drawable/backgroud_rectangle"
+        android:orientation="vertical"
+        >
+        
+        <ListView
+        android:id="@+id/lvAvailableLocations"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/backgroud_rectangle"
+        android:overScrollMode="never"
+        android:scrollbars="none" >
+    </ListView>
+    
+    <TextView android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:gravity="center_horizontal"
+        android:background="@color/dark_blue_gray"
+        android:textColor="@color/WhiteSmoke"
+        android:typeface="monospace"
+        android:textStyle="bold"
+        android:text="@string/recent_locations"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        />
+    <ListView
+        android:id="@+id/lvRecentLocations"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/backgroud_rectangle"
+        android:overScrollMode="never"
+        android:scrollbars="none" >
+    </ListView>
+        
+    </LinearLayout>
+    
+
+</LinearLayout>

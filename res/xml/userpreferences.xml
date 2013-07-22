@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <ListPreference
+        android:entries="@array/start_up_list"
+        android:entryValues="@array/start_up_list"
+        android:key="DEFAULT_PAGE"
+        android:summary="The first page when app starts"
+        android:title="Dafault Page" />
+    <ListPreference
+        android:key="DEFAULT_LOCATION"
+        android:title="Select default location" />
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="PREF_AUTO_UPDATE"
+        android:summary="Select to turn on automatic updating"
+        android:title="Auto Refresh" />
+
+    <ListPreference
+        android:entries="@array/update_freq_options"
+        android:entryValues="@array/update_freq_values"
+        android:key="PREF_UPDATE_FREQ"
+        android:summary="Frequency at which to update weather deatils"
+        android:title="Refresh Frequency" />
+
+</PreferenceScreen>

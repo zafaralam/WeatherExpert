@@ -1,0 +1,46 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.zafaralam.weatherexpert"
+    android:versionCode="2"
+    android:versionName="1.1" >
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="17" />
+    
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    
+    
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.Weather_expert" >
+        
+        
+        <activity
+            android:name=".BaseActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <activity android:name="com.zafaralam.weatherexpert.PreferencesActivity"
+            android:label="Weather Details Preferences"
+            android:screenOrientation="portrait"></activity>
+        
+        <service android:name="com.zafaralam.weatherexpert.service.WeatherDetailsUpdateService"
+            android:enabled="true" />
+        <receiver android:name="com.zafaralam.weatherexpert.WeatherExpertAlarmReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.zafaralam.weatherexpert.ACTION_REFRESH_WEATHERDETAILS_ALARM"/>
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="menus">
+        <item>Current Location</item>
+        <item>Favorites</item>
+        <item>Search Location</item>
+        <item>Settings</item>
+        <item>About</item>
+    </string-array>
+    
+    <string-array name="menus_img">
+        <item>@android:drawable/ic_menu_mylocation</item>
+        <item>@android:drawable/btn_star</item>
+<!--         <item>@android:drawable/ic_menu_add</item> -->
+		<item>@android:drawable/ic_menu_search</item>
+        <item>@android:drawable/ic_menu_preferences</item>
+        <item>@android:drawable/ic_menu_info_details</item>
+    </string-array>
+    
+    <string-array name="start_up_list">
+        <item>Default Location</item>
+        <item>Favorites</item>
+        <item>Search Location</item>
+    </string-array>
+    
+    <string-array name="temp_favs">
+        <item>Melbourne</item>
+        <item>Delhi</item>
+        <item>Muscat</item>
+    </string-array>
+    
+    <string-array name="update_freq_options">
+        <item>15 min</item>
+        <item>Every Hour</item>
+        <item>2 Hours</item>
+        <item>3 Hours</item>
+        <item>4 Hours</item>
+    </string-array>
+    
+    <string-array name="update_freq_values">
+        <item>15</item>
+        <item>60</item>
+        <item>120</item>
+        <item>180</item>
+        <item>240</item>
+    </string-array>
+</resources>

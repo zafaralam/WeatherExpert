@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:columnCount="1"
+     >
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:text="Mon"
+            android:textSize="12sp"
+            android:textColor="@color/blue_gray"
+            android:textStyle="bold"
+            android:typeface="monospace"/>
+
+
+        <ImageView
+            android:id="@+id/ivWeatherPic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:contentDescription="@string/weather_picture"
+            android:src="@drawable/no_weather"
+            android:layout_row="1"
+            android:layout_column="0" />
+
+        
+
+        <TextView
+            android:id="@+id/tvMaxTemp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|top"
+            android:textColor="@android:color/white"
+            android:text="@string/default_max_temp"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:typeface="monospace"
+            android:padding="1dp"
+            android:background="@drawable/orange_rectangle" />
+
+        <TextView
+            android:id="@+id/tvMinTemp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:textColor="@android:color/white"
+            android:text="@string/default_min_temp"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:typeface="monospace"
+            android:padding="1dp"
+            android:background="@drawable/blue_rectangle" />
+
+        <!-- <TextView
+            android:id="@+id/tvWeatherDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible" /> -->
+
+
+</GridLayout>

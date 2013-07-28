@@ -2,100 +2,144 @@ package com.zafaralam.modal;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 
-public class Weather {
+public abstract class Weather {
 	
-	static SimpleDateFormat FORMATTER = 
-			new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z");
-	private Date date;
-	private int weatherCode; 
+	private final SimpleDateFormat DATEFORMATTER = 
+			new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+	private String date;
 	private int windSpeedMiles;
 	private int windSpeedKmph;
-	private int windDirDegree;
 	private String windDir16Point;
+	private int windDirDegree;
+	private int weather_condition;//weatherCode
 	private String weatherIconUrl;
 	private String weatherDesc;
-	private long precipMM;
+	private float precipMM;
 	
-	public int getWeatherCode() {
-		return weatherCode;
+	public Weather() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
-	public void setWeatherCode(int weatherCode) {
-		this.weatherCode = weatherCode;
-	}
+	
 
 	public int getWindSpeedMiles() {
 		return windSpeedMiles;
 	}
 
+
+
 	public void setWindSpeedMiles(int windSpeedMiles) {
 		this.windSpeedMiles = windSpeedMiles;
 	}
+
+
 
 	public int getWindSpeedKmph() {
 		return windSpeedKmph;
 	}
 
+
+
 	public void setWindSpeedKmph(int windSpeedKmph) {
 		this.windSpeedKmph = windSpeedKmph;
 	}
 
-	public int getWindDirDegree() {
-		return windDirDegree;
-	}
 
-	public void setWindDirDegree(int windDirDegree) {
-		this.windDirDegree = windDirDegree;
-	}
 
 	public String getWindDir16Point() {
 		return windDir16Point;
 	}
 
+
+
 	public void setWindDir16Point(String windDir16Point) {
 		this.windDir16Point = windDir16Point;
 	}
+
+
+
+	public int getWindDirDegree() {
+		return windDirDegree;
+	}
+
+
+
+	public void setWindDirDegree(int windDirDegree) {
+		this.windDirDegree = windDirDegree;
+	}
+
+
+
+	public int getWeather_condition() {
+		return weather_condition;
+	}
+
+
+
+	public void setWeather_condition(int weather_condition) {
+		this.weather_condition = weather_condition;
+	}
+
+
 
 	public String getWeatherIconUrl() {
 		return weatherIconUrl;
 	}
 
+
+
 	public void setWeatherIconUrl(String weatherIconUrl) {
 		this.weatherIconUrl = weatherIconUrl;
 	}
+
+
 
 	public String getWeatherDesc() {
 		return weatherDesc;
 	}
 
+
+
 	public void setWeatherDesc(String weatherDesc) {
 		this.weatherDesc = weatherDesc;
 	}
 
-	public long getPrecipMM() {
+
+
+	public float getPrecipMM() {
 		return precipMM;
 	}
 
-	public void setPrecipMM(long precipMM) {
+
+
+	public void setPrecipMM(float precipMM) {
 		this.precipMM = precipMM;
 	}
 
-	public String getDate() {
-		return FORMATTER.format(this.date);
-	}
+
+
+	public Date getDate() {
+			try {
+				Calendar cal = Calendar.getInstance();
+				TimeZone tz = cal.getTimeZone();
+				DATEFORMATTER.setTimeZone(tz);
+				return DATEFORMATTER.parse(date);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}
 
 	public void setDate(String date) {
-		// pad the date if necessary
-		while (!date.endsWith("00")){
-			date += "0";
+			// pad the date if necessary
+			this.date = date;
 		}
-		try {
-			this.date = FORMATTER.parse(date.trim());
-		} catch (ParseException e) {
-			throw new RuntimeException(e);
-		}
-	}
 }

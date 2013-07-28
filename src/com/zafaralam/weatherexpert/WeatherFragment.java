@@ -18,7 +18,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.ExecutionException;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
@@ -50,7 +49,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.zafaralam.modal.WeatherDetails;
+import com.zafaralam.modal.CurrentWeather;
+import com.zafaralam.modal.DayWeather;
+import com.zafaralam.modal.Weather;
 import com.zafaralam.utils.DaysOfTheWeek;
 import com.zafaralam.utils.NetworkDetails;
 import com.zafaralam.utils.ParserType;
@@ -113,7 +114,7 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 	private String feedUrl;
 
 	/* Local variables */
-	private List<WeatherDetails> weathers;
+	private List<Weather> weathers;
 	private Calendar calander;
 
 	// private ProgressDialog dialog;
@@ -404,11 +405,11 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 		llFiveDayWeather.removeAllViewsInLayout();
 		// tvCurrentWeather.setText(weathers.get(0).getTemp_C().toString());
 
-		for (WeatherDetails wd : this.weathers) {
+		for (Weather wd : this.weathers) {
 			Log.d(TAG, wd.getDate()+" "+String.valueOf(wd.getWeather_condition()));
 			Log.d(TAG, wd.getWeatherIconUrl());
-			if (wd.getWeatherType() == WeatherTypes.CURRENT_WEATHER.ordinal()) {
-				String curr_temp = String.valueOf(wd.getTemp_C());
+			if (wd instanceof CurrentWeather) {
+				String curr_temp = String.valueOf(((CurrentWeather) wd).getTemp_C());
 
 				if (curr_temp.length() == 1)
 					curr_temp = " " + curr_temp;
@@ -426,12 +427,12 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 				// tvCurrentTime.setText(wd.getObservation_time());
 
 				tvCurrentWeatherConditionDesc.setText(wd.getWeatherDesc());
-				tvCloudCover.setText(wd.getCloudCover() + " %");
-				tvHumidity.setText(wd.getHumidity() + " %");
+				tvCloudCover.setText(((CurrentWeather) wd).getCloudCover() + " %");
+				tvHumidity.setText(((CurrentWeather) wd).getHumidity() + " %");
 				tvWindSpeed.setText(wd.getWindSpeedKmph() + " kmph");
 				tvWindDirection.setText(wd.getWindDir16Point().toString());
-				tvVisibility.setText(wd.getVisibility() + " km");
-				tvPressure.setText(wd.getPressure() + " mbar");
+				tvVisibility.setText(((CurrentWeather) wd).getVisibility() + " km");
+				tvPressure.setText(((CurrentWeather) wd).getPressure() + " mbar");
 				tvPrecipitation.setText(String.valueOf(wd.getPrecipMM())
 						+ " mm");
 
@@ -465,8 +466,8 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 
 				String max_temp, min_temp;
 
-				max_temp = String.valueOf(wd.getTempMax_C());
-				min_temp = String.valueOf(wd.getTempMin_C());
+				max_temp = String.valueOf(((DayWeather) wd).getTempMax_C());
+				min_temp = String.valueOf(((DayWeather) wd).getTempMin_C());
 				if (max_temp.length() == 1)
 					max_temp = " " + max_temp;
 				if (min_temp.length() == 1)

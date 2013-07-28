@@ -3,13 +3,14 @@ package com.zafaralam.modal;
 
 public class CurrentWeather extends Weather{
 	
+	private String location;
+	private String observationTime;
 	private int temp_C;
 	private int temp_F;
 	private int humidity;
 	private int visibility;
 	private int pressure;
 	private int cloudCover;
-	private String observationTime;
 
 	public CurrentWeather() {
 		super();
@@ -70,5 +71,13 @@ public class CurrentWeather extends Weather{
 
 	public void setObservationTime(String observationTime) {
 		this.observationTime = observationTime;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 }

@@ -10,7 +10,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import com.zafaralam.modal.WeatherDetails;
+import com.zafaralam.modal.CurrentWeather;
+import com.zafaralam.modal.DayWeather;
+import com.zafaralam.modal.Weather;
 import com.zafaralam.utils.DaysOfTheWeek;
 import com.zafaralam.utils.MonthsOfTheYear;
 import com.zafaralam.utils.WeatherExpertIcons;
@@ -36,24 +38,26 @@ import android.widget.TextView;
 
 @SuppressLint("ValidFragment")
 public class TestFragment extends Fragment {
-	
+
 	private final String TAG = "TestFragment";
-	
+
 	public TestFragment() {
 		// TODO Auto-generated constructor stub
 	}
+
 	private int favId;
-	
+
 	public TestFragment(int favId) {
 		// TODO Auto-generated constructor stub
-		Log.d(TAG,String.valueOf(favId));
+		// Log.d(TAG,String.valueOf(favId));
 		this.favId = favId;
 	}
+
 	WeatherExpertAdapter dbHelper;
-	//TextView tvTest;
-	//private List<WeatherDetails> weathers;
+	// TextView tvTest;
+	private List<Weather> weathers;
 	private Calendar calander;
-	
+
 	private TextView tvLocation;
 	private TextView tvCurrentTime;
 	private TextView tvCurrentTemp;
@@ -84,7 +88,6 @@ public class TestFragment extends Fragment {
 		// TODO Auto-generated method stub
 		View v = inflater.inflate(R.layout.weather_details, container, false);
 		init(v);
-		dbHelper.open();
 		try {
 			displayFromDb();
 		} catch (ParseException e) {
@@ -97,13 +100,12 @@ public class TestFragment extends Fragment {
 
 	private void displayFromDb() throws ParseException {
 		// TODO Auto-generated method stub
-
+		dbHelper.open();
 		String[] projection = { WeatherDetailsEntry.KEY_LOCATION,
 				WeatherDetailsEntry.KEY_TEMP_C,
 				WeatherDetailsEntry.KEY_TEMPMAX_C,
 				WeatherDetailsEntry.KEY_TEMPMIN_C,
-				WeatherDetailsEntry.KEY_DATE,
-				WeatherDetailsEntry.KEY_HUMIDITY,
+				WeatherDetailsEntry.KEY_DATE, WeatherDetailsEntry.KEY_HUMIDITY,
 				WeatherDetailsEntry.KEY_CLOUDCOVER,
 				WeatherDetailsEntry.KEY_PRECIPMM,
 				WeatherDetailsEntry.KEY_PRESSURE,
@@ -117,21 +119,21 @@ public class TestFragment extends Fragment {
 				WeatherDetailsEntry.KEY_KEY_WINDSPEEDKMPH,
 				WeatherDetailsEntry.KEY_VISIBILITY,
 				WeatherDetailsEntry.KEY_WEATHERTYPE
-				
-				};
+
+		};
 
 		String where = WeatherDetailsEntry.KEY_WD_FAV_ID + " = " + favId;
 
 		Cursor c = dbHelper.query(WeatherDetailsEntry.TABLE_NAME, projection,
 				where, null, null, null, null);
-		List<WeatherDetails> weathers = null;
-		WeatherDetails weather;
+		weathers = null;
+		Weather weather;
 		boolean isBegin = true;
 		if (c != null && c.getCount() != 0) {
 			if (c.getCount() == 1) {
-				//tvTest.setText(c.getString(0) + " | " + c.getString(1));
+				// tvTest.setText(c.getString(0) + " | " + c.getString(1));
 			} else {
-				weathers  = new ArrayList<WeatherDetails>();
+				weathers = new ArrayList<Weather>();
 				String allData = "";
 				while (c.moveToNext()) {
 					if (isBegin) {
@@ -139,105 +141,116 @@ public class TestFragment extends Fragment {
 
 						isBegin = false;
 					}
-					try{
-						
-						weather = new WeatherDetails();
-						weather.setLocation(c.getString(0));
-						weather.setTemp_C(Integer.valueOf(c.getString(1)));
-						
-						weather.setTempMax_C(Integer.valueOf(c.getString(2)));
-						
-						weather.setTempMin_C(Integer.valueOf(c.getString(3)));
-						
-						/*The below work around needs to be standardized*/
+					try {
+						// Log.d(TAG,c.getString(0));
+						if (c.getString(0) != null) {
+							weather = new CurrentWeather();
+							((CurrentWeather) weather).setLocation(c
+									.getString(0));
+							((CurrentWeather) weather).setTemp_C(Integer
+									.valueOf(c.getString(1)));
+							((CurrentWeather) weather).setHumidity(Integer
+									.valueOf(c.getString(5)));
+							((CurrentWeather) weather).setCloudCover(Integer
+									.valueOf(c.getString(6)));
+							((CurrentWeather) weather).setPressure(Integer
+									.valueOf(c.getString(8)));
+							((CurrentWeather) weather).setObservationTime(c
+									.getString(15));
+							((CurrentWeather) weather).setVisibility(Integer
+									.valueOf(c.getString(17)));
+						} else {
+							weather = new DayWeather();
+							((DayWeather) weather).setTempMax_C(Integer
+									.valueOf(c.getString(2)));
+							((DayWeather) weather).setTempMin_C(Integer
+									.valueOf(c.getString(3)));
+						}
+						// weather = new Weather();
+
+						/* The below work around needs to be standardized */
 						String strDate = c.getString(4);
 						int lenStrDate = strDate.length();
-						String monthName = strDate.substring(4,4+3);
+						String monthName = strDate.substring(4, 4 + 3);
 						int monthNumber = 0;
-						
-						if(monthName.compareTo(MonthsOfTheYear.JAN) == 0)
+
+						if (monthName.compareTo(MonthsOfTheYear.JAN) == 0)
 							monthNumber = 1;
-						if(monthName.compareTo(MonthsOfTheYear.FEB) == 0)
+						if (monthName.compareTo(MonthsOfTheYear.FEB) == 0)
 							monthNumber = 2;
-						if(monthName.compareTo(MonthsOfTheYear.MAR) == 0)
+						if (monthName.compareTo(MonthsOfTheYear.MAR) == 0)
 							monthNumber = 3;
-						if(monthName.compareTo(MonthsOfTheYear.APR) == 0)
+						if (monthName.compareTo(MonthsOfTheYear.APR) == 0)
 							monthNumber = 4;
-						if(monthName.compareTo(MonthsOfTheYear.MAY) == 0)
+						if (monthName.compareTo(MonthsOfTheYear.MAY) == 0)
 							monthNumber = 5;
-						if(monthName.compareTo(MonthsOfTheYear.JUN) == 0)
+						if (monthName.compareTo(MonthsOfTheYear.JUN) == 0)
 							monthNumber = 6;
-						if(monthName.compareTo(MonthsOfTheYear.JUL) == 0)
+						if (monthName.compareTo(MonthsOfTheYear.JUL) == 0)
 							monthNumber = 7;
-						if(monthName.compareTo(MonthsOfTheYear.AUG) == 0)
+						if (monthName.compareTo(MonthsOfTheYear.AUG) == 0)
 							monthNumber = 8;
-						if(monthName.compareTo(MonthsOfTheYear.SEP) == 0)
+						if (monthName.compareTo(MonthsOfTheYear.SEP) == 0)
 							monthNumber = 9;
-						if(monthName.compareTo(MonthsOfTheYear.OCT) == 0)
+						if (monthName.compareTo(MonthsOfTheYear.OCT) == 0)
 							monthNumber = 10;
-						if(monthName.compareTo(MonthsOfTheYear.NOV) == 0)
+						if (monthName.compareTo(MonthsOfTheYear.NOV) == 0)
 							monthNumber = 11;
-						if(monthName.compareTo(MonthsOfTheYear.DEC) == 0)
+						if (monthName.compareTo(MonthsOfTheYear.DEC) == 0)
 							monthNumber = 12;
-						
-						String newStrDate = strDate.substring(lenStrDate-4)
-								+ "-" + String.valueOf(monthNumber) + "-" +
-								strDate.substring(8,8+2);
-						
+
+						String newStrDate = strDate.substring(lenStrDate - 4)
+								+ "-" + String.valueOf(monthNumber) + "-"
+								+ strDate.substring(8, 8 + 2);
+
 						weather.setDate(newStrDate);
-						
-						weather.setHumidity(Integer.valueOf(c.getString(5)));
-						
-						weather.setCloudCover(Integer.valueOf(c.getString(6)));
-						
+
 						weather.setPrecipMM(Float.valueOf(c.getString(7)));
-						
-						weather.setPressure(Integer.valueOf(c.getString(8)));
-						
-						//weather.setWindDirection(c.getString(9));
-						
+
+						// weather.setWindDirection(c.getString(9));
+
 						weather.setWindDir16Point(c.getString(10));
-						
-						weather.setWindDirDegree(Integer.valueOf(c.getString(11)));
-						
-						weather.setWeather_condition(Integer.valueOf(c.getString(12)));
-						
+
+						weather.setWindDirDegree(Integer.valueOf(c
+								.getString(11)));
+
+						weather.setWeather_condition(Integer.valueOf(c
+								.getString(12)));
+
 						weather.setWeatherDesc(c.getString(13));
-						
+
 						weather.setWeatherIconUrl(c.getString(14));
-						
-						weather.setObservation_time(c.getString(15));
-						
-						weather.setWindSpeedKmph(Integer.valueOf(c.getString(16)));
-						
-						weather.setVisibility(Integer.valueOf(c.getString(17)));
-						
-						weather.setWeatherType(Integer.valueOf(c.getString(18)));
-						
-						
+
+						weather.setWindSpeedKmph(Integer.valueOf(c
+								.getString(16)));
+
+						// weather.setWeatherType(Integer.valueOf(c.getString(18)));
+
 						weathers.add(weather);
-						
-					}catch(Exception e){
+
+					} catch (Exception e) {
 						Log.d(TAG, e.getMessage().toString());
 					}
-					//allData = allData + c.getString(0) + c.getString(1) + "\n";
-					
+					// allData = allData + c.getString(0) + c.getString(1) +
+					// "\n";
+
 				}
-				//tvTest.setText(allData);
+				// tvTest.setText(allData);
 				try {
 					Log.d(TAG, "I'm OK..TOO");
-					displayStuff(weathers);
+					dbHelper.close();
+					if (weathers != null)
+						displayStuff();
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}catch (Exception e) {
+				} catch (Exception e) {
 					// TODO: handle exception
-					Log.d(TAG,e.getMessage().toString());
+					Log.d(TAG, e.getMessage().toString());
 				}
-				
+
 			}
-			
-			
+
 		}
 	}
 
@@ -245,8 +258,8 @@ public class TestFragment extends Fragment {
 		// TODO Auto-generated method stub
 
 		dbHelper = new WeatherExpertAdapter(getActivity());
-		//tvTest = (TextView) v.findViewById(R.id.tvTest);
-		
+		// tvTest = (TextView) v.findViewById(R.id.tvTest);
+
 		//
 		tvCurrentTime = (TextView) v.findViewById(R.id.tvCurrentTime);
 		tvLocation = (TextView) v.findViewById(R.id.tvLocation);
@@ -265,24 +278,25 @@ public class TestFragment extends Fragment {
 		tvPressure = (TextView) v.findViewById(R.id.tvPressure);
 		tvCloudCover = (TextView) v.findViewById(R.id.tvCloudCover);
 		tvPrecipitation = (TextView) v.findViewById(R.id.tvPrecipitation);
-		
+
 		calander = new GregorianCalendar();
 
 	}
-	
-	
-	public void displayStuff(List<WeatherDetails> weathers) throws ParseException {
+
+	public void displayStuff() throws ParseException {
 		WeatherExpertIcons wei = new WeatherExpertIcons();
 		Log.d(TAG, "Inside the display");
 		llFiveDayWeather.removeAllViewsInLayout();
 		// tvCurrentWeather.setText(weathers.get(0).getTemp_C().toString());
 
-		for (WeatherDetails wd : weathers) {
-			//Log.d(TAG, wd.getDate()+" "+String.valueOf(wd.getWeather_condition()));
-			//Log.d(TAG, wd.getWeatherIconUrl());
-			if (wd.getWeatherType() == WeatherTypes.CURRENT_WEATHER.ordinal()) {
-				tvLocation.setText(wd.getLocation());
-				String curr_temp = String.valueOf(wd.getTemp_C());
+		for (Weather wd : weathers) {
+			// Log.d(TAG,
+			// wd.getDate()+" "+String.valueOf(wd.getWeather_condition()));
+			// Log.d(TAG, wd.getWeatherIconUrl());
+			if (wd instanceof CurrentWeather) {
+				tvLocation.setText(((CurrentWeather) wd).getLocation());
+				String curr_temp = String.valueOf(((CurrentWeather) wd)
+						.getTemp_C());
 
 				if (curr_temp.length() == 1)
 					curr_temp = " " + curr_temp;
@@ -300,12 +314,15 @@ public class TestFragment extends Fragment {
 				// tvCurrentTime.setText(wd.getObservation_time());
 
 				tvCurrentWeatherConditionDesc.setText(wd.getWeatherDesc());
-				tvCloudCover.setText(wd.getCloudCover() + " %");
-				tvHumidity.setText(wd.getHumidity() + " %");
+				tvCloudCover.setText(((CurrentWeather) wd).getCloudCover()
+						+ " %");
+				tvHumidity.setText(((CurrentWeather) wd).getHumidity() + " %");
 				tvWindSpeed.setText(wd.getWindSpeedKmph() + " kmph");
 				tvWindDirection.setText(wd.getWindDir16Point().toString());
-				tvVisibility.setText(wd.getVisibility() + " km");
-				tvPressure.setText(wd.getPressure() + " mbar");
+				tvVisibility.setText(((CurrentWeather) wd).getVisibility()
+						+ " km");
+				tvPressure.setText(((CurrentWeather) wd).getPressure()
+						+ " mbar");
 				tvPrecipitation.setText(String.valueOf(wd.getPrecipMM())
 						+ " mm");
 
@@ -339,23 +356,22 @@ public class TestFragment extends Fragment {
 
 				String max_temp, min_temp;
 
-				max_temp = String.valueOf(wd.getTempMax_C());
-				min_temp = String.valueOf(wd.getTempMin_C());
+				max_temp = String.valueOf(((DayWeather) wd).getTempMax_C());
+				min_temp = String.valueOf(((DayWeather) wd).getTempMin_C());
 				if (max_temp.length() == 1)
 					max_temp = " " + max_temp;
 				if (min_temp.length() == 1)
 					min_temp = " " + min_temp;
 				Date today = new Date();
-				
-				//Log.d(TAG,dateString.toString() + " | " +wd.getDate());
+
+				// Log.d(TAG,dateString.toString() + " | " +wd.getDate());
 				calander.setTime(wd.getDate());
 				// Log.d(TAG,String.valueOf(today.compareTo(wd.getDate())));
 				if (today.compareTo(wd.getDate()) == 1) {
 					tvTodayMaxTemp.setText("" + max_temp + "\u2103");
 					tvTodayMinTemp.setText("" + min_temp + "\u2103");
-				} 
-				else {
-//
+				} else {
+					//
 					LayoutInflater factory = LayoutInflater.from(getActivity()
 							.getApplicationContext());
 					View weatherItem = factory.inflate(R.layout.weather_item,
@@ -411,9 +427,10 @@ public class TestFragment extends Fragment {
 					// .findViewById(R.id.tvWeatherDesc);
 					// tvWeatherDesc.setText(wd.getWeatherDesc());
 					weatherItem.setId(calander.get(Calendar.DAY_OF_WEEK));
-					//weatherItem.setOnClickListener(this); // setting the onclick
-															// listener for each
-															// item.
+					// weatherItem.setOnClickListener(this); // setting the
+					// onclick
+					// listener for each
+					// item.
 					llFiveDayWeather.addView(weatherItem);
 					weatherItem.destroyDrawingCache();
 				}
@@ -421,6 +438,5 @@ public class TestFragment extends Fragment {
 
 		}
 	}
-
 
 }

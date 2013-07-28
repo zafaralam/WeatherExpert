@@ -7,9 +7,11 @@ import java.util.List;
 
 import org.xmlpull.v1.XmlPullParser;
 
+import com.zafaralam.modal.CurrentWeather;
+import com.zafaralam.modal.DayWeather;
+import com.zafaralam.modal.Weather;
 import com.zafaralam.modal.WeatherLocation;
 import com.zafaralam.modal.Message;
-import com.zafaralam.modal.WeatherDetails;
 import com.zafaralam.utils.WeatherTypes;
 
 import android.text.format.DateFormat;
@@ -88,15 +90,15 @@ public class XmlPullFeedParser extends BaseFeedParser {
 		return locations;
 	}
 	
-	public List<WeatherDetails> parseWeather() {
+	public List<Weather> parseWeather() {
 		// TODO Auto-generated method stub
-		List<WeatherDetails> weather = null;
+		List<Weather> weather = null;
 		try {
 			// auto-detect the encoding from the stream
 			//Log.d("WeatherExpert:XmlPullFeedParser:", "1");
 			parser.setInput(this.getInputStream(), null);
 			int eventType = parser.getEventType();
-			WeatherDetails wd = null;
+			Weather wd = null;
 			boolean done = false;
 			//Log.d("WeatherExpert:XmlPullFeedParser:", "2");
 			//int eventType = parser.getEventType();
@@ -105,50 +107,50 @@ public class XmlPullFeedParser extends BaseFeedParser {
 				//Log.d("WeatherExpert:XmlPullFeedParser:", "Entered while loop");
 				switch (eventType){
 					case XmlPullParser.START_DOCUMENT:
-						weather = new ArrayList<WeatherDetails>();
+						weather = new ArrayList<Weather>();
 						break;
 					case XmlPullParser.START_TAG:
 						name = parser.getName();
 						
 						if (name.equalsIgnoreCase(CURRENT_CONDITION)){
-							wd = new WeatherDetails();
-							wd.setWeatherType(WeatherTypes.CURRENT_WEATHER.ordinal());
+							wd = new CurrentWeather();
+							//wd.setWeatherType(WeatherTypes.CURRENT_WEATHER.ordinal());
 							Calendar tDate = Calendar.getInstance();
 							//tDate.getTime();
 							String DATE_FORMATER = "yyyy-MM-dd";
 							CharSequence dateString = DateFormat.format(DATE_FORMATER, tDate);
 							wd.setDate(dateString.toString());
 						} else if(name.equalsIgnoreCase(WEATHER)){
-							wd = new WeatherDetails();
-							wd.setWeatherType(WeatherTypes.DAY_WEATHER.ordinal());
+							wd = new DayWeather();
+							//wd.setWeatherType(WeatherTypes.DAY_WEATHER.ordinal());
 						}else if (wd != null){
 							//Log.d("Debug: ","enterning wd!=null");
 							if (name.equalsIgnoreCase(OBSERVATION_TIME)){
-								wd.setObservation_time(parser.nextText());
+								((CurrentWeather) wd).setObservationTime(parser.nextText());
 							} else if (name.equalsIgnoreCase(TEMP_C)){
-								wd.setTemp_C(Integer.parseInt(parser.nextText()));
+								((CurrentWeather) wd).setTemp_C(Integer.parseInt(parser.nextText()));
 							} else if (name.equalsIgnoreCase(TEMP_F)){
-								wd.setTemp_F(Integer.parseInt(parser.nextText()));
+								((CurrentWeather) wd).setTemp_F(Integer.parseInt(parser.nextText()));
 							} else if (name.equalsIgnoreCase(HUMIDITY)){
-								wd.setHumidity((Integer.parseInt(parser.nextText())));
+								((CurrentWeather) wd).setHumidity((Integer.parseInt(parser.nextText())));
 							} else if (name.equalsIgnoreCase(VISIBILITY)){
-								wd.setVisibility((Integer.parseInt(parser.nextText())));
+								((CurrentWeather) wd).setVisibility((Integer.parseInt(parser.nextText())));
 							} else if (name.equalsIgnoreCase(PRESSURE)){
-								wd.setPressure((Integer.parseInt(parser.nextText())));
+								((CurrentWeather) wd).setPressure((Integer.parseInt(parser.nextText())));
 							} else if (name.equalsIgnoreCase(CLOUDCOVER)){
-								wd.setCloudCover((Integer.parseInt(parser.nextText())));
+								((CurrentWeather) wd).setCloudCover((Integer.parseInt(parser.nextText())));
 							} else if (name.equalsIgnoreCase(WEATHERCODE)){
 								wd.setWeather_condition(Integer.parseInt(parser.nextText()));
 							} else if (name.equalsIgnoreCase(DATE)){
 								wd.setDate(parser.nextText());
 							}  else if (name.equalsIgnoreCase(TEMPMAXC)){
-								wd.setTempMax_C(Integer.parseInt(parser.nextText()));
+								((DayWeather)wd).setTempMax_C(Integer.parseInt(parser.nextText()));
 							} else if (name.equalsIgnoreCase(TEMPMAXF)){
-								wd.setTempMax_F(Integer.parseInt(parser.nextText()));
+								((DayWeather)wd).setTempMax_F(Integer.parseInt(parser.nextText()));
 							}  else if (name.equalsIgnoreCase(TEMPMINC)){
-								wd.setTempMin_C(Integer.parseInt(parser.nextText()));
+								((DayWeather)wd).setTempMin_C(Integer.parseInt(parser.nextText()));
 							} else if (name.equalsIgnoreCase(TEMPMINF)){
-								wd.setTempMin_F(Integer.parseInt(parser.nextText()));
+								((DayWeather)wd).setTempMin_F(Integer.parseInt(parser.nextText()));
 							} else if (name.equalsIgnoreCase(WEATHERICONURL)){
 								wd.setWeatherIconUrl(parser.nextText());
 							} else if (name.equalsIgnoreCase(WEATHERDESC)){
@@ -164,7 +166,7 @@ public class XmlPullFeedParser extends BaseFeedParser {
 							} else if (name.equalsIgnoreCase(PRECIPMM)){
 								wd.setPrecipMM(Float.parseFloat(parser.nextText()));
 							} else if (name.equalsIgnoreCase(WINDDIRECTION)){
-								wd.setWindDirection(parser.nextText());
+								((DayWeather)wd).setWindDirection(parser.nextText());
 							}
 						}
 						break;

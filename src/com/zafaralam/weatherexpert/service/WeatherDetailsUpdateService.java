@@ -13,6 +13,7 @@
  * 
  * 8) Avoid restricting the user form not adding favorites because the app cannot handle the data.
  * 9) Add functionality to only force refresh the data for the particular weather when hit refresh.
+ * 10) Remove data from the weatherdetails table where favId is not in favorites.
  * 
  */
 
@@ -33,7 +34,9 @@ import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.zafaralam.modal.WeatherDetails;
+import com.zafaralam.modal.CurrentWeather;
+import com.zafaralam.modal.DayWeather;
+import com.zafaralam.modal.Weather;
 import com.zafaralam.utils.NetworkDetails;
 import com.zafaralam.utils.ParserType;
 import com.zafaralam.weatherexpert.PreferencesActivity;
@@ -115,6 +118,15 @@ public class WeatherDetailsUpdateService extends IntentService {
 				getApplicationContext());
 		dbHelper.open();
 
+		/* Condition (10) to be done here */
+		String sqlDeleteWeatherItems = "DELETE FROM " + WeatherDetailsEntry.TABLE_NAME
+				+ " WHERE " + WeatherDetailsEntry.KEY_WD_FAV_ID
+				+ " NOT IN ( SELECT "+ FavouritesEnrty.KEY_FAV_ID
+				+ " FROM " + FavouritesEnrty.TABLE_NAME + " )";
+		
+		//dbHelper.delete(WeatherDetailsEntry.TABLE_NAME, sqlDeleteWeatherItems, null);
+		Cursor delC = dbHelper.query(sqlDeleteWeatherItems, null);
+		Log.d(TAG, String.valueOf(delC.getCount()));
 		String feedUrl = null;
 		int favId = 0;
 		String locationName = null;
@@ -172,7 +184,7 @@ public class WeatherDetailsUpdateService extends IntentService {
 
 		if (NetworkDetails.isNetworkAvailable(getApplicationContext())) {
 			try {
-				List<WeatherDetails> weathers;
+				List<Weather> weathers;
 
 				FeedParser parser = FeedParserFactory.getParser(type, feedUrl);
 				weathers = parser.parseWeather();
@@ -186,7 +198,7 @@ public class WeatherDetailsUpdateService extends IntentService {
 
 	}
 
-	private void saveWeatherDeatils(List<WeatherDetails> weathers, int favId,
+	private void saveWeatherDeatils(List<Weather> weathers, int favId,
 			String locationName) {
 		// TODO Auto-generated method stub
 		WeatherExpertAdapter dbHelper = new WeatherExpertAdapter(
@@ -210,15 +222,30 @@ public class WeatherDetailsUpdateService extends IntentService {
 		 * some checks are required for the different days of weather data.
 		 */
 
-		for (WeatherDetails wd : weathers) {
+		for (Weather wd : weathers) {
 			ContentValues cv = new ContentValues();
 
+			if(wd instanceof CurrentWeather){
+				cv.put(WeatherDetailsEntry.KEY_LOCATION, locationName);
+				cv.put(WeatherDetailsEntry.KEY_OBSERVATION_TIME,
+						((CurrentWeather) wd).getObservationTime());
+				cv.put(WeatherDetailsEntry.KEY_TEMP_C, ((CurrentWeather) wd).getTemp_C());
+				cv.put(WeatherDetailsEntry.KEY_TEMP_F, ((CurrentWeather) wd).getTemp_F());
+				cv.put(WeatherDetailsEntry.KEY_HUMIDITY, ((CurrentWeather) wd).getHumidity());
+				cv.put(WeatherDetailsEntry.KEY_VISIBILITY, ((CurrentWeather) wd).getVisibility());
+				cv.put(WeatherDetailsEntry.KEY_PRESSURE, ((CurrentWeather) wd).getPressure());
+				cv.put(WeatherDetailsEntry.KEY_CLOUDCOVER, ((CurrentWeather) wd).getCloudCover());
+			}
+			else{
+				cv.put(WeatherDetailsEntry.KEY_TEMPMAX_C, ((DayWeather) wd).getTempMax_C());
+				cv.put(WeatherDetailsEntry.KEY_TEMPMAX_F, ((DayWeather) wd).getTempMax_F());
+				cv.put(WeatherDetailsEntry.KEY_TEMPMIN_C, ((DayWeather) wd).getTempMin_C());
+				cv.put(WeatherDetailsEntry.KEY_TEMPMIN_F, ((DayWeather) wd).getTempMin_F());
+				cv.put(WeatherDetailsEntry.KEY_WINDDIRECTION, ((DayWeather) wd).getWindDirection());
+			}
 			cv.put(WeatherDetailsEntry.KEY_WD_FAV_ID, favId);
-			cv.put(WeatherDetailsEntry.KEY_LOCATION, locationName);
-			cv.put(WeatherDetailsEntry.KEY_OBSERVATION_TIME,
-					wd.getObservation_time());
-			cv.put(WeatherDetailsEntry.KEY_TEMP_C, wd.getTemp_C());
-			cv.put(WeatherDetailsEntry.KEY_TEMP_F, wd.getTemp_F());
+			
+			
 			cv.put(WeatherDetailsEntry.KEY_WEATHER_CONDITION,
 					wd.getWeather_condition());
 			cv.put(WeatherDetailsEntry.KEY_DATE, String.valueOf(wd.getDate()));
@@ -233,16 +260,9 @@ public class WeatherDetailsUpdateService extends IntentService {
 					wd.getWeatherIconUrl());
 			cv.put(WeatherDetailsEntry.KEY_WEATHERDESC, wd.getWeatherDesc());
 			cv.put(WeatherDetailsEntry.KEY_PRECIPMM, wd.getPrecipMM());
-			cv.put(WeatherDetailsEntry.KEY_HUMIDITY, wd.getHumidity());
-			cv.put(WeatherDetailsEntry.KEY_VISIBILITY, wd.getVisibility());
-			cv.put(WeatherDetailsEntry.KEY_PRESSURE, wd.getPressure());
-			cv.put(WeatherDetailsEntry.KEY_CLOUDCOVER, wd.getCloudCover());
-			cv.put(WeatherDetailsEntry.KEY_TEMPMAX_C, wd.getTempMax_C());
-			cv.put(WeatherDetailsEntry.KEY_TEMPMAX_F, wd.getTemp_C());
-			cv.put(WeatherDetailsEntry.KEY_TEMPMIN_C, wd.getTempMin_C());
-			cv.put(WeatherDetailsEntry.KEY_TEMPMIN_F, wd.getTempMin_F());
-			cv.put(WeatherDetailsEntry.KEY_WINDDIRECTION, wd.getWindDirection());
-			cv.put(WeatherDetailsEntry.KEY_WEATHERTYPE, wd.getWeatherType());
+			
+			
+			//cv.put(WeatherDetailsEntry.KEY_WEATHERTYPE, "");
 
 			dbHelper.insert(WeatherDetailsEntry.TABLE_NAME, null, cv);
 

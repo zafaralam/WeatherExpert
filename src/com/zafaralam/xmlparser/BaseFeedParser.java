@@ -28,13 +28,13 @@ public abstract class BaseFeedParser implements FeedParser {
 	protected static final String PRECIPMM = "precipMM";
 	protected static final String HUMIDITY = "humidity";
 	protected static final String VISIBILITY = "visibility";
-	protected 	static final String PRESSURE = "pressure";
+	protected static final String PRESSURE = "pressure";
 	protected static final String CLOUDCOVER = "cloudcover";
 	protected static final String DATE = "date";
-	protected 	static final String TEMPMAXC = "tempMaxC";
-	protected 	static final String TEMPMAXF = "tempMaxF";
-	protected 	static final String TEMPMINC = "tempMinC";
-	protected 	static final String TEMPMINF = "tempMinF";
+	protected static final String TEMPMAXC = "tempMaxC";
+	protected static final String TEMPMAXF = "tempMaxF";
+	protected static final String TEMPMINC = "tempMinC";
+	protected static final String TEMPMINF = "tempMinF";
 //		static final String = "windspeedMiles";
 //		static final String = "windspeedKmph";
 //		static final String = "winddirDegree";
@@ -57,6 +57,21 @@ public abstract class BaseFeedParser implements FeedParser {
 	protected static final String TIMEZONE = "timezone";
 	protected static final String OFFSET = "offset";
 	
+	/* GeoLocation xml Tags*/
+	protected static final String RESPONSE = "Response";
+	protected static final String IP = "Ip";
+	protected static final String COUNTRYCODE = "CountryCode";
+	protected static final String COUNTRYNAME = "CountryName";
+	protected static final String REGIONNAME = "RegionName";
+	protected static final String REGIONCODE = "RegionCode";
+	protected static final String CITY = "City";
+	protected static final String ZIPCODE = "ZipCode";
+	protected static final String IP_LATITUDE = "Latitude";
+	protected static final String IP_LONGITUDE = "Longitude";
+	protected static final String METROCODE = "MetroCode";
+	protected static final String AREACODE = "AreaCode";
+
+
 	//Local Time xml Tags
 	/*
 	 * Use REQUEST,	QUERY, TYPE, TIMEZONE, DATA * 
@@ -64,7 +79,7 @@ public abstract class BaseFeedParser implements FeedParser {
 	protected static final String LOCALTIME = "localtime";
 	protected static final String UTCOFFSET = "utcoffset";
 		
-		private final URL feedUrl;
+	private final URL feedUrl;
 
 		protected BaseFeedParser(String feedUrl){
 			try {

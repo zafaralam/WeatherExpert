@@ -9,6 +9,7 @@ import org.xmlpull.v1.XmlPullParser;
 
 import com.zafaralam.modal.CurrentWeather;
 import com.zafaralam.modal.DayWeather;
+import com.zafaralam.modal.GeoLocation;
 import com.zafaralam.modal.Weather;
 import com.zafaralam.modal.WeatherLocation;
 import com.zafaralam.modal.Message;
@@ -189,5 +190,70 @@ public class XmlPullFeedParser extends BaseFeedParser {
 			throw new RuntimeException(e);
 		}
 		return weather;
+	}
+
+
+	@Override
+	public GeoLocation parseGeoLocation() {
+		// TODO Auto-generated method stub
+
+		GeoLocation geoLocation = null;
+
+		try{
+			parser.setInput(this.getInputStream(), null);
+			int eventType = parser.getEventType();
+			boolean done = false;
+
+			while(eventType != XmlPullParser.END_DOCUMENT && !done)
+			{
+				String tagName = null;
+				switch (eventType)
+				{
+					case XmlPullParser.START_DOCUMENT:
+						geoLocation = new GeoLocation();
+						break;
+					case XmlPullParser.START_TAG:
+						tagName = parser.getName();
+							if (tagName.equalsIgnoreCase(IP)){
+								geoLocation.setIp(parser.nextText());
+							} else if (tagName.equalsIgnoreCase(COUNTRYCODE)){
+								geoLocation.setCountryCode(parser.nextText());
+							} else if (tagName.equalsIgnoreCase(COUNTRYNAME)){
+								geoLocation.setCountryName(parser.nextText());
+							} else if (tagName.equalsIgnoreCase(REGIONCODE)){
+								geoLocation.setRegionCode(Integer.valueOf(parser.nextText()));
+							} else if (tagName.equalsIgnoreCase(REGIONNAME)){
+								geoLocation.setRegionName(parser.nextText());
+							} else if (tagName.equalsIgnoreCase(CITY)){
+								geoLocation.setCity(parser.nextText());
+							} else if (tagName.equalsIgnoreCase(ZIPCODE)){
+								geoLocation.setLongitude(parser.nextText());
+							} else if (tagName.equalsIgnoreCase(IP_LATITUDE)){
+								geoLocation.setLatitude(parser.nextText());
+							} else if (tagName.equalsIgnoreCase(IP_LONGITUDE)){
+								geoLocation.setLongitude(parser.nextText());
+							} else if (tagName.equalsIgnoreCase(METROCODE)){
+								geoLocation.setLongitude(parser.nextText());
+							} else if (tagName.equalsIgnoreCase(AREACODE)){
+								geoLocation.setLongitude(parser.nextText());
+							} 
+						break;
+					case XmlPullParser.END_TAG:
+						tagName = parser.getName();
+						if (tagName.equalsIgnoreCase(RESPONSE)){
+							done = true;
+						}
+						break;
+				}
+				eventType = parser.next();
+			}
+
+		}
+		catch (Exception e){
+			Log.e(TAG, e.getMessage(), e);
+			throw new RuntimeException(e);
+		}
+
+		return geoLocation;
 	}
 }

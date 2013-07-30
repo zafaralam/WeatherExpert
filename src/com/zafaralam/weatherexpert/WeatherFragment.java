@@ -51,6 +51,7 @@ import android.widget.Toast;
 
 import com.zafaralam.modal.CurrentWeather;
 import com.zafaralam.modal.DayWeather;
+import com.zafaralam.modal.GeoLocation;
 import com.zafaralam.modal.Weather;
 import com.zafaralam.utils.DaysOfTheWeek;
 import com.zafaralam.utils.NetworkDetails;
@@ -180,6 +181,8 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 		if (NetworkDetails.isNetworkAvailable(getActivity()
 				.getApplicationContext())) {
 			// System.out.println("1");
+			boolean loadGeoLocation = false;
+			String ip = "";
 
 			this.weathers = null;
 
@@ -190,7 +193,7 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 
 				if (!isLocationAvil) {
 					//getIpaddress
-					String ip = NetworkDetails.getLocalIpAddress(getActivity());
+					ip = NetworkDetails.getLocalIpAddress(getActivity());
 					if(ip != null){
 						
 						/*
@@ -199,6 +202,8 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 						feedUrl = "http://api.worldweatheronline.com/free/v1/weather.ashx?q="
 								+ ip// IP Address
 								+ "&format=xml&num_of_days=5&key=hkk8gqf7n85dhzns5xmhxa5f";
+						
+						loadGeoLocation = true;
 						Log.d(TAG, "IP Adress: " + ip);
 						
 					}else{
@@ -236,7 +241,15 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 						+ "&format=xml&num_of_days=5&key=hkk8gqf7n85dhzns5xmhxa5f";
 				tvLocation.setText(splitData[0]);
 			}
-
+			
+			if(loadGeoLocation){
+				//load the location using the ip address.
+				String geoLocFeedUrl = "";
+				geoLocFeedUrl = "http://freegeoip.net/xml/"+ip;
+				new LoadGeoLocationFromIp(type, geoLocFeedUrl)
+						.execute("Loading Geo location from IP address");
+			}
+			
 			if (feedUrl != null)
 				new DownloadWeather(type, feedUrl)
 						.execute("Download weather details for location");
@@ -631,6 +644,39 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 		public void onStatusChanged(String provider, int status, Bundle extras) {
 		}
 	};
+	
+	private class LoadGeoLocationFromIp extends AsyncTask<String, String, String> {
+
+		private ParserType type;
+		private String feedUrl;
+		private GeoLocation geoLocation;
+		
+		public LoadGeoLocationFromIp(ParserType type, String feedUrl){
+			super();
+			this.type = type;
+			this.feedUrl = feedUrl;
+			geoLocation = new GeoLocation();
+			
+		}
+		@Override
+		protected String doInBackground(String... arg0) {
+			// TODO Auto-generated method stub
+			FeedParser parser = FeedParserFactory.getParser(type, feedUrl);
+			geoLocation = parser.parseGeoLocation();
+			return "Finished loading geo location";
+		}
+		
+		@Override
+		protected void onPostExecute(String result){
+			if(geoLocation != null){
+				Log.d(TAG,geoLocation.getLatitude());
+				Log.d(TAG,geoLocation.getLongitude());
+				Log.d(TAG,geoLocation.getCountryCode());
+				tvLocation.setText(geoLocation.getCity() + "(" + geoLocation.getCountryName() + ")");
+			}
+		}
+		
+	}
 
 	private class DownloadWeather extends AsyncTask<String, String, String> {
 

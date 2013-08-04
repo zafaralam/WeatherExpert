@@ -3,6 +3,7 @@
 	<name>WeatherExpert</name>
 	<comment></comment>
 	<projects>
+		<project>SlidingMenuLibrary</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

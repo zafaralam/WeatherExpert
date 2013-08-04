@@ -266,8 +266,8 @@ public class TestFragment extends Fragment {
 		tvCurrentTemp = (TextView) v.findViewById(R.id.tvCurrentTemp);
 		tvTodayMaxTemp = (TextView) v.findViewById(R.id.tvToadayMaxTemp);
 		tvTodayMinTemp = (TextView) v.findViewById(R.id.tvToadayMinTemp);
-		ivCurrentWeatherIcon = (ImageView) v
-				.findViewById(R.id.ivCurrentWeatherIcon);
+		/*ivCurrentWeatherIcon = (ImageView) v
+				.findViewById(R.id.ivCurrentWeatherIcon);*/
 		llFiveDayWeather = (LinearLayout) v.findViewById(R.id.llFiveDayWeather);
 		tvCurrentWeatherConditionDesc = (TextView) v
 				.findViewById(R.id.tvCurrentWeatherConditionDesc);
@@ -377,14 +377,14 @@ public class TestFragment extends Fragment {
 					View weatherItem = factory.inflate(R.layout.weather_item,
 							null);
 
-					ImageView ivWeatherPic = (ImageView) weatherItem
-							.findViewById(R.id.ivWeatherPic);
+					/*ImageView ivWeatherPic = (ImageView) weatherItem
+							.findViewById(R.id.ivWeatherPic);*/
 
 					IconDesc ids = wei.getWeatherIcon(wd.getWeatherIconUrl(),
 							wd.getWeather_condition(), getActivity());
 
-					if (ids != null)
-						ivWeatherPic.setImageResource(ids.getIcon());
+					/*if (ids != null)
+						ivWeatherPic.setImageResource(ids.getIcon());*/
 
 					TextView tvDate = (TextView) weatherItem
 							.findViewById(R.id.tvDate);

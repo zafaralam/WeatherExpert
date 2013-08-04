@@ -2,11 +2,16 @@ package com.zafaralam.weatherexpert;
 
 import java.util.ArrayList;
 
+import com.zafaralam.utils.WeatherExpertIcons;
+import com.zafaralam.utils.WeatherExpertIcons.IconDesc;
 import com.zafaralam.weatherexpert.contentprovider.WeatherExpertAdapter;
 import com.zafaralam.weatherexpert.contentprovider.WeatherExpertContract.FavouritesEnrty;
+import com.zafaralam.weatherexpert.contentprovider.WeatherExpertContract.WeatherDetailsEntry;
+
 import android.content.Context;
 //import android.content.ContentValues;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -99,23 +104,20 @@ public class FavouritesFragment extends Fragment {
 				null, null, null, null, null);
 		boolean isBegin = true;
 		if (cursor != null) {
-			if (cursor.getCount() == 1)
-				favAdapter.add(new FavouritesItem(cursor.getString(1), cursor
-						.getFloat(2), cursor.getFloat(3), cursor.getInt(0)));
-			else {
+			if (cursor.getCount() == 1){
+				//Get the weather data for current.
+				loadWDForFav(cursor.getString(1), cursor
+						.getFloat(2), cursor.getFloat(3), cursor.getInt(0));
+				
+			}else {
 				while (cursor.moveToNext()) {
 					if (isBegin) {
 						cursor.moveToPrevious();
 						isBegin = false;
 					}
-					// Log.e("cc", data[1]);
-					// catalogueData.add(data);
-					// Log.d(TAG, cursor.getString(1)+" "+cursor.getFloat(2)+
-					// " " +
-					// cursor.getFloat(3)+ " " +cursor.getInt(0));
-					favAdapter.add(new FavouritesItem(cursor.getString(1),
-							cursor.getFloat(2), cursor.getFloat(3), cursor
-									.getInt(0)));
+					//Get the weather data for current.
+					loadWDForFav(cursor.getString(1), cursor
+							.getFloat(2), cursor.getFloat(3), cursor.getInt(0));
 				}
 			}
 			cursor.close();
@@ -137,6 +139,55 @@ public class FavouritesFragment extends Fragment {
 		Log.d(TAG, "Favourites List has been populated");
 	}
 
+	private void loadWDForFav(String location,float lat, float lng, int favId) {
+		// TODO Auto-generated method stub
+		String[] projection = {WeatherDetailsEntry.KEY_LOCATION
+				,WeatherDetailsEntry.KEY_TEMP_C
+				,WeatherDetailsEntry.KEY_WEATHERDESC
+				,WeatherDetailsEntry.KEY_WEATHERICONURL
+				,WeatherDetailsEntry.KEY_WEATHER_CONDITION
+		};
+		//cursor.move(pos);
+		String where = WeatherDetailsEntry.KEY_WD_FAV_ID + " = " + favId;
+		Cursor cursor1 = dbHelper.query(WeatherDetailsEntry.TABLE_NAME
+				, projection, where, null, null, null, WeatherDetailsEntry.KEY_WD_ID);
+		WeatherExpertIcons wei = new WeatherExpertIcons();
+		
+		if(cursor1.getCount() > 0 && cursor1 != null){
+			boolean isBegin = true;
+			if(cursor1.getCount() == 1){
+				//write code here
+				if(cursor1.getString(0) != null){
+					//get data
+					IconDesc ids = wei.getWeatherIcon(cursor1.getString(3),
+							cursor1.getInt(4), getActivity());
+					
+					favAdapter.add(new FavouritesItem(location, lat, lng, favId
+							,cursor1.getString(1)+"\u2103, "+ids.getDesc(),ids.getStrIcon(),ids.getIconCharList(),ids.getIconCharColorList()));
+				}
+				
+			}else{
+				while(cursor1.moveToNext()){
+					if(isBegin){
+						isBegin = false;
+						cursor1.moveToPrevious();
+					}
+					//write code here
+					if(cursor1.getString(0) != null){
+						//get data
+						IconDesc ids = wei.getWeatherIcon(cursor1.getString(3),
+								cursor1.getInt(4), getActivity());
+						favAdapter.add(new FavouritesItem(location, lat, lng, favId
+								,cursor1.getString(1)+"\u2103, "+ids.getDesc(),ids.getStrIcon(),ids.getIconCharList(),ids.getIconCharColorList()));
+					}
+				}
+			}
+		}else{
+			favAdapter.add(new FavouritesItem(location,
+					lat, lng, favId));
+		}
+	}
+
 	public FavouritesFragment() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -156,38 +207,20 @@ public class FavouritesFragment extends Fragment {
 	}
 
 	/*
-	 * 
-	 * private void insertTempFavourites(){
-	 * 
-	 * //getActivity().getApplicationContext().deleteDatabase("weatherexpert.db")
-	 * ; //dbHelper.delete(FavouritesEnrty.TABLE_NAME,null,null); String[]
-	 * temp_favs = getResources().getStringArray(R.array.temp_favs);
-	 * 
-	 * for(int i=0;i<temp_favs.length;i++){ ContentValues cv = new
-	 * ContentValues();
-	 * 
-	 * cv.put(FavouritesEnrty.KEY_CITYNAME, temp_favs[i]);
-	 * cv.put(FavouritesEnrty.KEY_LAT, ""); cv.put(FavouritesEnrty.KEY_LNG, "");
-	 * cv.put(FavouritesEnrty.KEY_POSTCODE, "");
-	 * cv.put(FavouritesEnrty.KEY_IPADDRESS, ""); if(i == 0)
-	 * cv.put(FavouritesEnrty.KEY_DEFAULT_LOC, "1"); else
-	 * cv.put(FavouritesEnrty.KEY_DEFAULT_LOC, "0");
-	 * 
-	 * 
-	 * dbHelper.insert(FavouritesEnrty.TABLE_NAME, null, cv);
-	 * 
-	 * } }
-	 */
-
-	/*
 	 * Internal classes to manage menu items
 	 */
 
 	private class FavouritesItem {
+		
+
 		private String location_name;
 		private float lat;
 		private float lng;
 		private int id;
+		private String weatherDesc;
+		private String weatherIcon;//this will use the metacons-webfont.
+		private String[] iconCharList;
+		private int[] iconColorList;
 
 		public FavouritesItem(String location_name, float lat, float lng, int id) {
 			super();
@@ -195,6 +228,31 @@ public class FavouritesFragment extends Fragment {
 			this.lat = lat;
 			this.lng = lng;
 			this.id = id;
+		}
+		
+		public FavouritesItem(String location_name, float lat, float lng, int id,
+				String weatherDesc, String weatherIcon) {
+			super();
+			this.location_name = location_name;
+			this.lat = lat;
+			this.lng = lng;
+			this.id = id;
+			this.weatherDesc = weatherDesc;
+			this.weatherIcon = weatherIcon;
+		}
+		
+		public FavouritesItem(String location_name, float lat, float lng,
+				int id, String weatherDesc, String weatherIcon,
+				String[] iconCharList, int[] iconColorList) {
+			super();
+			this.location_name = location_name;
+			this.lat = lat;
+			this.lng = lng;
+			this.id = id;
+			this.weatherDesc = weatherDesc;
+			this.weatherIcon = weatherIcon;
+			this.setIconCharList(iconCharList);
+			this.setIconColorList(iconColorList);
 		}
 
 		public String getLocation_name() {
@@ -229,6 +287,22 @@ public class FavouritesFragment extends Fragment {
 			this.id = id;
 		}
 
+		public String[] getIconCharList() {
+			return iconCharList;
+		}
+
+		public void setIconCharList(String[] iconCharList) {
+			this.iconCharList = iconCharList;
+		}
+
+		public int[] getIconColorList() {
+			return iconColorList;
+		}
+
+		public void setIconColorList(int[] iconColorList) {
+			this.iconColorList = iconColorList;
+		}
+
 	}
 
 	private class FavouritesListAdapter extends ArrayAdapter<FavouritesItem> {
@@ -252,14 +326,25 @@ public class FavouritesFragment extends Fragment {
 						R.layout.favourites_item, null);
 			}
 
-			TextView tvFavId, tvLocation;
+			TextView tvFavId, tvLocation, tvFavWeatherDeatails;
 			ImageView ibDelete;
+			TextView vIconView;
+			TextView vIconView1;
+			TextView vIconView2;
+			
+			vIconView = (TextView) convertView.findViewById(R.id.vIconView);
+			vIconView1 = (TextView) convertView.findViewById(R.id.vIconView1);
+			vIconView2 = (TextView) convertView.findViewById(R.id.vIconView2);
+			
+			
 
 			/*
 			 * New section
 			 */
 
 			GridLayout glFavItem;
+			
+			tvFavWeatherDeatails = (TextView) convertView.findViewById(R.id.tvFavWeatherDeatails);
 
 			glFavItem = (GridLayout) convertView.findViewById(R.id.glFavItem);
 
@@ -267,8 +352,26 @@ public class FavouritesFragment extends Fragment {
 			tvLocation = (TextView) convertView
 					.findViewById(R.id.location_name);
 			ibDelete = (ImageView) convertView.findViewById(R.id.ibDelete);
+			
+			Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "iconvault_forecastfont.ttf");
+			
+			vIconView.setTypeface(font);
+			vIconView1.setTypeface(font);
+			vIconView2.setTypeface(font);
+			int[] iconColorList = getItem(position).getIconColorList();
+			String[] iconCharList = getItem(position).getIconCharList();
+			
+			vIconView.setText(iconCharList[0]);
+			vIconView1.setText(iconCharList[1]);
+			vIconView2.setText(iconCharList[2]);
+			
+			vIconView.setTextColor(iconColorList[0]);
+			vIconView1.setTextColor(iconColorList[1]);
+			vIconView2.setTextColor(iconColorList[2]);
 
-			tvFavId.setText(String.valueOf(getItem(position).id));
+			tvFavId.setTag(String.valueOf(getItem(position).id));
+			//tvFavId.setText(getItem(position).weatherIcon);
+			//tvFavId.setTypeface(font);
 
 			tvLocation.setText(getItem(position).location_name);
 			tvLocation.setTag(getItem(position).location_name + ";"
@@ -280,9 +383,9 @@ public class FavouritesFragment extends Fragment {
 
 			/* New Section */
 			glFavItem.setTag(getItem(position).location_name + ";"
-					+ getItem(position).lat + ";" + getItem(position).lng);
+					+ getItem(position).lat + ";" + getItem(position).lng + ";" + getItem(position).id);
 
-						
+			tvFavWeatherDeatails.setText(getItem(position).weatherDesc);			
 			ibDelete.setOnClickListener(new OnClickListener() {
 
 				@Override

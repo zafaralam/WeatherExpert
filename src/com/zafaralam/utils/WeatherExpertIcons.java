@@ -1,5 +1,7 @@
 package com.zafaralam.utils;
 
+import com.zafaralam.weatherexpert.R;
+
 import android.content.Context;
 
 public class WeatherExpertIcons {
@@ -7,11 +9,32 @@ public class WeatherExpertIcons {
 	public class IconDesc {
 		private int icon;
 		private String desc;
+		private String strIcon;
+		private String[] iconCharList;
+		private int[] iconCharColorList;
 
 		public IconDesc(int icon, String desc) {
 			super();
 			this.icon = icon;
 			this.desc = desc;
+		}
+		
+		public IconDesc(int icon, String desc,String strIcon) {
+			super();
+			this.icon = icon;
+			this.desc = desc;
+			this.setStrIcon(strIcon);
+		}
+		
+
+		public IconDesc(int icon, String desc, String strIcon,
+				String[] iconCharList, int[] iconCharColorList) {
+			super();
+			this.icon = icon;
+			this.desc = desc;
+			this.strIcon = strIcon;
+			this.setIconCharList(iconCharList);
+			this.setIconCharColorList(iconCharColorList);
 		}
 
 		public int getIcon() {
@@ -30,12 +53,39 @@ public class WeatherExpertIcons {
 			this.desc = desc;
 		}
 
+		public String getStrIcon() {
+			return strIcon;
+		}
+
+		public void setStrIcon(String strIcon) {
+			this.strIcon = strIcon;
+		}
+
+		public String[] getIconCharList() {
+			return iconCharList;
+		}
+
+		public void setIconCharList(String[] iconCharList) {
+			this.iconCharList = iconCharList;
+		}
+
+		public int[] getIconCharColorList() {
+			return iconCharColorList;
+		}
+
+		public void setIconCharColorList(int[] iconCharColorList) {
+			this.iconCharColorList = iconCharColorList;
+		}
+
 	}
 
 	public IconDesc getWeatherIcon(String weatherIconUrl, int weatherCode,
 			Context contex) {
 		String description = null;
 		int icon = 0;
+		String _strIcon = null;
+		String[] _iconCharList = new String[3];
+		int[] _iconCharColorList = new int[3];
 		if (weatherCode == 395)
 			description = "Moderate/Heavy snow";
 
@@ -179,106 +229,386 @@ public class WeatherExpertIcons {
 
 		if (weatherCode == 113)
 			description = "Clear/Sunny";
+			
 
-		if (weatherIconUrl.contains("wsymbol_0001_sunny"))
+		if (weatherIconUrl.contains("wsymbol_0001_sunny")){
 			icon = contex.getResources().getIdentifier("sunny", "drawable",
 					contex.getPackageName());
-		if (weatherIconUrl.contains("wsymbol_0002_sunny_intervals"))
+			_strIcon = "B";
+			_iconCharList[0] = contex.getResources().getString(R.string.sun);
+			_iconCharList[1] = contex.getResources().getString(R.string.sun);
+			_iconCharList[2] = contex.getResources().getString(R.string.sun);
+			
+			_iconCharColorList[0] = contex.getResources().getColor(R.color.sun);
+			_iconCharColorList[1] = contex.getResources().getColor(R.color.sun);
+			_iconCharColorList[2] = contex.getResources().getColor(R.color.sun);
+		}
+		if (weatherIconUrl.contains("wsymbol_0002_sunny_intervals")){
 			icon = contex.getResources().getIdentifier("fair", "drawable",
 					contex.getPackageName());
-		if (weatherIconUrl.contains("wsymbol_0003_white_cloud"))
+			_strIcon = "H";
+			
+			_iconCharList[0] = contex.getResources().getString(R.string.cloud);
+			_iconCharList[1] = contex.getResources().getString(R.string.sunny);
+			_iconCharList[2] = contex.getResources().getString(R.string.sunny);
+			
+			_iconCharColorList[0] = contex.getResources().getColor(R.color.cloud);
+			_iconCharColorList[1] = contex.getResources().getColor(R.color.sunny);
+			_iconCharColorList[2] = contex.getResources().getColor(R.color.sunny);
+		}
+		if (weatherIconUrl.contains("wsymbol_0003_white_cloud")){
 			icon = contex.getResources().getIdentifier("cloudy", "drawable",
 					contex.getPackageName());
-		if (weatherIconUrl.contains("wsymbol_0004_black_low_cloud"))
+			_strIcon = "Y";
+			_iconCharList[0] = contex.getResources().getString(R.string.cloud);
+			_iconCharList[1] = contex.getResources().getString(R.string.cloud);
+			_iconCharList[2] = contex.getResources().getString(R.string.cloud);
+			
+			_iconCharColorList[0] = contex.getResources().getColor(R.color.cloud);
+			_iconCharColorList[1] = contex.getResources().getColor(R.color.cloud);
+			_iconCharColorList[2] = contex.getResources().getColor(R.color.cloud);
+		}
+		if (weatherIconUrl.contains("wsymbol_0004_black_low_cloud")){
 			icon = contex.getResources().getIdentifier("cloudy", "drawable",
 					contex.getPackageName());
-		if (weatherIconUrl.contains("wsymbol_0006_mist"))
+			_strIcon = "%";
+			_iconCharList[0] = contex.getResources().getString(R.string.cloud);
+			_iconCharList[1] = contex.getResources().getString(R.string.cloud);
+			_iconCharList[2] = contex.getResources().getString(R.string.cloud);
+			
+			_iconCharColorList[0] = contex.getResources().getColor(R.color.base_thunder_cloud);
+			_iconCharColorList[1] = contex.getResources().getColor(R.color.base_thunder_cloud);
+			_iconCharColorList[2] = contex.getResources().getColor(R.color.base_thunder_cloud);
+		}
+		if (weatherIconUrl.contains("wsymbol_0006_mist")){
 			icon = contex.getResources().getIdentifier("smoky", "drawable",
 					contex.getPackageName());
-		if (weatherIconUrl.contains("wsymbol_0007_fog"))
+			_strIcon = "M";
+			_iconCharList[0] = contex.getResources().getString(R.string.mist);
+			_iconCharList[1] = contex.getResources().getString(R.string.mist);
+			_iconCharList[2] = contex.getResources().getString(R.string.mist);
+			
+			_iconCharColorList[0] = contex.getResources().getColor(R.color.mist);
+			_iconCharColorList[1] = contex.getResources().getColor(R.color.mist);
+			_iconCharColorList[2] = contex.getResources().getColor(R.color.mist);
+		}
+		if (weatherIconUrl.contains("wsymbol_0007_fog")){
 			icon = contex.getResources().getIdentifier("foggy", "drawable",
 					contex.getPackageName());
-		if (weatherIconUrl.contains("wsymbol_0008_clear_sky_night"))
+			_strIcon = "E";
+			_iconCharList[0] = contex.getResources().getString(R.string.mist);
+			_iconCharList[1] = contex.getResources().getString(R.string.mist);
+			_iconCharList[2] = contex.getResources().getString(R.string.mist);
+			
+			_iconCharColorList[0] = contex.getResources().getColor(R.color.mist);
+			_iconCharColorList[1] = contex.getResources().getColor(R.color.mist);
+			_iconCharColorList[2] = contex.getResources().getColor(R.color.mist);
+		}
+		if (weatherIconUrl.contains("wsymbol_0008_clear_sky_night")){
 			icon = contex.getResources().getIdentifier("night_fair",
 					"drawable", contex.getPackageName());
-		if (weatherIconUrl.contains("wsymbol_0009_light_rain_showers"))
+			_strIcon = "2";
+			_iconCharList[0] = contex.getResources().getString(R.string.moon);
+			_iconCharList[1] = contex.getResources().getString(R.string.moon);
+			_iconCharList[2] = contex.getResources().getString(R.string.moon);
+			
+			_iconCharColorList[0] = contex.getResources().getColor(R.color.moon);
+			_iconCharColorList[1] = contex.getResources().getColor(R.color.moon);
+			_iconCharColorList[2] = contex.getResources().getColor(R.color.moon);
+		}
+		if (weatherIconUrl.contains("wsymbol_0009_light_rain_showers")){
 			icon = contex.getResources().getIdentifier("showers", "drawable",
 					contex.getPackageName());
-		if (weatherIconUrl.contains("wsymbol_0010_heavy_rain_showers"))
+			_strIcon = "Q";
+			_iconCharList[0] = contex.getResources().getString(R.string.base_cloud);
+			_iconCharList[1] = contex.getResources().getString(R.string.showers);
+			_iconCharList[2] = contex.getResources().getString(R.string.showers);
+			
+			_iconCharColorList[0] = contex.getResources().getColor(R.color.base_cloud);
+			_iconCharColorList[1] = contex.getResources().getColor(R.color.showers);
+			_iconCharColorList[2] = contex.getResources().getColor(R.color.showers);
+		}
+		if (weatherIconUrl.contains("wsymbol_0010_heavy_rain_showers")){
 			icon = contex.getResources().getIdentifier("rain", "drawable",
 					contex.getPackageName());
-		if (weatherIconUrl.contains("wsymbol_0011_light_snow_showers"))
+			_strIcon = "R";
+			_iconCharList[0] = contex.getResources().getString(R.string.base_cloud);
+			_iconCharList[1] = contex.getResources().getString(R.string.rainy);
+			_iconCharList[2] = contex.getResources().getString(R.string.rainy);
+			
+			_iconCharColorList[0] = contex.getResources().getColor(R.color.base_cloud);
+			_iconCharColorList[1] = contex.getResources().getColor(R.color.rainy);
+			_iconCharColorList[2] = contex.getResources().getColor(R.color.rainy);
+		}
+		if (weatherIconUrl.contains("wsymbol_0011_light_snow_showers")){
 			icon = contex.getResources().getIdentifier("snow", "drawable",
 					contex.getPackageName());
-		if (weatherIconUrl.contains("wsymbol_0012_heavy_snow_showers"))
+			_strIcon = "U";
+			_iconCharList[0] = contex.getResources().getString(R.string.base_cloud);
+			_iconCharList[1] = contex.getResources().getString(R.string.snow);
+			_iconCharList[2] = contex.getResources().getString(R.string.snow);
+			
+			_iconCharColorList[0] = contex.getResources().getColor(R.color.base_cloud);
+			_iconCharColorList[1] = contex.getResources().getColor(R.color.snow);
+			_iconCharColorList[2] = contex.getResources().getColor(R.color.snow);
+		}
+		if (weatherIconUrl.contains("wsymbol_0012_heavy_snow_showers")){
 			icon = contex.getResources().getIdentifier("heavy_snow",
 					"drawable", contex.getPackageName());
-		if (weatherIconUrl.contains("wsymbol_0013_sleet_showers"))
+			_strIcon = "W";
+			_iconCharList[0] = contex.getResources().getString(R.string.base_cloud);
+			_iconCharList[1] = contex.getResources().getString(R.string.snow);
+			_iconCharList[2] = contex.getResources().getString(R.string.snow);
+			
+			_iconCharColorList[0] = contex.getResources().getColor(R.color.base_cloud);
+			_iconCharColorList[1] = contex.getResources().getColor(R.color.snow);
+			_iconCharColorList[2] = contex.getResources().getColor(R.color.snow);
+		}
+		if (weatherIconUrl.contains("wsymbol_0013_sleet_showers")){
 			icon = contex.getResources().getIdentifier("showers", "drawable",
 					contex.getPackageName());
-		if (weatherIconUrl.contains("wsymbol_0016_thundery_showers"))
+			_strIcon = "R";
+			_iconCharList[0] = contex.getResources().getString(R.string.base_cloud);
+			_iconCharList[1] = contex.getResources().getString(R.string.sleet);
+			_iconCharList[2] = contex.getResources().getString(R.string.sleet);
+			
+			_iconCharColorList[0] = contex.getResources().getColor(R.color.base_cloud);
+			_iconCharColorList[1] = contex.getResources().getColor(R.color.sleet);
+			_iconCharColorList[2] = contex.getResources().getColor(R.color.sleet);
+		}
+		if (weatherIconUrl.contains("wsymbol_0016_thundery_showers")){
 			icon = contex.getResources().getIdentifier(
 					"scattered_thunderstorms", "drawable",
 					contex.getPackageName());
-		if (weatherIconUrl.contains("wsymbol_0017_cloudy_with_light_rain"))
+			_strIcon = "&";
+			_iconCharList[0] = contex.getResources().getString(R.string.base_cloud);
+			_iconCharList[1] = contex.getResources().getString(R.string.thunder);
+			_iconCharList[2] = contex.getResources().getString(R.string.thunder);
+			
+			_iconCharColorList[0] = contex.getResources().getColor(R.color.base_thunder_cloud);
+			_iconCharColorList[1] = contex.getResources().getColor(R.color.thunder);
+			_iconCharColorList[2] = contex.getResources().getColor(R.color.thunder);
+		}
+		if (weatherIconUrl.contains("wsymbol_0017_cloudy_with_light_rain")){
 			icon = contex.getResources().getIdentifier("rain", "drawable",
 					contex.getPackageName());
-		if (weatherIconUrl.contains("wsymbol_0018_cloudy_with_heavy_rain"))
+			_strIcon = "R";
+			_iconCharList[0] = contex.getResources().getString(R.string.base_cloud);
+			_iconCharList[1] = contex.getResources().getString(R.string.rainy);
+			_iconCharList[2] = contex.getResources().getString(R.string.rainy);
+			
+			_iconCharColorList[0] = contex.getResources().getColor(R.color.base_cloud);
+			_iconCharColorList[1] = contex.getResources().getColor(R.color.rainy);
+			_iconCharColorList[2] = contex.getResources().getColor(R.color.rainy);
+		}
+		if (weatherIconUrl.contains("wsymbol_0018_cloudy_with_heavy_rain")){
 			icon = contex.getResources().getIdentifier("rain",//heavy_rain
 					"drawable", contex.getPackageName());
-		if (weatherIconUrl.contains("wsymbol_0019_cloudy_with_light_snow"))
+			_strIcon = "8";
+			_iconCharList[0] = contex.getResources().getString(R.string.base_cloud);
+			_iconCharList[1] = contex.getResources().getString(R.string.rainy);
+			_iconCharList[2] = contex.getResources().getString(R.string.rainy);
+			
+			_iconCharColorList[0] = contex.getResources().getColor(R.color.base_thunder_cloud);
+			_iconCharColorList[1] = contex.getResources().getColor(R.color.rainy);
+			_iconCharColorList[2] = contex.getResources().getColor(R.color.rainy);
+		}
+		if (weatherIconUrl.contains("wsymbol_0019_cloudy_with_light_snow")){
 			icon = contex.getResources().getIdentifier("snow", "drawable",
 					contex.getPackageName());
-		if (weatherIconUrl.contains("wsymbol_0020_cloudy_with_heavy_snow"))
+			_strIcon = "U";
+			_iconCharList[0] = contex.getResources().getString(R.string.base_cloud);
+			_iconCharList[1] = contex.getResources().getString(R.string.snow);
+			_iconCharList[2] = contex.getResources().getString(R.string.snow);
+			
+			_iconCharColorList[0] = contex.getResources().getColor(R.color.base_cloud);
+			_iconCharColorList[1] = contex.getResources().getColor(R.color.snow);
+			_iconCharColorList[2] = contex.getResources().getColor(R.color.snow);
+		}
+		if (weatherIconUrl.contains("wsymbol_0020_cloudy_with_heavy_snow")){
 			icon = contex.getResources().getIdentifier("heavy_snow",
 					"drawable", contex.getPackageName());
-		if (weatherIconUrl.contains("wsymbol_0021_cloudy_with_sleet"))
+			_strIcon = "#";
+			_iconCharList[0] = contex.getResources().getString(R.string.base_cloud);
+			_iconCharList[1] = contex.getResources().getString(R.string.snow);
+			_iconCharList[2] = contex.getResources().getString(R.string.snow);
+			
+			_iconCharColorList[0] = contex.getResources().getColor(R.color.base_cloud);
+			_iconCharColorList[1] = contex.getResources().getColor(R.color.snow);
+			_iconCharColorList[2] = contex.getResources().getColor(R.color.snow);
+		}
+		if (weatherIconUrl.contains("wsymbol_0021_cloudy_with_sleet")){
 			icon = contex.getResources().getIdentifier("drizzle", "drawable",
 					contex.getPackageName());
-		if (weatherIconUrl.contains("wsymbol_0024_thunderstorms"))
+			_strIcon = "Q";
+			_iconCharList[0] = contex.getResources().getString(R.string.base_cloud);
+			_iconCharList[1] = contex.getResources().getString(R.string.sleet);
+			_iconCharList[2] = contex.getResources().getString(R.string.sleet);
+			
+			_iconCharColorList[0] = contex.getResources().getColor(R.color.base_cloud);
+			_iconCharColorList[1] = contex.getResources().getColor(R.color.sleet);
+			_iconCharColorList[2] = contex.getResources().getColor(R.color.sleet);
+		}
+		if (weatherIconUrl.contains("wsymbol_0024_thunderstorms")){
 			icon = contex.getResources().getIdentifier("thunderstorms",
 					"drawable", contex.getPackageName());
-		if (weatherIconUrl.contains("wsymbol_0025_light_rain_showers_night"))
+			_strIcon = "6";
+			_iconCharList[0] = contex.getResources().getString(R.string.base_cloud);
+			_iconCharList[1] = contex.getResources().getString(R.string.thunder);
+			_iconCharList[2] = contex.getResources().getString(R.string.thunder);
+			
+			_iconCharColorList[0] = contex.getResources().getColor(R.color.base_thunder_cloud);
+			_iconCharColorList[1] = contex.getResources().getColor(R.color.thunder);
+			_iconCharColorList[2] = contex.getResources().getColor(R.color.thunder);
+		}
+		if (weatherIconUrl.contains("wsymbol_0025_light_rain_showers_night")){
 			icon = contex.getResources().getIdentifier("night_drizzle",
 					"drawable", contex.getPackageName());
-		if (weatherIconUrl.contains("wsymbol_0026_heavy_rain_showers_night"))
+			_strIcon = "7";
+			_iconCharList[0] = contex.getResources().getString(R.string.base_cloud);
+			_iconCharList[1] = contex.getResources().getString(R.string.drizzle);
+			_iconCharList[2] = contex.getResources().getString(R.string.drizzle);
+			
+			_iconCharColorList[0] = contex.getResources().getColor(R.color.base_cloud);
+			_iconCharColorList[1] = contex.getResources().getColor(R.color.drizzle);
+			_iconCharColorList[2] = contex.getResources().getColor(R.color.drizzle);
+		}
+		if (weatherIconUrl.contains("wsymbol_0026_heavy_rain_showers_night")){
 			icon = contex.getResources().getIdentifier("night_light_rain",
 					"drawable", contex.getPackageName());
-		if (weatherIconUrl.contains("wsymbol_0027_light_snow_showers_night"))
+			_strIcon = "8";
+			_iconCharList[0] = contex.getResources().getString(R.string.base_cloud);
+			_iconCharList[1] = contex.getResources().getString(R.string.showers);
+			_iconCharList[2] = contex.getResources().getString(R.string.night);
+			
+			_iconCharColorList[0] = contex.getResources().getColor(R.color.base_cloud);
+			_iconCharColorList[1] = contex.getResources().getColor(R.color.showers);
+			_iconCharColorList[2] = contex.getResources().getColor(R.color.night);
+		}
+		if (weatherIconUrl.contains("wsymbol_0027_light_snow_showers_night")){
 			icon = contex.getResources().getIdentifier("snow", "drawable",
 					contex.getPackageName());
-		if (weatherIconUrl.contains("wsymbol_0028_heavy_snow_showers_night"))
+			_strIcon = "$";
+			_iconCharList[0] = contex.getResources().getString(R.string.base_cloud);
+			_iconCharList[1] = contex.getResources().getString(R.string.snow);
+			_iconCharList[2] = contex.getResources().getString(R.string.night);
+			
+			_iconCharColorList[0] = contex.getResources().getColor(R.color.base_cloud);
+			_iconCharColorList[1] = contex.getResources().getColor(R.color.snow);
+			_iconCharColorList[2] = contex.getResources().getColor(R.color.night);
+		}
+		if (weatherIconUrl.contains("wsymbol_0028_heavy_snow_showers_night")){
 			icon = contex.getResources().getIdentifier("heavy_snow",
 					"drawable", contex.getPackageName());
-		if (weatherIconUrl.contains("wsymbol_0029_sleet_showers_night"))
+			_strIcon = "$";
+			_iconCharList[0] = contex.getResources().getString(R.string.base_cloud);
+			_iconCharList[1] = contex.getResources().getString(R.string.snow);
+			_iconCharList[2] = contex.getResources().getString(R.string.night);
+			
+			_iconCharColorList[0] = contex.getResources().getColor(R.color.base_cloud);
+			_iconCharColorList[1] = contex.getResources().getColor(R.color.snow);
+			_iconCharColorList[2] = contex.getResources().getColor(R.color.night);
+		}
+		if (weatherIconUrl.contains("wsymbol_0029_sleet_showers_night")){
 			icon = contex.getResources().getIdentifier("night_light_rain",
 					"drawable", contex.getPackageName());
-		if (weatherIconUrl.contains("wsymbol_0032_thundery_showers_night"))
+			_strIcon = "8";
+			_iconCharList[0] = contex.getResources().getString(R.string.base_cloud);
+			_iconCharList[1] = contex.getResources().getString(R.string.sleet);
+			_iconCharList[2] = contex.getResources().getString(R.string.night);
+			
+			_iconCharColorList[0] = contex.getResources().getColor(R.color.base_cloud);
+			_iconCharColorList[1] = contex.getResources().getColor(R.color.sleet);
+			_iconCharColorList[2] = contex.getResources().getColor(R.color.night);
+		}
+		if (weatherIconUrl.contains("wsymbol_0032_thundery_showers_night")){
 			icon = contex.getResources().getIdentifier(
 					"scattered_thunderstorms", "drawable",
 					contex.getPackageName());
-		if (weatherIconUrl
-				.contains("wsymbol_0033_cloudy_with_light_rain_night"))
+			_strIcon = "&";
+			_iconCharList[0] = contex.getResources().getString(R.string.base_cloud);
+			_iconCharList[1] = contex.getResources().getString(R.string.thunder);
+			_iconCharList[2] = contex.getResources().getString(R.string.night);
+			
+			_iconCharColorList[0] = contex.getResources().getColor(R.color.base_thunder_cloud);
+			_iconCharColorList[1] = contex.getResources().getColor(R.color.thunder);
+			_iconCharColorList[2] = contex.getResources().getColor(R.color.night);
+		}
+		if (weatherIconUrl.contains("wsymbol_0033_cloudy_with_light_rain_night")){
 			icon = contex.getResources().getIdentifier("night_light_rain",
 					"drawable", contex.getPackageName());
+			_strIcon = "7";
+			_iconCharList[0] = contex.getResources().getString(R.string.base_cloud);
+			_iconCharList[1] = contex.getResources().getString(R.string.rainy);
+			_iconCharList[2] = contex.getResources().getString(R.string.night);
+			
+			_iconCharColorList[0] = contex.getResources().getColor(R.color.base_cloud);
+			_iconCharColorList[1] = contex.getResources().getColor(R.color.rainy);
+			_iconCharColorList[2] = contex.getResources().getColor(R.color.night);
+		}
 		if (weatherIconUrl
-				.contains("wsymbol_0034_cloudy_with_heavy_rain_night"))
+				.contains("wsymbol_0034_cloudy_with_heavy_rain_night")){
 			icon = contex.getResources().getIdentifier("night_rain",
 					"drawable", contex.getPackageName());
+			_strIcon = "8";
+			_iconCharList[0] = contex.getResources().getString(R.string.base_cloud);
+			_iconCharList[1] = contex.getResources().getString(R.string.rainy);
+			_iconCharList[2] = contex.getResources().getString(R.string.night);
+			
+			_iconCharColorList[0] = contex.getResources().getColor(R.color.base_cloud);
+			_iconCharColorList[1] = contex.getResources().getColor(R.color.rainy);
+			_iconCharColorList[2] = contex.getResources().getColor(R.color.night);
+		}
 		if (weatherIconUrl
-				.contains("wsymbol_0035_cloudy_with_light_snow_night"))
+				.contains("wsymbol_0035_cloudy_with_light_snow_night")){
 			icon = contex.getResources().getIdentifier("snow", "drawable",
 					contex.getPackageName());
+			_strIcon = "U";
+			_iconCharList[0] = contex.getResources().getString(R.string.base_cloud);
+			_iconCharList[1] = contex.getResources().getString(R.string.snow);
+			_iconCharList[2] = contex.getResources().getString(R.string.night);
+			
+			_iconCharColorList[0] = contex.getResources().getColor(R.color.base_cloud);
+			_iconCharColorList[1] = contex.getResources().getColor(R.color.snow);
+			_iconCharColorList[2] = contex.getResources().getColor(R.color.night);
+		}
 		if (weatherIconUrl
-				.contains("wsymbol_0036_cloudy_with_heavy_snow_night"))
+				.contains("wsymbol_0036_cloudy_with_heavy_snow_night")){
 			icon = contex.getResources().getIdentifier("heavy_snow",
 					"drawable", contex.getPackageName());
-		if (weatherIconUrl.contains("wsymbol_0037_cloudy_with_sleet_night"))
+			_strIcon = "W";
+			_iconCharList[0] = contex.getResources().getString(R.string.base_cloud);
+			_iconCharList[1] = contex.getResources().getString(R.string.snow);
+			_iconCharList[2] = contex.getResources().getString(R.string.night);
+			
+			_iconCharColorList[0] = contex.getResources().getColor(R.color.base_cloud);
+			_iconCharColorList[1] = contex.getResources().getColor(R.color.snow);
+			_iconCharColorList[2] = contex.getResources().getColor(R.color.night);
+		}
+		if (weatherIconUrl.contains("wsymbol_0037_cloudy_with_sleet_night")){
 			icon = contex.getResources().getIdentifier("night_rain",
 					"drawable", contex.getPackageName());
-		if (weatherIconUrl.contains("wsymbol_0040_thunderstorms_night"))
+			_strIcon = "7";
+			_iconCharList[0] = contex.getResources().getString(R.string.base_cloud);
+			_iconCharList[1] = contex.getResources().getString(R.string.sleet);
+			_iconCharList[2] = contex.getResources().getString(R.string.night);
+			
+			_iconCharColorList[0] = contex.getResources().getColor(R.color.base_cloud);
+			_iconCharColorList[1] = contex.getResources().getColor(R.color.sleet);
+			_iconCharColorList[2] = contex.getResources().getColor(R.color.night);
+		}
+		if (weatherIconUrl.contains("wsymbol_0040_thunderstorms_night")){
 			icon = contex.getResources().getIdentifier("thunderstorms",
 					"drawable", contex.getPackageName());
+			_strIcon = "6";
+			_iconCharList[0] = contex.getResources().getString(R.string.base_cloud);
+			_iconCharList[1] = contex.getResources().getString(R.string.thunder);
+			_iconCharList[2] = contex.getResources().getString(R.string.night);
+			
+			_iconCharColorList[0] = contex.getResources().getColor(R.color.base_thunder_cloud);
+			_iconCharColorList[1] = contex.getResources().getColor(R.color.thunder);
+			_iconCharColorList[2] = contex.getResources().getColor(R.color.night);
+		}
 
 		if(icon == 0)
 			icon = contex.getResources().getIdentifier("no_weather",
@@ -287,7 +617,9 @@ public class WeatherExpertIcons {
 		if(description == null)
 			description = "NO DESC";
 		
-		return new IconDesc(icon, description);
+		
+		return new IconDesc(icon, description, _strIcon, _iconCharList, _iconCharColorList);
+		//return new IconDesc(icon, description, _strIcon);
 
 	}
 

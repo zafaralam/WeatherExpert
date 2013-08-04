@@ -5,12 +5,16 @@ import java.util.concurrent.ExecutionException;
 
 import javax.crypto.spec.IvParameterSpec;
 
+import com.zafaralam.modal.CurrentWeather;
+import com.zafaralam.modal.DayWeather;
+import com.zafaralam.modal.Weather;
 import com.zafaralam.modal.WeatherLocation;
 import com.zafaralam.utils.NetworkDetails;
 import com.zafaralam.utils.ParserType;
 import com.zafaralam.weatherexpert.contentprovider.WeatherExpertAdapter;
 import com.zafaralam.weatherexpert.contentprovider.WeatherExpertContract.FavouritesEnrty;
 import com.zafaralam.weatherexpert.contentprovider.WeatherExpertContract.RecentLocationsEntry;
+import com.zafaralam.weatherexpert.contentprovider.WeatherExpertContract.WeatherDetailsEntry;
 import com.zafaralam.xmlparser.FeedParser;
 import com.zafaralam.xmlparser.FeedParserFactory;
 
@@ -451,7 +455,7 @@ public class AddLocationFragment extends Fragment {
 
 					c = dbHelper.query(FavouritesEnrty.TABLE_NAME, projection,
 							where, null, null, null, null);
-					Log.d(TAG, String.valueOf(c.getCount()));
+					//Log.d(TAG, String.valueOf(c.getCount()));
 					if (c.getCount() == 0) {
 						ContentValues cv = new ContentValues();
 
@@ -463,14 +467,22 @@ public class AddLocationFragment extends Fragment {
 						cv.put(FavouritesEnrty.KEY_DEFAULT_LOC, "0");
 
 						long rowNum = 0;
+						
 
 						rowNum = dbHelper.insert(FavouritesEnrty.TABLE_NAME,
 								null, cv);
 
-						if (rowNum > 0)
+						if (rowNum > 0){
 							Toast.makeText(getActivity(),
 									splitData[0] + " added to favourites",
 									Toast.LENGTH_SHORT).show();
+							c = dbHelper.query(FavouritesEnrty.TABLE_NAME, projection,
+									where, null, null, null, null);
+							if(c.getCount() > 0)
+								new DownloadWeatherForNewFav(splitData[1], splitData[2]
+										, c.getInt(0), splitData[0])
+											.execute("Add weather details of new fav");
+						}
 
 					} else {
 						Toast.makeText(getActivity(),
@@ -495,6 +507,101 @@ public class AddLocationFragment extends Fragment {
 			BaseActivity ba = (BaseActivity) getActivity();
 			ba.switchLocation(location);
 		}
+	}
+	
+	/* Class similar to the download weather to add details of the weather when adding a favorite*/
+	private class DownloadWeatherForNewFav extends AsyncTask<String, String, String> {
+
+		private String lat;
+		private String lng;
+		private int favId;
+		private List<Weather> weathers;
+		private String location_name;
+		
+		public DownloadWeatherForNewFav(String lat,
+				String lng, int favId, String location_name){
+			super();
+			this.lat = lat;
+			this.lng = lng;
+			this.favId = favId;
+			this.location_name = location_name;
+			this.weathers = null;
+		}
+		
+		@Override
+		protected String doInBackground(String... arg0) {
+			// TODO Auto-generated method stub
+			
+			//create the feedUrl
+			String feedUrl = "http://api.worldweatheronline.com/free/v1/weather.ashx?q="
+					+ lat// Latitude
+					+ ","
+					+ lng// Longitude
+					+ "&format=xml&num_of_days=5&key=hkk8gqf7n85dhzns5xmhxa5f";
+			
+			FeedParser parser = FeedParserFactory.getParser(ParserType.XML_PULL, feedUrl);
+			this.weathers = parser.parseWeather();
+			
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(String result) {
+			// TODO Auto-generated method stub
+			addWeatherDetailsToDB();
+			super.onPostExecute(result);
+		}
+		
+		private void addWeatherDetailsToDB() {
+			// TODO Auto-generated method stub
+			for (Weather wd : weathers) {
+				ContentValues cv = new ContentValues();
+
+				if(wd instanceof CurrentWeather){
+					cv.put(WeatherDetailsEntry.KEY_LOCATION, this.location_name);
+					cv.put(WeatherDetailsEntry.KEY_OBSERVATION_TIME,
+							((CurrentWeather) wd).getObservationTime());
+					cv.put(WeatherDetailsEntry.KEY_TEMP_C, ((CurrentWeather) wd).getTemp_C());
+					cv.put(WeatherDetailsEntry.KEY_TEMP_F, ((CurrentWeather) wd).getTemp_F());
+					cv.put(WeatherDetailsEntry.KEY_HUMIDITY, ((CurrentWeather) wd).getHumidity());
+					cv.put(WeatherDetailsEntry.KEY_VISIBILITY, ((CurrentWeather) wd).getVisibility());
+					cv.put(WeatherDetailsEntry.KEY_PRESSURE, ((CurrentWeather) wd).getPressure());
+					cv.put(WeatherDetailsEntry.KEY_CLOUDCOVER, ((CurrentWeather) wd).getCloudCover());
+				}
+				else{
+					cv.put(WeatherDetailsEntry.KEY_TEMPMAX_C, ((DayWeather) wd).getTempMax_C());
+					cv.put(WeatherDetailsEntry.KEY_TEMPMAX_F, ((DayWeather) wd).getTempMax_F());
+					cv.put(WeatherDetailsEntry.KEY_TEMPMIN_C, ((DayWeather) wd).getTempMin_C());
+					cv.put(WeatherDetailsEntry.KEY_TEMPMIN_F, ((DayWeather) wd).getTempMin_F());
+					cv.put(WeatherDetailsEntry.KEY_WINDDIRECTION, ((DayWeather) wd).getWindDirection());
+				}
+				cv.put(WeatherDetailsEntry.KEY_WD_FAV_ID, this.favId);
+				
+				
+				cv.put(WeatherDetailsEntry.KEY_WEATHER_CONDITION,
+						wd.getWeather_condition());
+				cv.put(WeatherDetailsEntry.KEY_DATE, String.valueOf(wd.getDate()));
+				cv.put(WeatherDetailsEntry.KEY_WINDSPEEDMILES,
+						wd.getWindSpeedMiles());
+				cv.put(WeatherDetailsEntry.KEY_KEY_WINDSPEEDKMPH,
+						wd.getWindSpeedKmph());
+				cv.put(WeatherDetailsEntry.KEY_WINDDIRDEGREE, wd.getWindDirDegree());
+				cv.put(WeatherDetailsEntry.KEY_WINDDIR16POINT,
+						wd.getWindDir16Point());
+				cv.put(WeatherDetailsEntry.KEY_WEATHERICONURL,
+						wd.getWeatherIconUrl());
+				cv.put(WeatherDetailsEntry.KEY_WEATHERDESC, wd.getWeatherDesc());
+				cv.put(WeatherDetailsEntry.KEY_PRECIPMM, wd.getPrecipMM());
+				
+				
+				//cv.put(WeatherDetailsEntry.KEY_WEATHERTYPE, "");
+
+				dbHelper.insert(WeatherDetailsEntry.TABLE_NAME, null, cv);
+
+			}
+		}
+		
+		
 	}
 
 	private class DownloadLocations extends AsyncTask<String, Integer, String> {

@@ -6,6 +6,33 @@
     android:columnCount="3"
     android:padding="5dp"
     android:id="@+id/glFavItem" >
+    
+    <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+        	android:layout_row="0"
+        	android:layout_rowSpan="2"
+            android:layout_gravity="center" >
+
+            <TextView
+                android:id="@+id/vIconView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="32sp" />
+
+            <TextView
+                android:id="@+id/vIconView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="32sp" />
+
+            <TextView
+                android:id="@+id/vIconView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="32sp" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/fav_id"
@@ -13,7 +40,9 @@
         android:layout_height="wrap_content"
         android:layout_column="0"
         android:layout_row="0"
-        android:text="TextView"
+        android:layout_rowSpan="2"
+        android:textSize="32sp"
+        android:layout_gravity="center"
         android:visibility="gone" />
 
     <TextView
@@ -21,7 +50,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="1"
-        android:layout_gravity="center"
+        android:layout_gravity="center_vertical|left"
         android:layout_row="0"
         android:text="TextView"
         android:textSize="20sp"
@@ -34,8 +63,18 @@
         android:layout_column="2"
         android:layout_gravity="right|center_vertical"
         android:layout_row="0"
+        android:layout_rowSpan="2"
         android:src="@android:drawable/ic_menu_delete"
         android:background="@drawable/btn_custon_states"
-        android:padding="10dp" />
+        android:padding="10dp"
+        android:contentDescription="Delete favourite" />
+    
+    <TextView
+        android:id="@+id/tvFavWeatherDeatails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="1"
+        android:layout_row="1"
+        android:text="Hellow!!"/>
 
 </GridLayout>

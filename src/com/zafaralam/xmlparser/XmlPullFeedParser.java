@@ -215,13 +215,15 @@ public class XmlPullFeedParser extends BaseFeedParser {
 					case XmlPullParser.START_TAG:
 						tagName = parser.getName();
 							if (tagName.equalsIgnoreCase(IP)){
-								geoLocation.setIp(parser.nextText());
+								String ip = parser.nextText();
+								//Log.d(TAG, ip);
+								geoLocation.setIp(ip);
 							} else if (tagName.equalsIgnoreCase(COUNTRYCODE)){
 								geoLocation.setCountryCode(parser.nextText());
 							} else if (tagName.equalsIgnoreCase(COUNTRYNAME)){
 								geoLocation.setCountryName(parser.nextText());
 							} else if (tagName.equalsIgnoreCase(REGIONCODE)){
-								geoLocation.setRegionCode(Integer.valueOf(parser.nextText()));
+								geoLocation.setRegionCode(parser.nextText());
 							} else if (tagName.equalsIgnoreCase(REGIONNAME)){
 								geoLocation.setRegionName(parser.nextText());
 							} else if (tagName.equalsIgnoreCase(CITY)){

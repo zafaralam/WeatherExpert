@@ -4,7 +4,7 @@ public class GeoLocation {
 	private String ip;
 	private String countryCode;
 	private String countryName;
-	private int regionCode;
+	private String regionCode;
 	private String regionName;
 	private String city;
 	private String zipCode;
@@ -34,11 +34,11 @@ public class GeoLocation {
 		this.countryCode = countryCode;
 	}
 
-	public int getRegionCode() {
+	public String getRegionCode() {
 		return regionCode;
 	}
 
-	public void setRegionCode(int regionCode) {
+	public void setRegionCode(String regionCode) {
 		this.regionCode = regionCode;
 	}
 

@@ -223,6 +223,7 @@ public class BaseActivity extends SlidingFragmentActivity {
 	private void refreshData(String location) {
 		// TODO Auto-generated method stub
 
+		//Log.d(TAG,location);
 		if (location == null) {
 			if (fragment instanceof WeatherFragment) {
 				location = ((WeatherFragment) fragment).getMain_location();
@@ -281,11 +282,13 @@ public class BaseActivity extends SlidingFragmentActivity {
 					refreshData("Current");
 				if (menuItemName.compareTo("Search Location") == 0) {
 					// System.out.println("Inside Switch Content");
-					addLocation();
+					if(!(fragment instanceof AddLocationFragment))
+						addLocation();
 				}
 				if (menuItemName.compareTo("Favorites") == 0) {
 					// hideKeyboard(getCurrentFocus());
-					displayFavourites();
+					if(!(fragment instanceof FavouritesFragment))
+						displayFavourites();
 				}
 
 				if (menuItemName.compareTo("Settings") == 0) {
@@ -294,7 +297,9 @@ public class BaseActivity extends SlidingFragmentActivity {
 				}
 
 				if (menuItemName.compareToIgnoreCase("About") == 0) {
-					displayAbout();
+					if(!(fragment instanceof PagerFragment))
+						displayAbout();
+
 				}
 
 			}
@@ -303,16 +308,13 @@ public class BaseActivity extends SlidingFragmentActivity {
 	}
 
 	private void displayAbout() {
-		// TODO Auto-generated method stub
-		if (fragment != null) {
+		if (fragment != null){
 			fragment = null;
 		}
+		
 		fragment = new PagerFragment(this);
-
-		if (fragment != null)
-			replaceFragment(fragment);
-		else
-			Log.d(TAG, "Fragment not created");
+		replaceFragment(fragment);
+		Log.d(TAG, "PagerFragment not created");
 	}
 
 	protected void displayFavourites() {

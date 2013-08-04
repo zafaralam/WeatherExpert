@@ -13,6 +13,7 @@ package com.zafaralam.weatherexpert;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -22,7 +23,9 @@ import java.util.Locale;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -31,6 +34,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.text.format.Time;
 import android.util.DisplayMetrics;
@@ -54,6 +58,8 @@ import com.zafaralam.modal.DayWeather;
 import com.zafaralam.modal.GeoLocation;
 import com.zafaralam.modal.Weather;
 import com.zafaralam.utils.DaysOfTheWeek;
+import com.zafaralam.utils.GPSTracker;
+import com.zafaralam.utils.MonthsOfTheYear;
 import com.zafaralam.utils.NetworkDetails;
 import com.zafaralam.utils.ParserType;
 import com.zafaralam.utils.WeatherExpertIcons;
@@ -61,6 +67,7 @@ import com.zafaralam.utils.WeatherTypes;
 import com.zafaralam.utils.WeatherExpertIcons.IconDesc;
 import com.zafaralam.weatherexpert.contentprovider.WeatherExpertAdapter;
 import com.zafaralam.weatherexpert.contentprovider.WeatherExpertContract.FavouritesEnrty;
+import com.zafaralam.weatherexpert.contentprovider.WeatherExpertContract.WeatherDetailsEntry;
 import com.zafaralam.xmlparser.FeedParser;
 import com.zafaralam.xmlparser.FeedParserFactory;
 
@@ -70,13 +77,16 @@ import com.zafaralam.xmlparser.FeedParserFactory;
 public class WeatherFragment extends Fragment implements OnClickListener {
 
 	/* Current weather condition GUI variables */
-	private final String TAG = "Weather Fragment";
+	private final String TAG = "WeatherFragment";
 	private TextView tvLocation;
 	private TextView tvCurrentTime;
 	private TextView tvCurrentTemp;
 	private TextView tvTodayMaxTemp;
 	private TextView tvTodayMinTemp;
-	private ImageView ivCurrentWeatherIcon;
+	//private ImageView ivCurrentWeatherIcon;
+	private TextView vIconView;
+	private TextView vIconView1;
+	private TextView vIconView2;
 	private LinearLayout llFiveDayWeather;
 	private WeatherExpertAdapter dbHelper;
 
@@ -93,23 +103,15 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 	/* Multi day weather GUI variables */
 
 	// Location Variables
-	private LocationManager locationManager;
+	// private LocationManager locationManager;
 	private String main_location;
+	private Location l;
+	private GeoLocation geoLocation;
+	// private Criteria criteria;
+	// private String provider;
 
 	/* Popup window variables */
 	private PopupWindow pwindo;
-
-	public String getMain_location() {
-		return main_location;
-	}
-
-	public void setMain_location(String main_location) {
-		this.main_location = main_location;
-	}
-
-	private Location l;
-	private Criteria criteria;
-	private String provider;
 
 	/* API variables */
 	private String feedUrl;
@@ -121,10 +123,31 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 	// private ProgressDialog dialog;
 	private ProgressBar pbWDload;
 
+	/* Variable of Favroites Id when loading from DB */
+	private int favId;
+	private boolean isFavIdLoaded = false;
+
 	public WeatherFragment(String _location) {
 		super();
 		// TODO Auto-generated constructor stub
-		main_location = _location;
+			main_location = _location;
+	}
+
+	public WeatherFragment(int favId) {
+		super();
+
+		this.favId = favId;
+		isFavIdLoaded = true;
+		main_location = null;
+
+	}
+
+	public String getMain_location() {
+		return main_location;
+	}
+
+	public void setMain_location(String main_location) {
+		this.main_location = main_location;
 	}
 
 	@Override
@@ -142,8 +165,18 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 		// Open connection to database helper
 		dbHelper.open();
 
-		loadFeed(ParserType.XML_PULL);
-		// tvCurrentTemp.setText("100");
+		if (isFavIdLoaded) {
+			try {
+				displayWeatherFromDb();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+			// loadFeed(ParserType.XML_PULL);
+			// Download weather
+			downloadWeatherForlocation();
+		}
 		return v;
 	}
 
@@ -153,8 +186,11 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 		tvCurrentTemp = (TextView) v.findViewById(R.id.tvCurrentTemp);
 		tvTodayMaxTemp = (TextView) v.findViewById(R.id.tvToadayMaxTemp);
 		tvTodayMinTemp = (TextView) v.findViewById(R.id.tvToadayMinTemp);
-		ivCurrentWeatherIcon = (ImageView) v
-				.findViewById(R.id.ivCurrentWeatherIcon);
+//		ivCurrentWeatherIcon = (ImageView) v
+//				.findViewById(R.id.ivCurrentWeatherIcon);
+		vIconView = (TextView) v.findViewById(R.id.vIconView);
+		vIconView1 = (TextView) v.findViewById(R.id.vIconView1);
+		vIconView2 = (TextView) v.findViewById(R.id.vIconView2);
 		llFiveDayWeather = (LinearLayout) v.findViewById(R.id.llFiveDayWeather);
 		tvCurrentWeatherConditionDesc = (TextView) v
 				.findViewById(R.id.tvCurrentWeatherConditionDesc);
@@ -173,93 +209,290 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 
 		// Database helper for querying
 		dbHelper = new WeatherExpertAdapter(getActivity());
+		
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		if(main_location.contains(";") && prefs.getBoolean(PreferencesActivity.PREF_AUTO_UPDATE, false)){
+			String strSplit[] = main_location.split(";");
+			if(strSplit.length == 4){
+				this.favId = Integer.valueOf(strSplit[3]);
+				isFavIdLoaded = true;
+			}
+		}
 
 	}
 
-	private void loadFeed(ParserType type) {
+	/*
+	 * The below method loads the data based on the favId - Also assigns a value
+	 * to the main_location variable
+	 */
+	private void displayWeatherFromDb() throws ParseException {
+		// TODO Auto-generated method stub
+		dbHelper.open();
+		String[] projection = { WeatherDetailsEntry.KEY_LOCATION,
+				WeatherDetailsEntry.KEY_TEMP_C,
+				WeatherDetailsEntry.KEY_TEMPMAX_C,
+				WeatherDetailsEntry.KEY_TEMPMIN_C,
+				WeatherDetailsEntry.KEY_DATE, WeatherDetailsEntry.KEY_HUMIDITY,
+				WeatherDetailsEntry.KEY_CLOUDCOVER,
+				WeatherDetailsEntry.KEY_PRECIPMM,
+				WeatherDetailsEntry.KEY_PRESSURE,
+				WeatherDetailsEntry.KEY_WINDDIRECTION,
+				WeatherDetailsEntry.KEY_WINDDIR16POINT,
+				WeatherDetailsEntry.KEY_WINDDIRDEGREE,
+				WeatherDetailsEntry.KEY_WEATHER_CONDITION,
+				WeatherDetailsEntry.KEY_WEATHERDESC,
+				WeatherDetailsEntry.KEY_WEATHERICONURL,
+				WeatherDetailsEntry.KEY_OBSERVATION_TIME,
+				WeatherDetailsEntry.KEY_KEY_WINDSPEEDKMPH,
+				WeatherDetailsEntry.KEY_VISIBILITY,
+				WeatherDetailsEntry.KEY_WEATHERTYPE
 
+		};
+
+		String where = WeatherDetailsEntry.KEY_WD_FAV_ID + " = " + favId;
+
+		Cursor c = dbHelper.query(WeatherDetailsEntry.TABLE_NAME, projection,
+				where, null, null, null, null);
+		weathers = null;
+		Weather weather;
+		boolean isBegin = true;
+		if (c != null && c.getCount() != 0) {
+			if (c.getCount() == 1) {
+				// tvTest.setText(c.getString(0) + " | " + c.getString(1));
+			} else {
+				weathers = new ArrayList<Weather>();
+				String allData = "";
+				while (c.moveToNext()) {
+					if (isBegin) {
+						c.moveToPrevious();
+
+						isBegin = false;
+					}
+					try {
+						// Log.d(TAG,c.getString(0));
+						if (c.getString(0) != null) {
+							weather = new CurrentWeather();
+							((CurrentWeather) weather).setLocation(c
+									.getString(0));
+							((CurrentWeather) weather).setTemp_C(Integer
+									.valueOf(c.getString(1)));
+							((CurrentWeather) weather).setHumidity(Integer
+									.valueOf(c.getString(5)));
+							((CurrentWeather) weather).setCloudCover(Integer
+									.valueOf(c.getString(6)));
+							((CurrentWeather) weather).setPressure(Integer
+									.valueOf(c.getString(8)));
+							((CurrentWeather) weather).setObservationTime(c
+									.getString(15));
+							((CurrentWeather) weather).setVisibility(Integer
+									.valueOf(c.getString(17)));
+						} else {
+							weather = new DayWeather();
+							((DayWeather) weather).setTempMax_C(Integer
+									.valueOf(c.getString(2)));
+							((DayWeather) weather).setTempMin_C(Integer
+									.valueOf(c.getString(3)));
+						}
+						// weather = new Weather();
+
+						/* The below work around needs to be standardized */
+						String strDate = c.getString(4);
+						int lenStrDate = strDate.length();
+						String monthName = strDate.substring(4, 4 + 3);
+						int monthNumber = 0;
+
+						if (monthName.compareTo(MonthsOfTheYear.JAN) == 0)
+							monthNumber = 1;
+						if (monthName.compareTo(MonthsOfTheYear.FEB) == 0)
+							monthNumber = 2;
+						if (monthName.compareTo(MonthsOfTheYear.MAR) == 0)
+							monthNumber = 3;
+						if (monthName.compareTo(MonthsOfTheYear.APR) == 0)
+							monthNumber = 4;
+						if (monthName.compareTo(MonthsOfTheYear.MAY) == 0)
+							monthNumber = 5;
+						if (monthName.compareTo(MonthsOfTheYear.JUN) == 0)
+							monthNumber = 6;
+						if (monthName.compareTo(MonthsOfTheYear.JUL) == 0)
+							monthNumber = 7;
+						if (monthName.compareTo(MonthsOfTheYear.AUG) == 0)
+							monthNumber = 8;
+						if (monthName.compareTo(MonthsOfTheYear.SEP) == 0)
+							monthNumber = 9;
+						if (monthName.compareTo(MonthsOfTheYear.OCT) == 0)
+							monthNumber = 10;
+						if (monthName.compareTo(MonthsOfTheYear.NOV) == 0)
+							monthNumber = 11;
+						if (monthName.compareTo(MonthsOfTheYear.DEC) == 0)
+							monthNumber = 12;
+
+						String newStrDate = strDate.substring(lenStrDate - 4)
+								+ "-" + String.valueOf(monthNumber) + "-"
+								+ strDate.substring(8, 8 + 2);
+
+						weather.setDate(newStrDate);
+
+						weather.setPrecipMM(Float.valueOf(c.getString(7)));
+
+						// weather.setWindDirection(c.getString(9));
+
+						weather.setWindDir16Point(c.getString(10));
+
+						weather.setWindDirDegree(Integer.valueOf(c
+								.getString(11)));
+
+						weather.setWeather_condition(Integer.valueOf(c
+								.getString(12)));
+
+						weather.setWeatherDesc(c.getString(13));
+
+						weather.setWeatherIconUrl(c.getString(14));
+
+						weather.setWindSpeedKmph(Integer.valueOf(c
+								.getString(16)));
+
+						// weather.setWeatherType(Integer.valueOf(c.getString(18)));
+
+						weathers.add(weather);
+
+					} catch (Exception e) {
+						Log.d(TAG, e.getMessage().toString());
+					}
+					// allData = allData + c.getString(0) + c.getString(1) +
+					// "\n";
+
+				}
+				// tvTest.setText(allData);
+				try {
+					// Log.d(TAG, "I'm OK..TOO");
+					dbHelper.close();
+					if (weathers != null)
+						displayStuff();
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (Exception e) {
+					// TODO: handle exception
+					Log.d(TAG, e.getMessage().toString());
+				}
+
+			}
+
+		}else
+		{
+			//if the fav is not available then downloading weather.
+			isFavIdLoaded = false;
+			downloadWeatherForlocation();
+		}
+	}
+
+	private void downloadWeatherForlocation() {
+		feedUrl = "";
 		if (NetworkDetails.isNetworkAvailable(getActivity()
 				.getApplicationContext())) {
-			// System.out.println("1");
-			boolean loadGeoLocation = false;
-			String ip = "";
-
 			this.weathers = null;
 
 			if (main_location.compareToIgnoreCase("Current") == 0) {
 
-				boolean isLocationAvil = false;
-				isLocationAvil = loadLocation();
+				GPSTracker gps = new GPSTracker(getActivity()
+						.getApplicationContext());
 
-				if (!isLocationAvil) {
-					//getIpaddress
-					ip = NetworkDetails.getLocalIpAddress(getActivity());
-					if(ip != null){
-						
-						/*
-						 * Perform address retrieval and set location name
-						 */
-						feedUrl = "http://api.worldweatheronline.com/free/v1/weather.ashx?q="
-								+ ip// IP Address
-								+ "&format=xml&num_of_days=5&key=hkk8gqf7n85dhzns5xmhxa5f";
-						
-						loadGeoLocation = true;
-						Log.d(TAG, "IP Adress: " + ip);
-						
-					}else{
-						// perform alternate action
-						String[] projection = new String[] {
-								FavouritesEnrty.KEY_FAV_ID,
-								FavouritesEnrty.KEY_CITYNAME,
-								FavouritesEnrty.KEY_LAT, FavouritesEnrty.KEY_LNG };
-						Cursor cursor = dbHelper.query(FavouritesEnrty.TABLE_NAME,
-								projection, null, null, null, null, null);
-						if (cursor != null) {
-							if (cursor.getCount() > 0) {
-								// Display favorites
-								displayAlertnativeFragment("Favorites");
-							} else {
-								// Display Search location
-								displayAlertnativeFragment("Search Location");
-							}
-						}
-					}
+				// boolean isLocationAvil = gps.isCanGetLocation();
 
-					
+				if (gps.isCanGetLocation()
+						&& (gps.isGPSEnabled() || gps.isNetworkEnabled())) {
+					l = gps.getLocation();
+					updateWithNewLocation(l);
+					Log.d(TAG, main_location);
 
 				}
-
-			} else {
-				// if(main_location.compareTo("Current")!=0)
-				String[] splitData = main_location.split(";");
-				// feedUrl =
-				// "http://api.worldweatheronline.com/free/v1/weather.ashx?q="+main_location+"&format=xml&num_of_days=5&key=hkk8gqf7n85dhzns5xmhxa5f";
-				feedUrl = "http://api.worldweatheronline.com/free/v1/weather.ashx?q="
-						+ splitData[1]// Latitude
-						+ ","
-						+ splitData[2]// Longitude
-						+ "&format=xml&num_of_days=5&key=hkk8gqf7n85dhzns5xmhxa5f";
-				tvLocation.setText(splitData[0]);
 			}
-			
-			if(loadGeoLocation){
-				//load the location using the ip address.
-				String geoLocFeedUrl = "";
-				geoLocFeedUrl = "http://freegeoip.net/xml/"+ip;
-				new LoadGeoLocationFromIp(type, geoLocFeedUrl)
-						.execute("Loading Geo location from IP address");
-			}
-			
-			if (feedUrl != null)
-				new DownloadWeather(type, feedUrl)
-						.execute("Download weather details for location");
 
+			new DownloadWeather(ParserType.XML_PULL, this.feedUrl)
+					.execute("Download weather details for location");
 		} else {
 			Toast.makeText(getActivity().getApplicationContext(),
 					"Network Not Available", Toast.LENGTH_SHORT).show();
 		}
-
 	}
+
+	/*
+	 * private void loadFeed(ParserType type) {
+	 * 
+	 * if (NetworkDetails.isNetworkAvailable(getActivity()
+	 * .getApplicationContext())) { // System.out.println("1"); boolean
+	 * loadGeoLocation = false; String ip = "";
+	 * 
+	 * this.weathers = null;
+	 * 
+	 * if (main_location.compareToIgnoreCase("Current") == 0) {
+	 * 
+	 * GPSTracker gps = new GPSTracker(getActivity() .getApplicationContext());
+	 * 
+	 * // boolean isLocationAvil = gps.isCanGetLocation();
+	 * 
+	 * if (gps.isCanGetLocation() && (gps.isGPSEnabled() ||
+	 * gps.isNetworkEnabled())) {
+	 * 
+	 * //Log.d(TAG, String.valueOf(gps.isNetworkEnabled())); //Log.d(TAG,
+	 * String.valueOf(gps.isGPSEnabled())); l = gps.getLocation();
+	 * updateWithNewLocation(l); // if(main_location.compareTo("Current")!=0)
+	 * Log.d(TAG,main_location); //String[] splitData =
+	 * main_location.split(";"); //main_location = "Current"; // feedUrl = //
+	 * "http://api.worldweatheronline.com/free/v1/weather.ashx?q="
+	 * +main_location+"&format=xml&num_of_days=5&key=hkk8gqf7n85dhzns5xmhxa5f";
+	 * feedUrl = "http://api.worldweatheronline.com/free/v1/weather.ashx?q=" +
+	 * splitData[1]// Latitude + "," + splitData[2]// Longitude +
+	 * "&format=xml&num_of_days=5&key=hkk8gqf7n85dhzns5xmhxa5f";
+	 * //tvLocation.setText(splitData[0]);
+	 * 
+	 * } else { ip =
+	 * NetworkDetails.getLocalIpAddress(getActivity().getApplicationContext());
+	 * if (ip != null) {
+	 * 
+	 * 
+	 * Perform address retrieval and set location name
+	 * 
+	 * // load the location using the ip address. String geoLocFeedUrl = "";
+	 * geoLocFeedUrl = "http://freegeoip.net/xml/"; new
+	 * LoadGeoLocationFromIp(type, geoLocFeedUrl)
+	 * .execute("Loading Geo location from IP address");
+	 * 
+	 * ip = geoLocation.getIp();
+	 * 
+	 * feedUrl = "http://api.worldweatheronline.com/free/v1/weather.ashx?q=" +
+	 * ip// IP Address +
+	 * "&format=xml&num_of_days=5&key=hkk8gqf7n85dhzns5xmhxa5f";
+	 * 
+	 * loadGeoLocation = true; Log.d(TAG, "IP Adress: " + feedUrl);
+	 * 
+	 * } else { // perform alternate action String[] projection = new String[] {
+	 * FavouritesEnrty.KEY_FAV_ID, FavouritesEnrty.KEY_CITYNAME,
+	 * FavouritesEnrty.KEY_LAT, FavouritesEnrty.KEY_LNG }; Cursor cursor =
+	 * dbHelper.query( FavouritesEnrty.TABLE_NAME, projection, null, null, null,
+	 * null, null); dbHelper.close(); if (cursor != null) { if
+	 * (cursor.getCount() > 0) { // Display favorites
+	 * displayAlertnativeFragment("Favorites"); } else { // Display Search
+	 * location displayAlertnativeFragment("Search Location"); } } }
+	 * 
+	 * } }else{ String[] splitData = main_location.split(";"); // feedUrl = //
+	 * "http://api.worldweatheronline.com/free/v1/weather.ashx?q="
+	 * +main_location+"&format=xml&num_of_days=5&key=hkk8gqf7n85dhzns5xmhxa5f";
+	 * feedUrl = "http://api.worldweatheronline.com/free/v1/weather.ashx?q=" +
+	 * splitData[1]// Latitude + "," + splitData[2]// Longitude +
+	 * "&format=xml&num_of_days=5&key=hkk8gqf7n85dhzns5xmhxa5f";
+	 * tvLocation.setText(splitData[0]); }
+	 * 
+	 * 
+	 * 
+	 * if (feedUrl != null) new DownloadWeather(type, feedUrl)
+	 * .execute("Download weather details for location");
+	 * 
+	 * } else { Toast.makeText(getActivity().getApplicationContext(),
+	 * "Network Not Available", Toast.LENGTH_SHORT).show(); }
+	 * 
+	 * }
+	 */
 
 	/*
 	 * @Override public void onResume() { // TODO Auto-generated method stub
@@ -269,55 +502,50 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 	 * e.printStackTrace(); } }
 	 */
 
-	public boolean loadLocation() {
-		/*
-		 * Get location stuff
-		 */
-		try {
-
-			String svcName = Context.LOCATION_SERVICE;
-
-			Log.d(TAG, "Inside Load location");
-
-			locationManager = (LocationManager) getActivity().getSystemService(
-					svcName);
-
-			if (locationManager == null)
-				Log.d(TAG, "Location Manager is null");
-			criteria = new Criteria();
-			criteria.setAccuracy(Criteria.ACCURACY_FINE);
-			criteria.setPowerRequirement(Criteria.POWER_LOW);
-			criteria.setAltitudeRequired(false);
-			criteria.setBearingRequired(false);
-			criteria.setSpeedRequired(false);
-			criteria.setCostAllowed(true);
-			provider = locationManager.getBestProvider(criteria, true);
-
-			if (locationManager.isProviderEnabled(provider)) {
-				Log.d(TAG, "Provider available");
-
-				l = locationManager.getLastKnownLocation(provider);
-
-				updateWithNewLocation(l);
-
-				if (l != null) {
-					locationManager.requestLocationUpdates(provider, 2000, 10,
-							locationListener);
-
-					Log.d(TAG,
-							"Done with loading the location" + l.getLatitude()
-									+ " " + l.getLongitude());
-					return true;
-				} else
-					return false;
-			}
-			return false;
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return false;
-	}
+	/*
+	 * public boolean loadLocation() {
+	 * 
+	 * Get location stuff
+	 * 
+	 * try {
+	 * 
+	 * String svcName = Context.LOCATION_SERVICE;
+	 * 
+	 * Log.d(TAG, "Inside Load location");
+	 * 
+	 * locationManager = (LocationManager) getActivity().getSystemService(
+	 * svcName);
+	 * 
+	 * if (locationManager == null) Log.d(TAG, "Location Manager is null");
+	 * criteria = new Criteria(); criteria.setAccuracy(Criteria.ACCURACY_FINE);
+	 * criteria.setPowerRequirement(Criteria.POWER_LOW);
+	 * criteria.setAltitudeRequired(false); criteria.setBearingRequired(false);
+	 * criteria.setSpeedRequired(false); criteria.setCostAllowed(true); provider
+	 * = locationManager.getBestProvider(criteria, true);
+	 * 
+	 * if (locationManager.isProviderEnabled(provider)) { Log.d(TAG,
+	 * "Provider available");
+	 * 
+	 * l = locationManager.getLastKnownLocation(provider);
+	 * 
+	 * Log.d(TAG, "Before updating location"); Log.d(TAG, "Log:" +
+	 * l.getLatitude() + " | Lng:" + l.getLongitude());
+	 * 
+	 * updateWithNewLocation(l);
+	 * 
+	 * if (l != null) { locationManager.requestLocationUpdates(provider, 2000,
+	 * 10, locationListener);
+	 * 
+	 * l = locationManager.getLastKnownLocation(provider);
+	 * 
+	 * if (l != null) {
+	 * 
+	 * Log.d(TAG, "Done with loading the location" + l.getLatitude() + " " +
+	 * l.getLongitude()); return true; } else return false; } else return false;
+	 * } return false;
+	 * 
+	 * } catch (Exception e) { e.printStackTrace(); } return false; }
+	 */
 
 	/*
 	 * Find the current location of the user.
@@ -331,7 +559,10 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 		Log.d(TAG, "Inside 'updateWithNewLocation(Location location)'");
 
 		if (location != null) {
-			Log.d(TAG, "location IS not NULL");
+			Log.d(TAG,
+					"location IS not NULL and has the value\n" + "Lat:"
+							+ location.getLatitude() + " | Lng:"
+							+ location.getLongitude());
 			if (!pbWDload.isActivated()) {
 				pbWDload.setVisibility(View.VISIBLE);
 				pbWDload.setActivated(true);
@@ -361,6 +592,7 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 
 				List<Address> addresses = gc.getFromLocation(latitude,
 						longitude, 1);
+				// String locality = "";
 				StringBuilder sb = new StringBuilder();
 				if (addresses.size() > 0) {
 					Address address = addresses.get(0);
@@ -368,6 +600,7 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 					// i++)
 					// sb.append(address.getAddressLine(i)).append("\n");
 					sb.append(address.getLocality()).append(" ");
+					// locality = address.getLocality();
 					// sb.append(address.getPostalCode()).append(" ");
 					sb.append("(" + address.getCountryName() + ")");
 				}
@@ -375,6 +608,8 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 				// System.out.println(addressString);
 				// tvLocation.setText("Your Current Position is:\n" +
 				// latLongString + "\n\n" + addressString);
+
+				// main_location = locality+";"+latitude+";"+longitude;
 
 				tvLocation.setText(addressString);
 				// dialog.dismiss();
@@ -419,10 +654,15 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 		// tvCurrentWeather.setText(weathers.get(0).getTemp_C().toString());
 
 		for (Weather wd : this.weathers) {
-			Log.d(TAG, wd.getDate()+" "+String.valueOf(wd.getWeather_condition()));
-			Log.d(TAG, wd.getWeatherIconUrl());
+			// Log.d(TAG,
+			// wd.getDate()+" "+String.valueOf(wd.getWeather_condition()));
+			// Log.d(TAG, wd.getWeatherIconUrl());
 			if (wd instanceof CurrentWeather) {
-				String curr_temp = String.valueOf(((CurrentWeather) wd).getTemp_C());
+				String curr_temp = String.valueOf(((CurrentWeather) wd)
+						.getTemp_C());
+
+				if (isFavIdLoaded)
+					tvLocation.setText(((CurrentWeather) wd).getLocation());
 
 				if (curr_temp.length() == 1)
 					curr_temp = " " + curr_temp;
@@ -440,12 +680,15 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 				// tvCurrentTime.setText(wd.getObservation_time());
 
 				tvCurrentWeatherConditionDesc.setText(wd.getWeatherDesc());
-				tvCloudCover.setText(((CurrentWeather) wd).getCloudCover() + " %");
+				tvCloudCover.setText(((CurrentWeather) wd).getCloudCover()
+						+ " %");
 				tvHumidity.setText(((CurrentWeather) wd).getHumidity() + " %");
 				tvWindSpeed.setText(wd.getWindSpeedKmph() + " kmph");
 				tvWindDirection.setText(wd.getWindDir16Point().toString());
-				tvVisibility.setText(((CurrentWeather) wd).getVisibility() + " km");
-				tvPressure.setText(((CurrentWeather) wd).getPressure() + " mbar");
+				tvVisibility.setText(((CurrentWeather) wd).getVisibility()
+						+ " km");
+				tvPressure.setText(((CurrentWeather) wd).getPressure()
+						+ " mbar");
 				tvPrecipitation.setText(String.valueOf(wd.getPrecipMM())
 						+ " mm");
 
@@ -453,7 +696,21 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 						wd.getWeather_condition(), getActivity());
 
 				if (ids != null) {
-					ivCurrentWeatherIcon.setImageResource(ids.getIcon());
+					//ivCurrentWeatherIcon.setImageResource(ids.getIcon());
+					Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "iconvault_forecastfont.ttf");
+					vIconView.setTypeface(font);
+					vIconView1.setTypeface(font);
+					vIconView2.setTypeface(font);
+					int[] iconColorList = ids.getIconCharColorList();
+					String[] iconCharList = ids.getIconCharList();
+					
+					vIconView.setText(iconCharList[0]);
+					vIconView1.setText(iconCharList[1]);
+					vIconView2.setText(iconCharList[2]);
+					
+					vIconView.setTextColor(iconColorList[0]);
+					vIconView1.setTextColor(iconColorList[1]);
+					vIconView2.setTextColor(iconColorList[2]);
 					tvCurrentWeatherConditionDesc.setText(ids.getDesc());
 				}
 
@@ -499,14 +756,39 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 					View weatherItem = factory.inflate(R.layout.weather_item,
 							null);
 
-					ImageView ivWeatherPic = (ImageView) weatherItem
-							.findViewById(R.id.ivWeatherPic);
+					/*ImageView ivWeatherPic = (ImageView) weatherItem
+							.findViewById(R.id.ivWeatherPic);*/
+					
+					TextView tvWeatherPic, tvWeatherPic1, tvWeatherPic2;
+					tvWeatherPic = (TextView) weatherItem.findViewById(R.id.tvWeatherPic);
+					tvWeatherPic1 = (TextView) weatherItem.findViewById(R.id.tvWeatherPic1);
+					tvWeatherPic2 = (TextView) weatherItem.findViewById(R.id.tvWeatherPic2);
 
 					IconDesc ids = wei.getWeatherIcon(wd.getWeatherIconUrl(),
 							wd.getWeather_condition(), getActivity());
 
-					if (ids != null)
-						ivWeatherPic.setImageResource(ids.getIcon());
+					if (ids != null){
+						
+						//ivWeatherPic.setImageResource(ids.getIcon());
+						
+						Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "iconvault_forecastfont.ttf");
+						tvWeatherPic.setTypeface(font);
+						tvWeatherPic1.setTypeface(font);
+						tvWeatherPic2.setTypeface(font);
+						int[] iconColorList = ids.getIconCharColorList();
+						String[] iconCharList = ids.getIconCharList();
+						
+						tvWeatherPic.setText(iconCharList[0]);
+						tvWeatherPic1.setText(iconCharList[1]);
+						tvWeatherPic2.setText(iconCharList[2]);
+						
+						tvWeatherPic.setTextColor(iconColorList[0]);
+						tvWeatherPic1.setTextColor(iconColorList[1]);
+						tvWeatherPic2.setTextColor(iconColorList[2]);
+						//Log.d("Icons", iconCharList[0].toString()+" "+iconCharList[1]+" "+iconCharList[2]);
+						//Log.d("Icons", iconColorList[0]+" "+iconColorList[1]+" "+iconColorList[2]);
+					}
+						
 
 					TextView tvDate = (TextView) weatherItem
 							.findViewById(R.id.tvDate);
@@ -630,34 +912,33 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 
 	}
 
-	private final LocationListener locationListener = new LocationListener() {
-		public void onLocationChanged(Location location) {
-			updateWithNewLocation(location);
-		}
+	/*
+	 * private final LocationListener locationListener = new LocationListener()
+	 * { public void onLocationChanged(Location location) {
+	 * updateWithNewLocation(location); }
+	 * 
+	 * public void onProviderDisabled(String provider) { }
+	 * 
+	 * public void onProviderEnabled(String provider) { }
+	 * 
+	 * public void onStatusChanged(String provider, int status, Bundle extras) {
+	 * } };
+	 */
 
-		public void onProviderDisabled(String provider) {
-		}
-
-		public void onProviderEnabled(String provider) {
-		}
-
-		public void onStatusChanged(String provider, int status, Bundle extras) {
-		}
-	};
-	
-	private class LoadGeoLocationFromIp extends AsyncTask<String, String, String> {
+	private class LoadGeoLocationFromIp extends
+			AsyncTask<String, String, String> {
 
 		private ParserType type;
 		private String feedUrl;
-		private GeoLocation geoLocation;
-		
-		public LoadGeoLocationFromIp(ParserType type, String feedUrl){
+
+		public LoadGeoLocationFromIp(ParserType type, String feedUrl) {
 			super();
 			this.type = type;
 			this.feedUrl = feedUrl;
 			geoLocation = new GeoLocation();
-			
+
 		}
+
 		@Override
 		protected String doInBackground(String... arg0) {
 			// TODO Auto-generated method stub
@@ -665,17 +946,18 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 			geoLocation = parser.parseGeoLocation();
 			return "Finished loading geo location";
 		}
-		
+
 		@Override
-		protected void onPostExecute(String result){
-			if(geoLocation != null){
-				Log.d(TAG,geoLocation.getLatitude());
-				Log.d(TAG,geoLocation.getLongitude());
-				Log.d(TAG,geoLocation.getCountryCode());
-				tvLocation.setText(geoLocation.getCity() + "(" + geoLocation.getCountryName() + ")");
+		protected void onPostExecute(String result) {
+			if (geoLocation != null) {
+				Log.d(TAG, geoLocation.getLatitude());
+				Log.d(TAG, geoLocation.getLongitude());
+				Log.d(TAG, geoLocation.getCountryCode());
+				tvLocation.setText(geoLocation.getCity() + "("
+						+ geoLocation.getCountryName() + ")");
 			}
 		}
-		
+
 	}
 
 	private class DownloadWeather extends AsyncTask<String, String, String> {
@@ -706,8 +988,8 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 				pbWDload.setActivated(true);
 			}
 
-			wdDialog.setMessage("Conneting to server...");
-			wdDialog.show();
+			//wdDialog.setMessage("Conneting to server...");
+			//wdDialog.show();
 
 		}
 
@@ -716,14 +998,17 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 			// TODO Auto-generated method stub
 			try {
 
-				// loadLocation();
-				FeedParser parser = FeedParserFactory.getParser(type, feedUrl);
+				if (this.feedUrl.length() == 0)
+					loadFeed();
+				Log.d(TAG, feedUrl);
+				FeedParser parser = FeedParserFactory.getParser(type,
+						this.feedUrl);
 
 				publishProgress("Loading Weather Detials...");
 
 				long start = System.currentTimeMillis();
 				weathers = parser.parseWeather();// new code
-
+				Log.d(TAG, "Loaded weather details..");
 				publishProgress("Rendering GUI...");
 				long duration = System.currentTimeMillis() - start;
 				Log.i(TAG, "Parser duration=" + duration);
@@ -731,19 +1016,15 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 			} catch (Throwable t) {
 				Log.e(TAG, t.getMessage(), t);
 			}
-			// return weathers;
-			// return this.weathers;//new code
 			return "Completed";
 		}
 
 		@Override
 		protected void onPostExecute(String result) {
-
-			// Feed has been Downloaded and Parsed, Display Data to User
-			// displayStuff(weathers);
-
-			// weathers = weathers;
 			try {
+				if (geoLocation != null)
+					tvLocation.setText(geoLocation.getCity() + "("
+							+ geoLocation.getCountryName() + ")");
 				displayStuff();
 
 				if (pbWDload.isActivated()) {
@@ -751,9 +1032,9 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 					pbWDload.setActivated(false);
 				}
 
-				if (wdDialog.isShowing()) {
+				/*if (wdDialog.isShowing()) {
 					wdDialog.dismiss();
-				}
+				}*/
 
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
@@ -769,6 +1050,75 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 			wdDialog.setMessage(tmpStr);
 		}
 
+		private void loadFeed() {
+
+			if (NetworkDetails.isNetworkAvailable(getActivity()
+					.getApplicationContext())) {
+				String ip = "";
+
+				weathers = null;
+
+				if (main_location.compareToIgnoreCase("Current") == 0) {
+					ip = NetworkDetails.getLocalIpAddress(getActivity()
+							.getApplicationContext());
+					if (ip != null) {
+
+						/*
+						 * Perform address retrieval and set location name
+						 */
+						// load the location using the ip address.
+						String geoLocFeedUrl = "";
+						geoLocFeedUrl = "http://freegeoip.net/xml/";
+						FeedParser parser = FeedParserFactory.getParser(
+								ParserType.XML_PULL, geoLocFeedUrl);
+						geoLocation = parser.parseGeoLocation();
+
+						ip = geoLocation.getIp();
+
+						feedUrl = "http://api.worldweatheronline.com/free/v1/weather.ashx?q="
+								+ ip// IP Address
+								+ "&format=xml&num_of_days=5&key=hkk8gqf7n85dhzns5xmhxa5f";
+
+					} else {
+						// perform alternate action
+						String[] projection = new String[] {
+								FavouritesEnrty.KEY_FAV_ID,
+								FavouritesEnrty.KEY_CITYNAME,
+								FavouritesEnrty.KEY_LAT,
+								FavouritesEnrty.KEY_LNG };
+						Cursor cursor = dbHelper.query(
+								FavouritesEnrty.TABLE_NAME, projection, null,
+								null, null, null, null);
+						dbHelper.close();
+						if (cursor != null) {
+							if (cursor.getCount() > 0) {
+								// Display favorites
+								displayAlertnativeFragment("Favorites");
+							} else {
+								// Display Search location
+								displayAlertnativeFragment("Search Location");
+							}
+						}
+					}
+
+				} else {
+					String[] splitData = main_location.split(";");
+					// feedUrl =
+					// "http://api.worldweatheronline.com/free/v1/weather.ashx?q="+main_location+"&format=xml&num_of_days=5&key=hkk8gqf7n85dhzns5xmhxa5f";
+					feedUrl = "http://api.worldweatheronline.com/free/v1/weather.ashx?q="
+							+ splitData[1]// Latitude
+							+ ","
+							+ splitData[2]// Longitude
+							+ "&format=xml&num_of_days=5&key=hkk8gqf7n85dhzns5xmhxa5f";
+					tvLocation.setText(splitData[0]);
+				}
+
+			} else {
+				Toast.makeText(getActivity().getApplicationContext(),
+						"Network Not Available", Toast.LENGTH_SHORT).show();
+			}
+
+		}
 	}
 
 	/* Pop window method */

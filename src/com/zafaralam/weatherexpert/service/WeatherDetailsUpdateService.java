@@ -66,7 +66,13 @@ public class WeatherDetailsUpdateService extends IntentService {
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		// TODO Auto-generated method stub
+		Log.i(TAG, "Inside the onHandleIntent(Intent intent)");
 		getWeatherDetailsForFavourites();
+	}
+	
+	
+	protected void onHandleIntent(Intent intent, int favId){
+		getWeatherDetailsForFavourites(favId);
 	}
 
 	@Override
@@ -126,7 +132,7 @@ public class WeatherDetailsUpdateService extends IntentService {
 		
 		//dbHelper.delete(WeatherDetailsEntry.TABLE_NAME, sqlDeleteWeatherItems, null);
 		Cursor delC = dbHelper.query(sqlDeleteWeatherItems, null);
-		Log.d(TAG, String.valueOf(delC.getCount()));
+		//Log.d(TAG, String.valueOf(delC.getCount()));
 		String feedUrl = null;
 		int favId = 0;
 		String locationName = null;
@@ -134,6 +140,75 @@ public class WeatherDetailsUpdateService extends IntentService {
 		String[] projection = { FavouritesEnrty.KEY_FAV_ID,
 				FavouritesEnrty.KEY_CITYNAME, FavouritesEnrty.KEY_LAT,
 				FavouritesEnrty.KEY_LNG };
+
+		Cursor c = dbHelper.query(FavouritesEnrty.TABLE_NAME, projection, null,
+				null, null, null, null);
+
+		// Closing the cursor as its going to be opened again.
+		dbHelper.close();
+
+		boolean isBegin = true;
+		if (c != null) {
+			if (c.getCount() != 0) {
+				if (c.getCount() == 1) {
+					// build the feedUrl here
+					favId = c.getInt(0);
+					locationName = c.getString(1);
+					feedUrl = "http://api.worldweatheronline.com/free/v1/weather.ashx?q="
+							+ c.getString(2)// Latitude
+							+ ","
+							+ c.getString(3)// Longitude
+							+ "&format=xml&num_of_days=5&key=hkk8gqf7n85dhzns5xmhxa5f";
+					saveWeatherDetailsDataForLocation(ParserType.XML_PULL,
+							feedUrl, favId, locationName);
+				} else {
+					while (c.moveToNext()) {
+						if (isBegin) {
+							c.moveToPrevious();
+							isBegin = false;
+						}
+
+						// build the feedUrl here
+						favId = c.getInt(0);
+						locationName = c.getString(1);
+						feedUrl = "http://api.worldweatheronline.com/free/v1/weather.ashx?q="
+								+ c.getString(2)// Latitude
+								+ ","
+								+ c.getString(3)// Longitude
+								+ "&format=xml&num_of_days=5&key=hkk8gqf7n85dhzns5xmhxa5f";
+						saveWeatherDetailsDataForLocation(ParserType.XML_PULL,
+								feedUrl, favId, locationName);
+					}
+
+				}
+			}
+		}
+	}
+	
+	private void getWeatherDetailsForFavourites(int favId) {
+
+		WeatherExpertAdapter dbHelper = new WeatherExpertAdapter(
+				getApplicationContext());
+		dbHelper.open();
+
+		/* Condition (10) to be done here */
+		String sqlDeleteWeatherItems = "DELETE FROM " + WeatherDetailsEntry.TABLE_NAME
+				+ " WHERE " + WeatherDetailsEntry.KEY_WD_FAV_ID
+				+ " NOT IN ( SELECT "+ FavouritesEnrty.KEY_FAV_ID
+				+ " FROM " + FavouritesEnrty.TABLE_NAME + " )";
+		
+		//dbHelper.delete(WeatherDetailsEntry.TABLE_NAME, sqlDeleteWeatherItems, null);
+		Cursor delC = dbHelper.query(sqlDeleteWeatherItems, null);
+		//Log.d(TAG, String.valueOf(delC.getCount()));
+		String feedUrl = null;
+		//int favId = 0;
+		String locationName = null;
+
+		String[] projection = { FavouritesEnrty.KEY_FAV_ID,
+				FavouritesEnrty.KEY_CITYNAME, FavouritesEnrty.KEY_LAT,
+				FavouritesEnrty.KEY_LNG };
+		
+		String where = FavouritesEnrty.KEY_FAV_ID + " = " + favId;
 
 		Cursor c = dbHelper.query(FavouritesEnrty.TABLE_NAME, projection, null,
 				null, null, null, null);

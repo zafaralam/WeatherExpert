@@ -35,7 +35,7 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.text.format.Time;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -83,7 +83,7 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 	private TextView tvCurrentTemp;
 	private TextView tvTodayMaxTemp;
 	private TextView tvTodayMinTemp;
-	//private ImageView ivCurrentWeatherIcon;
+	// private ImageView ivCurrentWeatherIcon;
 	private TextView vIconView;
 	private TextView vIconView1;
 	private TextView vIconView2;
@@ -130,7 +130,7 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 	public WeatherFragment(String _location) {
 		super();
 		// TODO Auto-generated constructor stub
-			main_location = _location;
+		main_location = _location;
 	}
 
 	public WeatherFragment(int favId) {
@@ -186,8 +186,8 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 		tvCurrentTemp = (TextView) v.findViewById(R.id.tvCurrentTemp);
 		tvTodayMaxTemp = (TextView) v.findViewById(R.id.tvToadayMaxTemp);
 		tvTodayMinTemp = (TextView) v.findViewById(R.id.tvToadayMinTemp);
-//		ivCurrentWeatherIcon = (ImageView) v
-//				.findViewById(R.id.ivCurrentWeatherIcon);
+		// ivCurrentWeatherIcon = (ImageView) v
+		// .findViewById(R.id.ivCurrentWeatherIcon);
 		vIconView = (TextView) v.findViewById(R.id.vIconView);
 		vIconView1 = (TextView) v.findViewById(R.id.vIconView1);
 		vIconView2 = (TextView) v.findViewById(R.id.vIconView2);
@@ -209,11 +209,13 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 
 		// Database helper for querying
 		dbHelper = new WeatherExpertAdapter(getActivity());
-		
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		if(main_location.contains(";") && prefs.getBoolean(PreferencesActivity.PREF_AUTO_UPDATE, false)){
+
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(getActivity());
+		if (main_location.contains(";")
+				&& prefs.getBoolean(PreferencesActivity.PREF_AUTO_UPDATE, false)) {
 			String strSplit[] = main_location.split(";");
-			if(strSplit.length == 4){
+			if (strSplit.length == 4) {
 				this.favId = Integer.valueOf(strSplit[3]);
 				isFavIdLoaded = true;
 			}
@@ -378,9 +380,8 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 
 			}
 
-		}else
-		{
-			//if the fav is not available then downloading weather.
+		} else {
+			// if the fav is not available then downloading weather.
 			isFavIdLoaded = false;
 			downloadWeatherForlocation();
 		}
@@ -640,8 +641,8 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 			return;
 		}
 
-		if (getActivity() instanceof BaseActivity) {
-			BaseActivity ba = (BaseActivity) getActivity();
+		if (getActivity() instanceof MainActivity) {
+			MainActivity ba = (MainActivity) getActivity();
 			ba.switchContent(menuItem);
 		}
 
@@ -696,23 +697,26 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 						wd.getWeather_condition(), getActivity());
 
 				if (ids != null) {
-					//ivCurrentWeatherIcon.setImageResource(ids.getIcon());
-					Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "iconvault_forecastfont.ttf");
+					// ivCurrentWeatherIcon.setImageResource(ids.getIcon());
+					Typeface font = Typeface.createFromAsset(getActivity()
+							.getAssets(), "iconvault_forecastfont.ttf");
 					vIconView.setTypeface(font);
 					vIconView1.setTypeface(font);
 					vIconView2.setTypeface(font);
 					int[] iconColorList = ids.getIconCharColorList();
 					String[] iconCharList = ids.getIconCharList();
-					
+
 					vIconView.setText(iconCharList[0]);
 					vIconView1.setText(iconCharList[1]);
 					vIconView2.setText(iconCharList[2]);
-					
+
 					vIconView.setTextColor(iconColorList[0]);
 					vIconView1.setTextColor(iconColorList[1]);
 					vIconView2.setTextColor(iconColorList[2]);
-					tvCurrentWeatherConditionDesc.setText(ids.getDesc());
+					//tvCurrentWeatherConditionDesc.setText(ids.getDesc());
 				}
+				
+				tvCurrentWeatherConditionDesc.setText(wd.getWeatherDesc());
 
 				/*
 				 * if(wd.getWeather_condition() == 116){
@@ -756,39 +760,46 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 					View weatherItem = factory.inflate(R.layout.weather_item,
 							null);
 
-					/*ImageView ivWeatherPic = (ImageView) weatherItem
-							.findViewById(R.id.ivWeatherPic);*/
-					
+					/*
+					 * ImageView ivWeatherPic = (ImageView) weatherItem
+					 * .findViewById(R.id.ivWeatherPic);
+					 */
+
 					TextView tvWeatherPic, tvWeatherPic1, tvWeatherPic2;
-					tvWeatherPic = (TextView) weatherItem.findViewById(R.id.tvWeatherPic);
-					tvWeatherPic1 = (TextView) weatherItem.findViewById(R.id.tvWeatherPic1);
-					tvWeatherPic2 = (TextView) weatherItem.findViewById(R.id.tvWeatherPic2);
+					tvWeatherPic = (TextView) weatherItem
+							.findViewById(R.id.tvWeatherPic);
+					tvWeatherPic1 = (TextView) weatherItem
+							.findViewById(R.id.tvWeatherPic1);
+					tvWeatherPic2 = (TextView) weatherItem
+							.findViewById(R.id.tvWeatherPic2);
 
 					IconDesc ids = wei.getWeatherIcon(wd.getWeatherIconUrl(),
 							wd.getWeather_condition(), getActivity());
 
-					if (ids != null){
-						
-						//ivWeatherPic.setImageResource(ids.getIcon());
-						
-						Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "iconvault_forecastfont.ttf");
+					if (ids != null) {
+
+						// ivWeatherPic.setImageResource(ids.getIcon());
+
+						Typeface font = Typeface.createFromAsset(getActivity()
+								.getAssets(), "iconvault_forecastfont.ttf");
 						tvWeatherPic.setTypeface(font);
 						tvWeatherPic1.setTypeface(font);
 						tvWeatherPic2.setTypeface(font);
 						int[] iconColorList = ids.getIconCharColorList();
 						String[] iconCharList = ids.getIconCharList();
-						
+
 						tvWeatherPic.setText(iconCharList[0]);
 						tvWeatherPic1.setText(iconCharList[1]);
 						tvWeatherPic2.setText(iconCharList[2]);
-						
+
 						tvWeatherPic.setTextColor(iconColorList[0]);
 						tvWeatherPic1.setTextColor(iconColorList[1]);
 						tvWeatherPic2.setTextColor(iconColorList[2]);
-						//Log.d("Icons", iconCharList[0].toString()+" "+iconCharList[1]+" "+iconCharList[2]);
-						//Log.d("Icons", iconColorList[0]+" "+iconColorList[1]+" "+iconColorList[2]);
+						// Log.d("Icons",
+						// iconCharList[0].toString()+" "+iconCharList[1]+" "+iconCharList[2]);
+						// Log.d("Icons",
+						// iconColorList[0]+" "+iconColorList[1]+" "+iconColorList[2]);
 					}
-						
 
 					TextView tvDate = (TextView) weatherItem
 							.findViewById(R.id.tvDate);
@@ -988,8 +999,8 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 				pbWDload.setActivated(true);
 			}
 
-			//wdDialog.setMessage("Conneting to server...");
-			//wdDialog.show();
+			// wdDialog.setMessage("Conneting to server...");
+			// wdDialog.show();
 
 		}
 
@@ -1032,9 +1043,9 @@ public class WeatherFragment extends Fragment implements OnClickListener {
 					pbWDload.setActivated(false);
 				}
 
-				/*if (wdDialog.isShowing()) {
-					wdDialog.dismiss();
-				}*/
+				/*
+				 * if (wdDialog.isShowing()) { wdDialog.dismiss(); }
+				 */
 
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block

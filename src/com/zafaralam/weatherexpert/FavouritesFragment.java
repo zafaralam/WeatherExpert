@@ -13,7 +13,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -200,8 +200,8 @@ public class FavouritesFragment extends Fragment {
 			return;
 		}
 
-		if (getActivity() instanceof BaseActivity) {
-			BaseActivity ba = (BaseActivity) getActivity();
+		if (getActivity() instanceof MainActivity) {
+			MainActivity ba = (MainActivity) getActivity();
 			ba.switchLocation(location);
 		}
 	}
@@ -228,6 +228,11 @@ public class FavouritesFragment extends Fragment {
 			this.lat = lat;
 			this.lng = lng;
 			this.id = id;
+			this.weatherDesc = "";
+			this.weatherIcon = "";
+			this.iconCharList = new String[3]; this.iconCharList[0] = ""; this.iconCharList[1] = ""; this.iconCharList[2] = "";
+			this.iconColorList = new int[3]; this.iconCharList[0] = ""; this.iconCharList[2] = ""; this.iconCharList[2] = "";
+			
 		}
 		
 		public FavouritesItem(String location_name, float lat, float lng, int id,
@@ -239,6 +244,8 @@ public class FavouritesFragment extends Fragment {
 			this.id = id;
 			this.weatherDesc = weatherDesc;
 			this.weatherIcon = weatherIcon;
+			this.iconCharList = new String[3]; this.iconCharList[0] = ""; this.iconCharList[1] = ""; this.iconCharList[2] = "";
+			this.iconColorList = new int[3]; this.iconCharList[0] = ""; this.iconCharList[2] = ""; this.iconCharList[2] = "";
 		}
 		
 		public FavouritesItem(String location_name, float lat, float lng,

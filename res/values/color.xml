@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    
+    <!-- New color schema Start -->
+    <color name="base_blue">#010E26</color>
+    <color name="rectangel_gray">#7E8AA2</color>
+    <color name="rectangel_sky">#DFEBFF</color>
+    <color name="onclick_orange">#FF530D</color>
+    
+    <!-- New color schema END -->
+    
+    
     <!-- Weather Icon font colors -->
     <color name="night">#FFA500</color>
     <color name="sunny">#FFA500</color>

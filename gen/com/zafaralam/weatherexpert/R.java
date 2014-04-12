@@ -13,312 +13,208 @@ public final class R {
         public static final int exit=0x7f040001;
     }
     public static final class array {
-        public static final int menus=0x7f070000;
-        public static final int menus_img=0x7f070001;
-        public static final int start_up_list=0x7f070002;
-        public static final int temp_favs=0x7f070003;
-        public static final int update_freq_options=0x7f070004;
-        public static final int update_freq_values=0x7f070005;
+        public static final int menus=0x7f060000;
+        public static final int menus_img=0x7f060001;
+        public static final int start_up_list=0x7f060002;
+        public static final int temp_favs=0x7f060003;
+        public static final int update_freq_options=0x7f060004;
+        public static final int update_freq_values=0x7f060005;
     }
     public static final class attr {
-        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-         */
-        public static final int behindOffset=0x7f010003;
-        /** <p>Must be a floating point value, such as "<code>1.2</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-         */
-        public static final int behindScrollScale=0x7f010005;
-        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-         */
-        public static final int behindWidth=0x7f010004;
-        /** <p>Must be a floating point value, such as "<code>1.2</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-         */
-        public static final int fadeDegree=0x7f01000b;
-        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-         */
-        public static final int fadeEnabled=0x7f01000a;
-        /** <p>Must be one of the following constant values.</p>
-<table>
-<colgroup align="left" />
-<colgroup align="left" />
-<colgroup align="left" />
-<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
-<tr><td><code>left</code></td><td>0</td><td></td></tr>
-<tr><td><code>right</code></td><td>1</td><td></td></tr>
-</table>
-         */
-        public static final int mode=0x7f010000;
-        /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
-or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-         */
-        public static final int selectorDrawable=0x7f01000d;
-        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-         */
-        public static final int selectorEnabled=0x7f01000c;
-        /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
-or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-         */
-        public static final int shadowDrawable=0x7f010008;
-        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-         */
-        public static final int shadowWidth=0x7f010009;
-        /** <p>Must be one of the following constant values.</p>
-<table>
-<colgroup align="left" />
-<colgroup align="left" />
-<colgroup align="left" />
-<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
-<tr><td><code>margin</code></td><td>0</td><td></td></tr>
-<tr><td><code>fullscreen</code></td><td>1</td><td></td></tr>
-</table>
-         */
-        public static final int touchModeAbove=0x7f010006;
-        /** <p>Must be one of the following constant values.</p>
-<table>
-<colgroup align="left" />
-<colgroup align="left" />
-<colgroup align="left" />
-<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
-<tr><td><code>margin</code></td><td>0</td><td></td></tr>
-<tr><td><code>fullscreen</code></td><td>1</td><td></td></tr>
-</table>
-         */
-        public static final int touchModeBehind=0x7f010007;
-        /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
-or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-         */
-        public static final int viewAbove=0x7f010001;
-        /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
-or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-         */
-        public static final int viewBehind=0x7f010002;
     }
     public static final class color {
-        public static final int AliceBlue=0x7f080049;
-        public static final int AntiqueWhite=0x7f08003f;
-        public static final int Aqua=0x7f080099;
-        public static final int Aquamarine=0x7f08007e;
-        public static final int Azure=0x7f080047;
-        public static final int Beige=0x7f080044;
-        public static final int Bisque=0x7f08002a;
-        public static final int Black=0x7f0800a8;
-        public static final int BlanchedAlmond=0x7f080028;
-        public static final int Blue=0x7f0800a4;
-        public static final int BlueViolet=0x7f080077;
-        public static final int Brown=0x7f08006b;
-        public static final int BurlyWood=0x7f080051;
-        public static final int CadetBlue=0x7f080089;
-        public static final int Chartreuse=0x7f08007f;
-        public static final int Chocolate=0x7f08005b;
-        public static final int Coral=0x7f080034;
-        public static final int CornflowerBlue=0x7f080088;
-        public static final int Cornsilk=0x7f080024;
-        public static final int Crimson=0x7f080054;
-        public static final int Cyan=0x7f08009a;
-        public static final int DarkBlue=0x7f0800a6;
-        public static final int DarkCyan=0x7f0800a0;
-        public static final int DarkGoldenrod=0x7f080063;
-        public static final int DarkGray=0x7f08006a;
-        public static final int DarkGreen=0x7f0800a3;
-        public static final int DarkKhaki=0x7f080060;
-        public static final int DarkMagenta=0x7f080075;
-        public static final int DarkOliveGreen=0x7f08008a;
-        public static final int DarkOrange=0x7f080033;
-        public static final int DarkOrchid=0x7f08006e;
-        public static final int DarkRed=0x7f080076;
-        public static final int DarkSalmon=0x7f08004e;
-        public static final int DarkSeaGreen=0x7f080073;
-        public static final int DarkSlateBlue=0x7f08008d;
-        public static final int DarkSlateGray=0x7f080093;
-        public static final int DarkTurquoise=0x7f08009e;
-        public static final int DarkViolet=0x7f080070;
-        public static final int DeepPink=0x7f080038;
-        public static final int DeepSkyBlue=0x7f08009f;
-        public static final int DimGray=0x7f080086;
-        public static final int DodgerBlue=0x7f080097;
-        public static final int FireBrick=0x7f080064;
-        public static final int FloralWhite=0x7f080022;
-        public static final int ForestGreen=0x7f080095;
-        public static final int Fuchsia=0x7f080039;
-        public static final int Gainsboro=0x7f080053;
-        public static final int GhostWhite=0x7f080041;
-        public static final int Gold=0x7f08002e;
-        public static final int Goldenrod=0x7f080056;
-        public static final int Gray=0x7f08007a;
-        public static final int Green=0x7f0800a2;
-        public static final int GreenYellow=0x7f080068;
-        public static final int Honeydew=0x7f080048;
-        public static final int HotPink=0x7f080035;
-        public static final int IndianRed=0x7f08005d;
-        public static final int Indigo=0x7f08008b;
-        public static final int Ivory=0x7f08001e;
-        public static final int Khaki=0x7f08004a;
-        public static final int Lavender=0x7f08004f;
-        public static final int LavenderBlush=0x7f080026;
-        public static final int LawnGreen=0x7f080080;
-        public static final int LemonChiffon=0x7f080023;
-        public static final int LightBlue=0x7f080069;
-        public static final int LightCoral=0x7f08004b;
-        public static final int LightCyan=0x7f080050;
-        public static final int LightGoldenrodYellow=0x7f08003d;
-        public static final int LightGreen=0x7f080072;
-        public static final int LightGrey=0x7f080059;
-        public static final int LightPink=0x7f080030;
-        public static final int LightSalmon=0x7f080032;
-        public static final int LightSeaGreen=0x7f080096;
-        public static final int LightSkyBlue=0x7f080078;
-        public static final int LightSlateGray=0x7f080082;
-        public static final int LightSteelBlue=0x7f080066;
-        public static final int LightYellow=0x7f08001f;
-        public static final int Lime=0x7f08009c;
-        public static final int LimeGreen=0x7f080092;
-        public static final int Linen=0x7f08003e;
-        public static final int Magenta=0x7f08003a;
-        public static final int Maroon=0x7f08007d;
-        public static final int MediumAquamarine=0x7f080087;
-        public static final int MediumBlue=0x7f0800a5;
-        public static final int MediumOrchid=0x7f080062;
-        public static final int MediumPurple=0x7f080071;
-        public static final int MediumSeaGreen=0x7f080091;
-        public static final int MediumSlateBlue=0x7f080081;
-        public static final int MediumSpringGreen=0x7f08009d;
-        public static final int MediumTurquoise=0x7f08008c;
-        public static final int MediumVioletRed=0x7f08005e;
-        public static final int MidnightBlue=0x7f080098;
-        public static final int MintCream=0x7f080042;
-        public static final int MistyRose=0x7f080029;
-        public static final int Moccasin=0x7f08002b;
-        public static final int NavajoWhite=0x7f08002c;
-        public static final int Navy=0x7f0800a7;
-        public static final int OldLace=0x7f08003c;
-        public static final int Olive=0x7f08007b;
-        public static final int OliveDrab=0x7f080084;
-        public static final int Orange=0x7f080031;
-        public static final int OrangeRed=0x7f080037;
-        public static final int Orchid=0x7f080057;
-        public static final int PaleGoldenrod=0x7f08004c;
-        public static final int PaleGreen=0x7f08006f;
-        public static final int PaleTurquoise=0x7f080067;
-        public static final int PaleVioletRed=0x7f080055;
-        public static final int PapayaWhip=0x7f080027;
-        public static final int PeachPuff=0x7f08002d;
-        public static final int Peru=0x7f08005c;
-        public static final int Pink=0x7f08002f;
-        public static final int Plum=0x7f080052;
-        public static final int PowderBlue=0x7f080065;
-        public static final int Purple=0x7f08007c;
-        public static final int Red=0x7f08003b;
-        public static final int RosyBrown=0x7f080061;
-        public static final int RoyalBlue=0x7f08008f;
-        public static final int SaddleBrown=0x7f080074;
-        public static final int Salmon=0x7f080040;
-        public static final int SandyBrown=0x7f080046;
-        public static final int SeaGreen=0x7f080094;
-        public static final int Seashell=0x7f080025;
-        public static final int Sienna=0x7f08006c;
-        public static final int Silver=0x7f08005f;
-        public static final int SkyBlue=0x7f080079;
-        public static final int SlateBlue=0x7f080085;
-        public static final int SlateGray=0x7f080083;
-        public static final int Snow=0x7f080021;
-        public static final int SpringGreen=0x7f08009b;
-        public static final int SteelBlue=0x7f08008e;
-        public static final int Tan=0x7f08005a;
-        public static final int Teal=0x7f0800a1;
-        public static final int Thistle=0x7f080058;
-        public static final int Tomato=0x7f080036;
-        public static final int Turquoise=0x7f080090;
-        public static final int Violet=0x7f08004d;
-        public static final int Wheat=0x7f080045;
-        public static final int WhiteSmoke=0x7f080043;
-        public static final int Yellow=0x7f080020;
-        public static final int YellowGreen=0x7f08006d;
-        public static final int base_cloud=0x7f080005;
-        public static final int base_thunder_cloud=0x7f080016;
-        public static final int blue_gray=0x7f08001b;
-        public static final int cloud=0x7f080006;
-        public static final int dark_blue_gray=0x7f08001a;
-        public static final int dark_gray=0x7f080018;
-        public static final int drizzle=0x7f080010;
-        public static final int frosty=0x7f080002;
-        public static final int gray=0x7f08001d;
-        public static final int hail=0x7f080015;
-        public static final int light_blue_gray=0x7f080019;
-        public static final int mist=0x7f080008;
-        public static final int moon=0x7f080013;
-        /**  Weather Icon font colors 
+        public static final int AliceBlue=0x7f07004d;
+        public static final int AntiqueWhite=0x7f070043;
+        public static final int Aqua=0x7f07009d;
+        public static final int Aquamarine=0x7f070082;
+        public static final int Azure=0x7f07004b;
+        public static final int Beige=0x7f070048;
+        public static final int Bisque=0x7f07002e;
+        public static final int Black=0x7f0700ac;
+        public static final int BlanchedAlmond=0x7f07002c;
+        public static final int Blue=0x7f0700a8;
+        public static final int BlueViolet=0x7f07007b;
+        public static final int Brown=0x7f07006f;
+        public static final int BurlyWood=0x7f070055;
+        public static final int CadetBlue=0x7f07008d;
+        public static final int Chartreuse=0x7f070083;
+        public static final int Chocolate=0x7f07005f;
+        public static final int Coral=0x7f070038;
+        public static final int CornflowerBlue=0x7f07008c;
+        public static final int Cornsilk=0x7f070028;
+        public static final int Crimson=0x7f070058;
+        public static final int Cyan=0x7f07009e;
+        public static final int DarkBlue=0x7f0700aa;
+        public static final int DarkCyan=0x7f0700a4;
+        public static final int DarkGoldenrod=0x7f070067;
+        public static final int DarkGray=0x7f07006e;
+        public static final int DarkGreen=0x7f0700a7;
+        public static final int DarkKhaki=0x7f070064;
+        public static final int DarkMagenta=0x7f070079;
+        public static final int DarkOliveGreen=0x7f07008e;
+        public static final int DarkOrange=0x7f070037;
+        public static final int DarkOrchid=0x7f070072;
+        public static final int DarkRed=0x7f07007a;
+        public static final int DarkSalmon=0x7f070052;
+        public static final int DarkSeaGreen=0x7f070077;
+        public static final int DarkSlateBlue=0x7f070091;
+        public static final int DarkSlateGray=0x7f070097;
+        public static final int DarkTurquoise=0x7f0700a2;
+        public static final int DarkViolet=0x7f070074;
+        public static final int DeepPink=0x7f07003c;
+        public static final int DeepSkyBlue=0x7f0700a3;
+        public static final int DimGray=0x7f07008a;
+        public static final int DodgerBlue=0x7f07009b;
+        public static final int FireBrick=0x7f070068;
+        public static final int FloralWhite=0x7f070026;
+        public static final int ForestGreen=0x7f070099;
+        public static final int Fuchsia=0x7f07003d;
+        public static final int Gainsboro=0x7f070057;
+        public static final int GhostWhite=0x7f070045;
+        public static final int Gold=0x7f070032;
+        public static final int Goldenrod=0x7f07005a;
+        public static final int Gray=0x7f07007e;
+        public static final int Green=0x7f0700a6;
+        public static final int GreenYellow=0x7f07006c;
+        public static final int Honeydew=0x7f07004c;
+        public static final int HotPink=0x7f070039;
+        public static final int IndianRed=0x7f070061;
+        public static final int Indigo=0x7f07008f;
+        public static final int Ivory=0x7f070022;
+        public static final int Khaki=0x7f07004e;
+        public static final int Lavender=0x7f070053;
+        public static final int LavenderBlush=0x7f07002a;
+        public static final int LawnGreen=0x7f070084;
+        public static final int LemonChiffon=0x7f070027;
+        public static final int LightBlue=0x7f07006d;
+        public static final int LightCoral=0x7f07004f;
+        public static final int LightCyan=0x7f070054;
+        public static final int LightGoldenrodYellow=0x7f070041;
+        public static final int LightGreen=0x7f070076;
+        public static final int LightGrey=0x7f07005d;
+        public static final int LightPink=0x7f070034;
+        public static final int LightSalmon=0x7f070036;
+        public static final int LightSeaGreen=0x7f07009a;
+        public static final int LightSkyBlue=0x7f07007c;
+        public static final int LightSlateGray=0x7f070086;
+        public static final int LightSteelBlue=0x7f07006a;
+        public static final int LightYellow=0x7f070023;
+        public static final int Lime=0x7f0700a0;
+        public static final int LimeGreen=0x7f070096;
+        public static final int Linen=0x7f070042;
+        public static final int Magenta=0x7f07003e;
+        public static final int Maroon=0x7f070081;
+        public static final int MediumAquamarine=0x7f07008b;
+        public static final int MediumBlue=0x7f0700a9;
+        public static final int MediumOrchid=0x7f070066;
+        public static final int MediumPurple=0x7f070075;
+        public static final int MediumSeaGreen=0x7f070095;
+        public static final int MediumSlateBlue=0x7f070085;
+        public static final int MediumSpringGreen=0x7f0700a1;
+        public static final int MediumTurquoise=0x7f070090;
+        public static final int MediumVioletRed=0x7f070062;
+        public static final int MidnightBlue=0x7f07009c;
+        public static final int MintCream=0x7f070046;
+        public static final int MistyRose=0x7f07002d;
+        public static final int Moccasin=0x7f07002f;
+        public static final int NavajoWhite=0x7f070030;
+        public static final int Navy=0x7f0700ab;
+        public static final int OldLace=0x7f070040;
+        public static final int Olive=0x7f07007f;
+        public static final int OliveDrab=0x7f070088;
+        public static final int Orange=0x7f070035;
+        public static final int OrangeRed=0x7f07003b;
+        public static final int Orchid=0x7f07005b;
+        public static final int PaleGoldenrod=0x7f070050;
+        public static final int PaleGreen=0x7f070073;
+        public static final int PaleTurquoise=0x7f07006b;
+        public static final int PaleVioletRed=0x7f070059;
+        public static final int PapayaWhip=0x7f07002b;
+        public static final int PeachPuff=0x7f070031;
+        public static final int Peru=0x7f070060;
+        public static final int Pink=0x7f070033;
+        public static final int Plum=0x7f070056;
+        public static final int PowderBlue=0x7f070069;
+        public static final int Purple=0x7f070080;
+        public static final int Red=0x7f07003f;
+        public static final int RosyBrown=0x7f070065;
+        public static final int RoyalBlue=0x7f070093;
+        public static final int SaddleBrown=0x7f070078;
+        public static final int Salmon=0x7f070044;
+        public static final int SandyBrown=0x7f07004a;
+        public static final int SeaGreen=0x7f070098;
+        public static final int Seashell=0x7f070029;
+        public static final int Sienna=0x7f070070;
+        public static final int Silver=0x7f070063;
+        public static final int SkyBlue=0x7f07007d;
+        public static final int SlateBlue=0x7f070089;
+        public static final int SlateGray=0x7f070087;
+        public static final int Snow=0x7f070025;
+        public static final int SpringGreen=0x7f07009f;
+        public static final int SteelBlue=0x7f070092;
+        public static final int Tan=0x7f07005e;
+        public static final int Teal=0x7f0700a5;
+        public static final int Thistle=0x7f07005c;
+        public static final int Tomato=0x7f07003a;
+        public static final int Turquoise=0x7f070094;
+        public static final int Violet=0x7f070051;
+        public static final int Wheat=0x7f070049;
+        public static final int WhiteSmoke=0x7f070047;
+        public static final int Yellow=0x7f070024;
+        public static final int YellowGreen=0x7f070071;
+        /**  New color schema Start 
          */
-        public static final int night=0x7f080000;
+        public static final int base_blue=0x7f070000;
+        public static final int base_cloud=0x7f070009;
+        public static final int base_thunder_cloud=0x7f07001a;
+        public static final int blue_gray=0x7f07001f;
+        public static final int cloud=0x7f07000a;
+        public static final int dark_blue_gray=0x7f07001e;
+        public static final int dark_gray=0x7f07001c;
+        public static final int drizzle=0x7f070014;
+        public static final int frosty=0x7f070006;
+        public static final int gray=0x7f070021;
+        public static final int hail=0x7f070019;
+        public static final int light_blue_gray=0x7f07001d;
+        public static final int mist=0x7f07000c;
+        public static final int moon=0x7f070017;
+        /**  New color schema END 
+ Weather Icon font colors 
+         */
+        public static final int night=0x7f070004;
         /**  End Weather Icon font color 
          */
-        public static final int off_white=0x7f080017;
-        public static final int pressed_weather_expert=0x7f0800a9;
-        public static final int rainy=0x7f080007;
-        public static final int showers=0x7f080004;
-        public static final int sleet=0x7f080012;
-        public static final int snow=0x7f080011;
-        public static final int sun=0x7f08000d;
-        public static final int sunny=0x7f080001;
-        public static final int sunrise=0x7f08000c;
-        public static final int sunset=0x7f08000a;
-        public static final int thunder=0x7f08000e;
-        public static final int white=0x7f08001c;
-        public static final int windy=0x7f08000f;
-        public static final int windy_rain=0x7f080014;
-        public static final int windy_rain_cloud=0x7f08000b;
-        public static final int windy_snow=0x7f080003;
-        public static final int windy_snow_cloud=0x7f080009;
+        public static final int off_white=0x7f07001b;
+        public static final int onclick_orange=0x7f070003;
+        public static final int pressed_weather_expert=0x7f0700ad;
+        public static final int rainy=0x7f07000b;
+        public static final int rectangel_gray=0x7f070001;
+        public static final int rectangel_sky=0x7f070002;
+        public static final int showers=0x7f070008;
+        public static final int sleet=0x7f070016;
+        public static final int snow=0x7f070015;
+        public static final int sun=0x7f070011;
+        public static final int sunny=0x7f070005;
+        public static final int sunrise=0x7f070010;
+        public static final int sunset=0x7f07000e;
+        public static final int thunder=0x7f070012;
+        public static final int white=0x7f070020;
+        public static final int windy=0x7f070013;
+        public static final int windy_rain=0x7f070018;
+        public static final int windy_rain_cloud=0x7f07000f;
+        public static final int windy_snow=0x7f070007;
+        public static final int windy_snow_cloud=0x7f07000d;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
          */
-        public static final int activity_horizontal_margin=0x7f090000;
-        public static final int activity_vertical_margin=0x7f090001;
-        public static final int padding_large=0x7f090004;
-        public static final int padding_medium=0x7f090003;
-        public static final int padding_small=0x7f090002;
-        public static final int shadow_width=0x7f090006;
-        public static final int slidingmenu_offset=0x7f090005;
+        public static final int activity_horizontal_margin=0x7f080000;
+        public static final int activity_vertical_margin=0x7f080001;
+        public static final int padding_large=0x7f080004;
+        public static final int padding_medium=0x7f080003;
+        public static final int padding_small=0x7f080002;
+        public static final int shadow_width=0x7f080006;
+        public static final int slidingmenu_offset=0x7f080005;
     }
     public static final class drawable {
         public static final int ab_background_textured_weather_expert=0x7f020000;
@@ -327,247 +223,302 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int ab_stacked_solid_weather_expert=0x7f020003;
         public static final int ab_texture_tile_weather_expert=0x7f020004;
         public static final int ab_transparent_weather_expert=0x7f020005;
-        public static final int backgroud_rectangle=0x7f020006;
-        public static final int blue_rectangle=0x7f020007;
-        public static final int btn_cab_done_default_weather_expert=0x7f020008;
-        public static final int btn_cab_done_focused_weather_expert=0x7f020009;
-        public static final int btn_cab_done_pressed_weather_expert=0x7f02000a;
-        public static final int btn_cab_done_weather_expert=0x7f02000b;
-        public static final int btn_custon_states=0x7f02000c;
-        public static final int cab_background_bottom_weather_expert=0x7f02000d;
-        public static final int cab_background_top_weather_expert=0x7f02000e;
-        public static final int clear=0x7f02000f;
-        public static final int cloudy=0x7f020010;
-        public static final int cold=0x7f020011;
-        public static final int default_weather_icon=0x7f020012;
-        public static final int drizzle=0x7f020013;
-        public static final int fair=0x7f020014;
-        public static final int fog=0x7f020015;
-        public static final int foggy=0x7f020016;
-        public static final int freezing_rain=0x7f020017;
-        public static final int hail=0x7f020018;
-        public static final int haze=0x7f020019;
-        public static final int heavy_snow=0x7f02001a;
-        public static final int hot=0x7f02001b;
-        public static final int ic_action_search=0x7f02001c;
-        public static final int ic_launcher=0x7f02001d;
-        public static final int ic_refresh=0x7f02001e;
-        public static final int ic_settings=0x7f02001f;
-        public static final int list_focused_weather_expert=0x7f020020;
-        public static final int menu_dropdown_panel_weather_expert=0x7f020021;
-        public static final int mostly_cloudy=0x7f020022;
-        public static final int night_clear=0x7f020023;
-        public static final int night_drizzle=0x7f020024;
-        public static final int night_fair=0x7f020025;
-        public static final int night_half_moon=0x7f020026;
-        public static final int night_light_rain=0x7f020027;
-        public static final int night_mostly_cloudy=0x7f020028;
-        public static final int night_rain=0x7f020029;
-        public static final int night_showers=0x7f02002a;
-        public static final int no_connection=0x7f02002b;
-        public static final int no_weather=0x7f02002c;
-        public static final int orange_rectangle=0x7f02002d;
-        public static final int popup_background=0x7f02002e;
-        public static final int pressed_background_weather_expert=0x7f02002f;
-        public static final int progress_bg_weather_expert=0x7f020030;
-        public static final int progress_horizontal_weather_expert=0x7f020031;
-        public static final int progress_primary_weather_expert=0x7f020032;
-        public static final int progress_secondary_weather_expert=0x7f020033;
-        public static final int rain=0x7f020034;
-        public static final int red_rectangle=0x7f020035;
-        public static final int scattered_thunderstorms=0x7f020036;
-        public static final int selectable_background_weather_expert=0x7f020037;
-        public static final int shadow=0x7f020038;
-        public static final int showers=0x7f020039;
-        public static final int smoky=0x7f02003a;
-        public static final int snow=0x7f02003b;
-        public static final int spinner_ab_default_weather_expert=0x7f02003c;
-        public static final int spinner_ab_disabled_weather_expert=0x7f02003d;
-        public static final int spinner_ab_focused_weather_expert=0x7f02003e;
-        public static final int spinner_ab_pressed_weather_expert=0x7f02003f;
-        public static final int spinner_background_ab_weather_expert=0x7f020040;
-        public static final int sunny=0x7f020041;
-        public static final int tab_indicator_ab_weather_expert=0x7f020042;
-        public static final int tab_selected_focused_weather_expert=0x7f020043;
-        public static final int tab_selected_pressed_weather_expert=0x7f020044;
-        public static final int tab_selected_weather_expert=0x7f020045;
-        public static final int tab_unselected_focused_weather_expert=0x7f020046;
-        public static final int tab_unselected_pressed_weather_expert=0x7f020047;
-        public static final int tab_unselected_weather_expert=0x7f020048;
-        public static final int thunderstorms=0x7f020049;
-        public static final int tropical_storm=0x7f02004a;
-        public static final int umbrella=0x7f02004b;
-        public static final int windy=0x7f02004c;
+        public static final int action_search=0x7f020006;
+        public static final int backgroud_rectangle=0x7f020007;
+        public static final int background_rectangle_two=0x7f020008;
+        public static final int blue_rectangle=0x7f020009;
+        public static final int btn_cab_done_default_weather_expert=0x7f02000a;
+        public static final int btn_cab_done_focused_weather_expert=0x7f02000b;
+        public static final int btn_cab_done_pressed_weather_expert=0x7f02000c;
+        public static final int btn_cab_done_weather_expert=0x7f02000d;
+        public static final int btn_custon_states=0x7f02000e;
+        public static final int cab_background_bottom_weather_expert=0x7f02000f;
+        public static final int cab_background_top_weather_expert=0x7f020010;
+        public static final int clear=0x7f020011;
+        public static final int cloudy=0x7f020012;
+        public static final int cold=0x7f020013;
+        public static final int default_weather_icon=0x7f020014;
+        public static final int drawer_shadow=0x7f020015;
+        public static final int drizzle=0x7f020016;
+        public static final int earth=0x7f020017;
+        public static final int fair=0x7f020018;
+        public static final int fog=0x7f020019;
+        public static final int foggy=0x7f02001a;
+        public static final int freezing_rain=0x7f02001b;
+        public static final int hail=0x7f02001c;
+        public static final int haze=0x7f02001d;
+        public static final int heavy_snow=0x7f02001e;
+        public static final int hot=0x7f02001f;
+        public static final int ic_action_search=0x7f020020;
+        public static final int ic_drawer=0x7f020021;
+        public static final int ic_launcher=0x7f020022;
+        public static final int ic_refresh=0x7f020023;
+        public static final int ic_settings=0x7f020024;
+        public static final int jupiter=0x7f020025;
+        public static final int list_focused_weather_expert=0x7f020026;
+        public static final int mars=0x7f020027;
+        public static final int menu_dropdown_panel_weather_expert=0x7f020028;
+        public static final int mercury=0x7f020029;
+        public static final int mostly_cloudy=0x7f02002a;
+        public static final int neptune=0x7f02002b;
+        public static final int night_clear=0x7f02002c;
+        public static final int night_drizzle=0x7f02002d;
+        public static final int night_fair=0x7f02002e;
+        public static final int night_half_moon=0x7f02002f;
+        public static final int night_light_rain=0x7f020030;
+        public static final int night_mostly_cloudy=0x7f020031;
+        public static final int night_rain=0x7f020032;
+        public static final int night_showers=0x7f020033;
+        public static final int no_connection=0x7f020034;
+        public static final int no_weather=0x7f020035;
+        public static final int orange_rectangle=0x7f020036;
+        public static final int popup_background=0x7f020037;
+        public static final int pressed_background_weather_expert=0x7f020038;
+        public static final int progress_bg_weather_expert=0x7f020039;
+        public static final int progress_horizontal_weather_expert=0x7f02003a;
+        public static final int progress_primary_weather_expert=0x7f02003b;
+        public static final int progress_secondary_weather_expert=0x7f02003c;
+        public static final int rain=0x7f02003d;
+        public static final int red_rectangle=0x7f02003e;
+        public static final int saturn=0x7f02003f;
+        public static final int scattered_thunderstorms=0x7f020040;
+        public static final int selectable_background_weather_expert=0x7f020041;
+        public static final int shadow=0x7f020042;
+        public static final int showers=0x7f020043;
+        public static final int smoky=0x7f020044;
+        public static final int snow=0x7f020045;
+        public static final int spinner_ab_default_weather_expert=0x7f020046;
+        public static final int spinner_ab_disabled_weather_expert=0x7f020047;
+        public static final int spinner_ab_focused_weather_expert=0x7f020048;
+        public static final int spinner_ab_pressed_weather_expert=0x7f020049;
+        public static final int spinner_background_ab_weather_expert=0x7f02004a;
+        public static final int sunny=0x7f02004b;
+        public static final int tab_indicator_ab_weather_expert=0x7f02004c;
+        public static final int tab_selected_focused_weather_expert=0x7f02004d;
+        public static final int tab_selected_pressed_weather_expert=0x7f02004e;
+        public static final int tab_selected_weather_expert=0x7f02004f;
+        public static final int tab_unselected_focused_weather_expert=0x7f020050;
+        public static final int tab_unselected_pressed_weather_expert=0x7f020051;
+        public static final int tab_unselected_weather_expert=0x7f020052;
+        public static final int thunderstorms=0x7f020053;
+        public static final int tropical_storm=0x7f020054;
+        public static final int umbrella=0x7f020055;
+        public static final int uranus=0x7f020056;
+        public static final int venus=0x7f020057;
+        public static final int windy=0x7f020058;
     }
     public static final class id {
-        public static final int btnClosePopup=0x7f06003b;
-        public static final int cancelButton=0x7f060020;
-        public static final int cb_auto_update=0x7f06001d;
-        public static final int etSearch=0x7f060005;
-        public static final int fav_id=0x7f060012;
-        public static final int favlist_main=0x7f060016;
-        public static final int fullscreen=0x7f060003;
-        public static final int glAddLoc=0x7f060009;
-        public static final int glFavItem=0x7f06000e;
-        public static final int ibAddToFavs=0x7f06000d;
-        public static final int ibDelete=0x7f060014;
-        public static final int inner_content=0x7f06001a;
-        public static final int left=0x7f060000;
-        public static final int listView1=0x7f060018;
-        public static final int llFiveDayWeather=0x7f060033;
-        public static final int location_name=0x7f060013;
-        public static final int lvAvailableLocations=0x7f060007;
-        public static final int lvRecentLocations=0x7f060008;
-        public static final int main_content_frame=0x7f060019;
-        public static final int margin=0x7f060002;
-        public static final int menu_frame=0x7f06001b;
-        public static final int menu_refresh=0x7f06003c;
-        public static final int menu_settings=0x7f06003d;
-        public static final int okButton=0x7f06001f;
-        public static final int pager=0x7f06001c;
-        public static final int pbSearchProg=0x7f060006;
-        public static final int pbWDload=0x7f060026;
-        public static final int right=0x7f060001;
-        public static final int row_icon=0x7f060021;
-        public static final int row_title=0x7f060022;
-        public static final int selected_view=0x7f060004;
-        public static final int slidingmenumain=0x7f060023;
-        public static final int spinner_update_freq=0x7f06001e;
-        public static final int textView1=0x7f060017;
-        public static final int tvAreaName=0x7f06000a;
-        public static final int tvCloudCover=0x7f060031;
-        public static final int tvCountry=0x7f06000b;
-        public static final int tvCurrentTemp=0x7f060028;
-        public static final int tvCurrentTime=0x7f060027;
-        public static final int tvCurrentWeatherConditionDesc=0x7f06002b;
-        public static final int tvDate=0x7f060034;
-        public static final int tvFavWeatherDeatails=0x7f060015;
-        public static final int tvHumidity=0x7f06002c;
-        public static final int tvLocation=0x7f060025;
-        public static final int tvMaxTemp=0x7f060038;
-        public static final int tvMinTemp=0x7f060039;
-        public static final int tvPrecipitation=0x7f060032;
-        public static final int tvPressure=0x7f060030;
-        public static final int tvRegion=0x7f06000c;
-        public static final int tvTest=0x7f060024;
-        public static final int tvToadayMaxTemp=0x7f06002a;
-        public static final int tvToadayMinTemp=0x7f060029;
-        public static final int tvVisibility=0x7f06002d;
-        public static final int tvWeatherPic=0x7f060035;
-        public static final int tvWeatherPic1=0x7f060036;
-        public static final int tvWeatherPic2=0x7f060037;
-        public static final int tvWindDirection=0x7f06002f;
-        public static final int tvWindSpeed=0x7f06002e;
-        public static final int vIconView=0x7f06000f;
-        public static final int vIconView1=0x7f060010;
-        public static final int vIconView2=0x7f060011;
-        public static final int wdPopupWindow=0x7f06003a;
+        public static final int action_websearch=0x7f0c003b;
+        public static final int btnClosePopup=0x7f0c003a;
+        public static final int cancelButton=0x7f0c0021;
+        public static final int cb_auto_update=0x7f0c001e;
+        public static final int content_frame=0x7f0c0016;
+        public static final int drawer_layout=0x7f0c0015;
+        public static final int etSearch=0x7f0c0000;
+        public static final int fav_id=0x7f0c000d;
+        public static final int favlist_main=0x7f0c0011;
+        public static final int glAddLoc=0x7f0c0004;
+        public static final int glFavItem=0x7f0c0009;
+        public static final int ibAddToFavs=0x7f0c0008;
+        public static final int ibDelete=0x7f0c000f;
+        public static final int image=0x7f0c0014;
+        public static final int inner_content=0x7f0c0019;
+        public static final int ivMenuIcon=0x7f0c001b;
+        public static final int left_drawer=0x7f0c0017;
+        public static final int listView1=0x7f0c0013;
+        public static final int llFiveDayWeather=0x7f0c0032;
+        public static final int location_name=0x7f0c000e;
+        public static final int lvAvailableLocations=0x7f0c0002;
+        public static final int lvRecentLocations=0x7f0c0003;
+        public static final int main_content_frame=0x7f0c0018;
+        public static final int menu_frame=0x7f0c001a;
+        public static final int menu_refresh=0x7f0c003c;
+        public static final int menu_settings=0x7f0c003d;
+        public static final int okButton=0x7f0c0020;
+        public static final int pager=0x7f0c001d;
+        public static final int pbSearchProg=0x7f0c0001;
+        public static final int pbWDload=0x7f0c0025;
+        public static final int row_icon=0x7f0c0022;
+        public static final int row_title=0x7f0c0023;
+        public static final int spinner_update_freq=0x7f0c001f;
+        public static final int textView1=0x7f0c0012;
+        public static final int tvAreaName=0x7f0c0005;
+        public static final int tvCloudCover=0x7f0c0030;
+        public static final int tvCountry=0x7f0c0006;
+        public static final int tvCurrentTemp=0x7f0c0027;
+        public static final int tvCurrentTime=0x7f0c0026;
+        public static final int tvCurrentWeatherConditionDesc=0x7f0c002a;
+        public static final int tvDate=0x7f0c0033;
+        public static final int tvFavWeatherDeatails=0x7f0c0010;
+        public static final int tvHumidity=0x7f0c002b;
+        public static final int tvLocation=0x7f0c0024;
+        public static final int tvMaxTemp=0x7f0c0037;
+        public static final int tvMenuName=0x7f0c001c;
+        public static final int tvMinTemp=0x7f0c0038;
+        public static final int tvPrecipitation=0x7f0c0031;
+        public static final int tvPressure=0x7f0c002f;
+        public static final int tvRegion=0x7f0c0007;
+        public static final int tvToadayMaxTemp=0x7f0c0029;
+        public static final int tvToadayMinTemp=0x7f0c0028;
+        public static final int tvVisibility=0x7f0c002c;
+        public static final int tvWeatherPic=0x7f0c0034;
+        public static final int tvWeatherPic1=0x7f0c0035;
+        public static final int tvWeatherPic2=0x7f0c0036;
+        public static final int tvWindDirection=0x7f0c002e;
+        public static final int tvWindSpeed=0x7f0c002d;
+        public static final int vIconView=0x7f0c000a;
+        public static final int vIconView1=0x7f0c000b;
+        public static final int vIconView2=0x7f0c000c;
+        public static final int wdPopupWindow=0x7f0c0039;
     }
     public static final class layout {
         public static final int add_location=0x7f030000;
         public static final int add_location_list_row=0x7f030001;
-        public static final int favourites_item=0x7f030002;
-        public static final int favourites_list=0x7f030003;
-        public static final int main_content_frame=0x7f030004;
-        public static final int menu_frame=0x7f030005;
-        public static final int menu_list=0x7f030006;
-        public static final int pager_frag=0x7f030007;
-        public static final int preferences=0x7f030008;
-        public static final int row=0x7f030009;
-        public static final int slidingmenumain=0x7f03000a;
-        public static final int test_layout=0x7f03000b;
-        public static final int weather_details=0x7f03000c;
-        public static final int weather_item=0x7f03000d;
-        public static final int weather_item_popup=0x7f03000e;
+        public static final int drawer_list_item=0x7f030002;
+        public static final int favourites_item=0x7f030003;
+        public static final int favourites_list=0x7f030004;
+        public static final int fragment_planet=0x7f030005;
+        public static final int main_activity=0x7f030006;
+        public static final int main_content_frame=0x7f030007;
+        public static final int menu_frame=0x7f030008;
+        public static final int menu_item=0x7f030009;
+        public static final int menu_list=0x7f03000a;
+        public static final int pager_frag=0x7f03000b;
+        public static final int preferences=0x7f03000c;
+        public static final int row=0x7f03000d;
+        public static final int test_layout=0x7f03000e;
+        public static final int weather_details=0x7f03000f;
+        public static final int weather_item=0x7f030010;
+        public static final int weather_item_popup=0x7f030011;
     }
     public static final class menu {
-        public static final int activity_main=0x7f0c0000;
+        public static final int activity_main=0x7f0b0000;
     }
     public static final class string {
-        public static final int action_settings=0x7f0a0005;
-        public static final int android_sax=0x7f0a0023;
-        public static final int api_key=0x7f0a0003;
-        public static final int app_name=0x7f0a0004;
-        public static final int auto_update_prompt=0x7f0a002e;
-        public static final int base_cloud=0x7f0a0035;
-        public static final int celcius_symbol=0x7f0a002b;
-        public static final int cloud=0x7f0a0036;
-        public static final int default_cloud_cover=0x7f0a001f;
-        public static final int default_current_time=0x7f0a000d;
-        public static final int default_humidity=0x7f0a001a;
+        public static final int action_settings=0x7f090005;
+        public static final int action_websearch=0x7f090048;
+        public static final int android_sax=0x7f090023;
+        public static final int api_key=0x7f090003;
+        public static final int app_name=0x7f090004;
+        public static final int app_not_available=0x7f090049;
+        public static final int auto_update_prompt=0x7f09002e;
+        public static final int base_cloud=0x7f090035;
+        public static final int celcius_symbol=0x7f09002b;
+        public static final int cloud=0x7f090036;
+        public static final int default_cloud_cover=0x7f09001f;
+        public static final int default_current_time=0x7f09000d;
+        public static final int default_humidity=0x7f09001a;
         /**  Below is all the default values for the weather_details.xml layout 
          */
-        public static final int default_location=0x7f0a000c;
-        public static final int default_max_temp=0x7f0a0010;
-        public static final int default_min_temp=0x7f0a000f;
-        public static final int default_precipitation=0x7f0a0020;
-        public static final int default_pressure=0x7f0a001e;
-        public static final int default_visibility=0x7f0a001b;
-        public static final int default_weather_desc=0x7f0a0019;
-        public static final int default_weather_icon_desc=0x7f0a000e;
-        public static final int default_wind_direction=0x7f0a001d;
-        public static final int default_wind_speed=0x7f0a001c;
-        public static final int dom=0x7f0a0025;
-        public static final int drizzle=0x7f0a0040;
-        public static final int favourites_list=0x7f0a0009;
+        public static final int default_location=0x7f09000c;
+        public static final int default_max_temp=0x7f090010;
+        public static final int default_min_temp=0x7f09000f;
+        public static final int default_precipitation=0x7f090020;
+        public static final int default_pressure=0x7f09001e;
+        public static final int default_visibility=0x7f09001b;
+        public static final int default_weather_desc=0x7f090019;
+        public static final int default_weather_icon_desc=0x7f09000e;
+        public static final int default_wind_direction=0x7f09001d;
+        public static final int default_wind_speed=0x7f09001c;
+        public static final int dom=0x7f090025;
+        public static final int drawer_close=0x7f090047;
+        /**  weather img names 
+ <string name="">@drawable/clear</string> 
+ <string name="">@drawable/cloudy</string> 
+ <string name="">@drawable/cold</string> 
+ <string name="">@drawable/default_weather_icon</string> 
+ <string name="">@drawable/drizzle</string> 
+ <string name="">@drawable/fair</string> 
+ <string name="">@drawable/fog</string> 
+ <string name="">@drawable/foggy</string> 
+ <string name="">@drawable/frezing_rain</string> 
+ <string name="">@drawable/hail</string> 
+ <string name="">@drawable/haze</string> 
+ <string name="">@drawable/heavy_snow</string> 
+ <string name="">@drawable/hot</string> 
+ <string name="">@drawable/mostly_cloudy</string> 
+ <string name="">@drawable/night_clear</string> 
+ <string name="">@drawable/night_drizzle</string> 
+ <string name="">@drawable/night_fair</string> 
+ <string name="">@drawable/night_half_moon</string> 
+ <string name="">@drawable/night_light_rain</string> 
+ <string name="">@drawable/night_mostly_cloudy</string> 
+ <string name="">@drawable/night_rain</string> 
+ <string name="">@drawable/night_showers</string> 
+ <string name="">@drawable/no_connect_ion</string> 
+ <string name="">@drawable/no_weather</string> 
+ <string name="">@drawable/rain</string> 
+ <string name="">@drawable/scattered_thunderstorms</string> 
+ <string name="">@drawable/showers</string> 
+ <string name="">@drawable/smoky</string> 
+ <string name="">@drawable/snow</string> 
+ <string name="">@drawable/sunny</string> 
+ <string name="">@drawable/thunderstorms</string> 
+ <string name="">@drawable/tropical_storm</string> 
+ <string name="">@drawable/umbrella</string> 
+ <string name="">@drawable/windy</string> 
+         */
+        public static final int drawer_open=0x7f090046;
+        public static final int drizzle=0x7f090040;
+        public static final int favourites_list=0x7f090009;
         /**  Below are the API string and other details 
          */
-        public static final int feed_format=0x7f0a0000;
-        public static final int feed_weather_details_base_url=0x7f0a0002;
-        public static final int frosty=0x7f0a0032;
-        public static final int hail=0x7f0a0045;
-        public static final int hello_world=0x7f0a0006;
-        public static final int hint_search_location=0x7f0a000a;
-        public static final int lbl_cloud_cover=0x7f0a0017;
-        public static final int lbl_humidity=0x7f0a0012;
-        public static final int lbl_precipitation=0x7f0a0018;
-        public static final int lbl_pressure=0x7f0a0016;
-        public static final int lbl_text_multiple_day_weather=0x7f0a002a;
-        public static final int lbl_visibility=0x7f0a0013;
-        public static final int lbl_weather_desc=0x7f0a0011;
-        public static final int lbl_wind_direction=0x7f0a0015;
-        public static final int lbl_wind_speed=0x7f0a0014;
-        public static final int main_actvity_name=0x7f0a0007;
-        public static final int menu_icon=0x7f0a002c;
-        public static final int menu_refresh=0x7f0a0028;
-        public static final int menu_search=0x7f0a0027;
-        public static final int menu_settings=0x7f0a0021;
+        public static final int feed_format=0x7f090000;
+        public static final int feed_weather_details_base_url=0x7f090002;
+        public static final int frosty=0x7f090032;
+        public static final int hail=0x7f090045;
+        public static final int hello_world=0x7f090006;
+        public static final int hint_search_location=0x7f09000a;
+        public static final int lbl_cloud_cover=0x7f090017;
+        public static final int lbl_humidity=0x7f090012;
+        public static final int lbl_precipitation=0x7f090018;
+        public static final int lbl_pressure=0x7f090016;
+        public static final int lbl_text_multiple_day_weather=0x7f09002a;
+        public static final int lbl_visibility=0x7f090013;
+        public static final int lbl_weather_desc=0x7f090011;
+        public static final int lbl_wind_direction=0x7f090015;
+        public static final int lbl_wind_speed=0x7f090014;
+        public static final int main_actvity_name=0x7f090007;
+        public static final int menu_icon=0x7f09002c;
+        public static final int menu_refresh=0x7f090028;
+        public static final int menu_search=0x7f090027;
+        public static final int menu_settings=0x7f090021;
         /**  Shared Prefrences menu items. 
          */
-        public static final int menu_update=0x7f0a002d;
-        public static final int mist=0x7f0a0038;
-        public static final int moon=0x7f0a0043;
+        public static final int menu_update=0x7f09002d;
+        public static final int mist=0x7f090038;
+        public static final int moon=0x7f090043;
         /**  Unicode for weather icons 
          */
-        public static final int night=0x7f0a0030;
-        public static final int no_of_days=0x7f0a0001;
-        public static final int pull=0x7f0a0026;
-        public static final int rainy=0x7f0a0037;
-        public static final int recent_locations=0x7f0a000b;
-        public static final int sax=0x7f0a0024;
-        public static final int search_location=0x7f0a0008;
-        public static final int showers=0x7f0a0034;
-        public static final int sleet=0x7f0a0042;
-        public static final int snow=0x7f0a0041;
-        public static final int sun=0x7f0a003d;
-        public static final int sunny=0x7f0a0031;
-        public static final int sunrise=0x7f0a003c;
-        public static final int sunset=0x7f0a003a;
-        public static final int thunder=0x7f0a003e;
-        public static final int title_activity_main=0x7f0a0022;
-        public static final int update_frequency_prompt=0x7f0a002f;
-        public static final int weather_picture=0x7f0a0029;
-        public static final int windy=0x7f0a003f;
-        public static final int windy_rain=0x7f0a0044;
-        public static final int windy_rain_cloud=0x7f0a003b;
-        public static final int windy_snow=0x7f0a0033;
-        public static final int windy_snow_cloud=0x7f0a0039;
+        public static final int night=0x7f090030;
+        public static final int no_of_days=0x7f090001;
+        public static final int pull=0x7f090026;
+        public static final int rainy=0x7f090037;
+        public static final int recent_locations=0x7f09000b;
+        public static final int sax=0x7f090024;
+        public static final int search_location=0x7f090008;
+        public static final int showers=0x7f090034;
+        public static final int sleet=0x7f090042;
+        public static final int snow=0x7f090041;
+        public static final int sun=0x7f09003d;
+        public static final int sunny=0x7f090031;
+        public static final int sunrise=0x7f09003c;
+        public static final int sunset=0x7f09003a;
+        public static final int thunder=0x7f09003e;
+        public static final int title_activity_main=0x7f090022;
+        public static final int update_frequency_prompt=0x7f09002f;
+        public static final int weather_picture=0x7f090029;
+        public static final int windy=0x7f09003f;
+        public static final int windy_rain=0x7f090044;
+        public static final int windy_rain_cloud=0x7f09003b;
+        public static final int windy_snow=0x7f090033;
+        public static final int windy_snow_cloud=0x7f090039;
     }
     public static final class style {
-        public static final int ActionBar_Solid_Weather_expert=0x7f0b0004;
-        public static final int ActionBar_Transparent_Weather_expert=0x7f0b0005;
-        public static final int ActionBarTabStyle_Weather_expert=0x7f0b0008;
-        public static final int ActionButton_CloseMode_Weather_expert=0x7f0b000b;
+        public static final int ActionBar_Solid_Weather_expert=0x7f0a0004;
+        public static final int ActionBar_Transparent_Weather_expert=0x7f0a0005;
+        public static final int ActionBarTabStyle_Weather_expert=0x7f0a0008;
+        public static final int ActionButton_CloseMode_Weather_expert=0x7f0a000b;
         /** 
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
@@ -589,261 +540,22 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f0b0000;
+        public static final int AppBaseTheme=0x7f0a0000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f0b0001;
-        public static final int DropDownListView_Weather_expert=0x7f0b0007;
-        public static final int DropDownNav_Weather_expert=0x7f0b0009;
-        public static final int PopupMenu_Weather_expert=0x7f0b0006;
-        public static final int PopupWindowAnimation=0x7f0b0002;
-        public static final int ProgressBar_Weather_expert=0x7f0b000a;
-        public static final int Theme_Weather_expert=0x7f0b0003;
+        public static final int AppTheme=0x7f0a0001;
+        public static final int DropDownListView_Weather_expert=0x7f0a0007;
+        public static final int DropDownNav_Weather_expert=0x7f0a0009;
+        public static final int PopupMenu_Weather_expert=0x7f0a0006;
+        public static final int PopupWindowAnimation=0x7f0a0002;
+        public static final int ProgressBar_Weather_expert=0x7f0a000a;
+        public static final int Theme_Weather_expert=0x7f0a0003;
         /**  this style is only referenced in a Light.DarkActionBar based theme 
          */
-        public static final int Theme_Weather_expert_Widget=0x7f0b000c;
+        public static final int Theme_Weather_expert_Widget=0x7f0a000c;
     }
     public static final class xml {
         public static final int userpreferences=0x7f050000;
     }
-    public static final class styleable {
-        /** Attributes that can be used with a SlidingMenu.
-           <p>Includes the following attributes:</p>
-           <table>
-           <colgroup align="left" />
-           <colgroup align="left" />
-           <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #SlidingMenu_behindOffset com.zafaralam.weatherexpert:behindOffset}</code></td><td></td></tr>
-           <tr><td><code>{@link #SlidingMenu_behindScrollScale com.zafaralam.weatherexpert:behindScrollScale}</code></td><td></td></tr>
-           <tr><td><code>{@link #SlidingMenu_behindWidth com.zafaralam.weatherexpert:behindWidth}</code></td><td></td></tr>
-           <tr><td><code>{@link #SlidingMenu_fadeDegree com.zafaralam.weatherexpert:fadeDegree}</code></td><td></td></tr>
-           <tr><td><code>{@link #SlidingMenu_fadeEnabled com.zafaralam.weatherexpert:fadeEnabled}</code></td><td></td></tr>
-           <tr><td><code>{@link #SlidingMenu_mode com.zafaralam.weatherexpert:mode}</code></td><td></td></tr>
-           <tr><td><code>{@link #SlidingMenu_selectorDrawable com.zafaralam.weatherexpert:selectorDrawable}</code></td><td></td></tr>
-           <tr><td><code>{@link #SlidingMenu_selectorEnabled com.zafaralam.weatherexpert:selectorEnabled}</code></td><td></td></tr>
-           <tr><td><code>{@link #SlidingMenu_shadowDrawable com.zafaralam.weatherexpert:shadowDrawable}</code></td><td></td></tr>
-           <tr><td><code>{@link #SlidingMenu_shadowWidth com.zafaralam.weatherexpert:shadowWidth}</code></td><td></td></tr>
-           <tr><td><code>{@link #SlidingMenu_touchModeAbove com.zafaralam.weatherexpert:touchModeAbove}</code></td><td></td></tr>
-           <tr><td><code>{@link #SlidingMenu_touchModeBehind com.zafaralam.weatherexpert:touchModeBehind}</code></td><td></td></tr>
-           <tr><td><code>{@link #SlidingMenu_viewAbove com.zafaralam.weatherexpert:viewAbove}</code></td><td></td></tr>
-           <tr><td><code>{@link #SlidingMenu_viewBehind com.zafaralam.weatherexpert:viewBehind}</code></td><td></td></tr>
-           </table>
-           @see #SlidingMenu_behindOffset
-           @see #SlidingMenu_behindScrollScale
-           @see #SlidingMenu_behindWidth
-           @see #SlidingMenu_fadeDegree
-           @see #SlidingMenu_fadeEnabled
-           @see #SlidingMenu_mode
-           @see #SlidingMenu_selectorDrawable
-           @see #SlidingMenu_selectorEnabled
-           @see #SlidingMenu_shadowDrawable
-           @see #SlidingMenu_shadowWidth
-           @see #SlidingMenu_touchModeAbove
-           @see #SlidingMenu_touchModeBehind
-           @see #SlidingMenu_viewAbove
-           @see #SlidingMenu_viewBehind
-         */
-        public static final int[] SlidingMenu = {
-            0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003,
-            0x7f010004, 0x7f010005, 0x7f010006, 0x7f010007,
-            0x7f010008, 0x7f010009, 0x7f01000a, 0x7f01000b,
-            0x7f01000c, 0x7f01000d
-        };
-        /**
-          <p>This symbol is the offset where the {@link com.zafaralam.weatherexpert.R.attr#behindOffset}
-          attribute's value can be found in the {@link #SlidingMenu} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name android:behindOffset
-        */
-        public static final int SlidingMenu_behindOffset = 3;
-        /**
-          <p>This symbol is the offset where the {@link com.zafaralam.weatherexpert.R.attr#behindScrollScale}
-          attribute's value can be found in the {@link #SlidingMenu} array.
-
-
-          <p>Must be a floating point value, such as "<code>1.2</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name android:behindScrollScale
-        */
-        public static final int SlidingMenu_behindScrollScale = 5;
-        /**
-          <p>This symbol is the offset where the {@link com.zafaralam.weatherexpert.R.attr#behindWidth}
-          attribute's value can be found in the {@link #SlidingMenu} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name android:behindWidth
-        */
-        public static final int SlidingMenu_behindWidth = 4;
-        /**
-          <p>This symbol is the offset where the {@link com.zafaralam.weatherexpert.R.attr#fadeDegree}
-          attribute's value can be found in the {@link #SlidingMenu} array.
-
-
-          <p>Must be a floating point value, such as "<code>1.2</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name android:fadeDegree
-        */
-        public static final int SlidingMenu_fadeDegree = 11;
-        /**
-          <p>This symbol is the offset where the {@link com.zafaralam.weatherexpert.R.attr#fadeEnabled}
-          attribute's value can be found in the {@link #SlidingMenu} array.
-
-
-          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name android:fadeEnabled
-        */
-        public static final int SlidingMenu_fadeEnabled = 10;
-        /**
-          <p>This symbol is the offset where the {@link com.zafaralam.weatherexpert.R.attr#mode}
-          attribute's value can be found in the {@link #SlidingMenu} array.
-
-
-          <p>Must be one of the following constant values.</p>
-<table>
-<colgroup align="left" />
-<colgroup align="left" />
-<colgroup align="left" />
-<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
-<tr><td><code>left</code></td><td>0</td><td></td></tr>
-<tr><td><code>right</code></td><td>1</td><td></td></tr>
-</table>
-          @attr name android:mode
-        */
-        public static final int SlidingMenu_mode = 0;
-        /**
-          <p>This symbol is the offset where the {@link com.zafaralam.weatherexpert.R.attr#selectorDrawable}
-          attribute's value can be found in the {@link #SlidingMenu} array.
-
-
-          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
-or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-          @attr name android:selectorDrawable
-        */
-        public static final int SlidingMenu_selectorDrawable = 13;
-        /**
-          <p>This symbol is the offset where the {@link com.zafaralam.weatherexpert.R.attr#selectorEnabled}
-          attribute's value can be found in the {@link #SlidingMenu} array.
-
-
-          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name android:selectorEnabled
-        */
-        public static final int SlidingMenu_selectorEnabled = 12;
-        /**
-          <p>This symbol is the offset where the {@link com.zafaralam.weatherexpert.R.attr#shadowDrawable}
-          attribute's value can be found in the {@link #SlidingMenu} array.
-
-
-          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
-or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-          @attr name android:shadowDrawable
-        */
-        public static final int SlidingMenu_shadowDrawable = 8;
-        /**
-          <p>This symbol is the offset where the {@link com.zafaralam.weatherexpert.R.attr#shadowWidth}
-          attribute's value can be found in the {@link #SlidingMenu} array.
-
-
-          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
-Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
-in (inches), mm (millimeters).
-<p>This may also be a reference to a resource (in the form
-"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
-theme attribute (in the form
-"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
-containing a value of this type.
-          @attr name android:shadowWidth
-        */
-        public static final int SlidingMenu_shadowWidth = 9;
-        /**
-          <p>This symbol is the offset where the {@link com.zafaralam.weatherexpert.R.attr#touchModeAbove}
-          attribute's value can be found in the {@link #SlidingMenu} array.
-
-
-          <p>Must be one of the following constant values.</p>
-<table>
-<colgroup align="left" />
-<colgroup align="left" />
-<colgroup align="left" />
-<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
-<tr><td><code>margin</code></td><td>0</td><td></td></tr>
-<tr><td><code>fullscreen</code></td><td>1</td><td></td></tr>
-</table>
-          @attr name android:touchModeAbove
-        */
-        public static final int SlidingMenu_touchModeAbove = 6;
-        /**
-          <p>This symbol is the offset where the {@link com.zafaralam.weatherexpert.R.attr#touchModeBehind}
-          attribute's value can be found in the {@link #SlidingMenu} array.
-
-
-          <p>Must be one of the following constant values.</p>
-<table>
-<colgroup align="left" />
-<colgroup align="left" />
-<colgroup align="left" />
-<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
-<tr><td><code>margin</code></td><td>0</td><td></td></tr>
-<tr><td><code>fullscreen</code></td><td>1</td><td></td></tr>
-</table>
-          @attr name android:touchModeBehind
-        */
-        public static final int SlidingMenu_touchModeBehind = 7;
-        /**
-          <p>This symbol is the offset where the {@link com.zafaralam.weatherexpert.R.attr#viewAbove}
-          attribute's value can be found in the {@link #SlidingMenu} array.
-
-
-          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
-or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-          @attr name android:viewAbove
-        */
-        public static final int SlidingMenu_viewAbove = 1;
-        /**
-          <p>This symbol is the offset where the {@link com.zafaralam.weatherexpert.R.attr#viewBehind}
-          attribute's value can be found in the {@link #SlidingMenu} array.
-
-
-          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
-or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-          @attr name android:viewBehind
-        */
-        public static final int SlidingMenu_viewBehind = 2;
-    };
 }

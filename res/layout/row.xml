@@ -22,7 +22,7 @@
         android:textColor="@color/WhiteSmoke"
         
                 android:textStyle="bold"
-                android:typeface="monospace"
+                
         android:textAppearance="@android:style/TextAppearance.Medium" />
 
 </LinearLayout>

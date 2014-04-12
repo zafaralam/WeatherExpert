@@ -15,16 +15,18 @@ import com.zafaralam.weatherexpert.contentprovider.WeatherExpertAdapter;
 import com.zafaralam.weatherexpert.contentprovider.WeatherExpertContract.FavouritesEnrty;
 import com.zafaralam.weatherexpert.contentprovider.WeatherExpertContract.RecentLocationsEntry;
 import com.zafaralam.weatherexpert.contentprovider.WeatherExpertContract.WeatherDetailsEntry;
+import com.zafaralam.weatherexpert.service.WeatherDetailsUpdateService;
 import com.zafaralam.xmlparser.FeedParser;
 import com.zafaralam.xmlparser.FeedParserFactory;
 
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -99,12 +101,13 @@ public class AddLocationFragment extends Fragment {
 			public void onItemClick(AdapterView<?> arg0, View view, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub
-				String[] tag = ((GridLayout) view).getTag().toString().split(";");
-				String location_name = tag[0] + ";"+tag[1]+";"+tag[2];
+				String[] tag = ((GridLayout) view).getTag().toString()
+						.split(";");
+				String location_name = tag[0] + ";" + tag[1] + ";" + tag[2];
 				switchWeatherLocation(location_name);
 			}
 		});
-		
+
 		lvRecentLocations.setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View view, MotionEvent arg1) {
@@ -130,8 +133,9 @@ public class AddLocationFragment extends Fragment {
 					long arg3) {
 				// TODO Auto-generated method stub
 
-				String[] tag = ((GridLayout) view).getTag().toString().split(";");
-				String location_name = tag[0] + ";"+tag[1]+";"+tag[2];
+				String[] tag = ((GridLayout) view).getTag().toString()
+						.split(";");
+				String location_name = tag[0] + ";" + tag[1] + ";" + tag[2];
 				addRecentLocation(tag);
 				switchWeatherLocation(location_name);
 
@@ -167,11 +171,9 @@ public class AddLocationFragment extends Fragment {
 		});
 		return v;
 	}
-	
+
 	private void addRecentLocation(String[] tag) {
-		String[] projection = {
-			RecentLocationsEntry.KEY_RECLOC_ID	
-		};
+		String[] projection = { RecentLocationsEntry.KEY_RECLOC_ID };
 		String areaName = tag[0];
 		String lat = tag[1];
 		String lng = tag[2];
@@ -180,78 +182,89 @@ public class AddLocationFragment extends Fragment {
 		Cursor c = null;
 		long noOfRows = 0;
 		ContentValues cv = new ContentValues();
-		
-		String where = RecentLocationsEntry.KEY_LAT + " = "
-				+ lat + " AND " + RecentLocationsEntry.KEY_LNG
-				+ " = " + lng;
-		
+
+		String where = RecentLocationsEntry.KEY_LAT + " = " + lat + " AND "
+				+ RecentLocationsEntry.KEY_LNG + " = " + lng;
+
 		cv.put(RecentLocationsEntry.KEY_AREANAME, areaName);
 		cv.put(RecentLocationsEntry.KEY_COUNTRY, country);
 		cv.put(RecentLocationsEntry.KEY_REGION, region);
 		cv.put(RecentLocationsEntry.KEY_LAT, lat);
 		cv.put(RecentLocationsEntry.KEY_LNG, lng);
-		
-		String rawQueryGetMinRecId = "SELECT MIN("+RecentLocationsEntry.KEY_RECLOC_ID+") FROM " + RecentLocationsEntry.TABLE_NAME;
-		//String rawQStringGetRecordsInRec = "SELECT COUNT(*) FROM" + RecentLocationsEntry.TABLE_NAME;
-		
-		
-		
-		c = dbHelper.query(RecentLocationsEntry.TABLE_NAME, projection, where, null, null, null, null);
-		
-		if(c.getCount() == 0){
-			
-//			c = dbHelper.query(rawQStringGetRecordsInRec, null);
-//			
-//			c.moveToFirst();
-//			noOfRows = c.getInt(0);
-			noOfRows = dbHelper.getNoOfRecordsInTable(RecentLocationsEntry.TABLE_NAME);
-			
-			//Log.d(TAG,String.valueOf(noOfRows));
-			if(noOfRows >= 10)
-			{
-				//String[] proj = {RecentLocationsEntry.KEY_RECLOC_ID};
-				
-				String rawQueryForTopRecs = "SELECT " + RecentLocationsEntry.KEY_RECLOC_ID + " FROM " 
-				+ RecentLocationsEntry.TABLE_NAME + " LIMIT "+ String.valueOf(noOfRows-9);
-				
+
+		String rawQueryGetMinRecId = "SELECT MIN("
+				+ RecentLocationsEntry.KEY_RECLOC_ID + ") FROM "
+				+ RecentLocationsEntry.TABLE_NAME;
+		// String rawQStringGetRecordsInRec = "SELECT COUNT(*) FROM" +
+		// RecentLocationsEntry.TABLE_NAME;
+
+		c = dbHelper.query(RecentLocationsEntry.TABLE_NAME, projection, where,
+				null, null, null, null);
+
+		if (c.getCount() == 0) {
+
+			// c = dbHelper.query(rawQStringGetRecordsInRec, null);
+			//
+			// c.moveToFirst();
+			// noOfRows = c.getInt(0);
+			noOfRows = dbHelper
+					.getNoOfRecordsInTable(RecentLocationsEntry.TABLE_NAME);
+
+			// Log.d(TAG,String.valueOf(noOfRows));
+			if (noOfRows >= 10) {
+				// String[] proj = {RecentLocationsEntry.KEY_RECLOC_ID};
+
+				String rawQueryForTopRecs = "SELECT "
+						+ RecentLocationsEntry.KEY_RECLOC_ID + " FROM "
+						+ RecentLocationsEntry.TABLE_NAME + " LIMIT "
+						+ String.valueOf(noOfRows - 9);
+
 				c = dbHelper.query(rawQueryForTopRecs, null);
 				c.moveToFirst();
-				for(int i=0;i<=c.getCount();i++){
-					//c.move(i);
-					
+				for (int i = 0; i <= c.getCount(); i++) {
+					// c.move(i);
+
 					int minId = c.getInt(0);
-					
-					String whereArgs = RecentLocationsEntry.KEY_RECLOC_ID + " = " + String.valueOf(minId);
-					int noOfDeletedRows = dbHelper.delete(RecentLocationsEntry.TABLE_NAME, whereArgs, null);
-					//Log.d(TAG,"Deleted "+String.valueOf(minId)+" Record");
-					if(!c.isLast())
+
+					String whereArgs = RecentLocationsEntry.KEY_RECLOC_ID
+							+ " = " + String.valueOf(minId);
+					int noOfDeletedRows = dbHelper.delete(
+							RecentLocationsEntry.TABLE_NAME, whereArgs, null);
+					// Log.d(TAG,"Deleted "+String.valueOf(minId)+" Record");
+					if (!c.isLast())
 						c.moveToNext();
 					else
 						i++;
 				}
 			}
-			
-			long rowId = dbHelper.insert(RecentLocationsEntry.TABLE_NAME, null, cv);
+
+			long rowId = dbHelper.insert(RecentLocationsEntry.TABLE_NAME, null,
+					cv);
 		}
-		
+
 	}
 
 	private void loadRecentLocations() {
 		// TODO Auto-generated method stub
 		recentLocationAdapter.clear();
-		String[] projection = new String[] {RecentLocationsEntry.KEY_RECLOC_ID, RecentLocationsEntry.KEY_AREANAME,
-				RecentLocationsEntry.KEY_COUNTRY, RecentLocationsEntry.KEY_REGION,RecentLocationsEntry.KEY_LAT,
+		String[] projection = new String[] {
+				RecentLocationsEntry.KEY_RECLOC_ID,
+				RecentLocationsEntry.KEY_AREANAME,
+				RecentLocationsEntry.KEY_COUNTRY,
+				RecentLocationsEntry.KEY_REGION, RecentLocationsEntry.KEY_LAT,
 				RecentLocationsEntry.KEY_LNG };
 
 		// String where = FavouritesEnrty.KEY_DEFAULT_LOC + " < " + "2";
 
-		Cursor cursor = dbHelper.query(RecentLocationsEntry.TABLE_NAME, projection,
-				null, null, null, null, RecentLocationsEntry.KEY_RECLOC_ID + " DESC");
+		Cursor cursor = dbHelper.query(RecentLocationsEntry.TABLE_NAME,
+				projection, null, null, null, null,
+				RecentLocationsEntry.KEY_RECLOC_ID + " DESC");
 		boolean isBegin = true;
 		if (cursor != null) {
 			if (cursor.getCount() == 1)
-				recentLocationAdapter.add(new LocationItem(cursor.getString(1), cursor.getString(2),cursor.getString(3), cursor
-						.getFloat(4), cursor.getFloat(5)));
+				recentLocationAdapter.add(new LocationItem(cursor.getString(1),
+						cursor.getString(2), cursor.getString(3), cursor
+								.getFloat(4), cursor.getFloat(5)));
 			else {
 				while (cursor.moveToNext()) {
 					if (isBegin) {
@@ -263,16 +276,16 @@ public class AddLocationFragment extends Fragment {
 					// Log.d(TAG, cursor.getString(1)+" "+cursor.getFloat(2)+
 					// " " +
 					// cursor.getFloat(3)+ " " +cursor.getInt(0));
-					recentLocationAdapter.add(new LocationItem(cursor.getString(1), cursor.getString(2),cursor.getString(3), cursor
-							.getFloat(4), cursor.getFloat(5)));
+					recentLocationAdapter.add(new LocationItem(cursor
+							.getString(1), cursor.getString(2), cursor
+							.getString(3), cursor.getFloat(4), cursor
+							.getFloat(5)));
 				}
 			}
 			cursor.close();
 			lvRecentLocations.setAdapter(recentLocationAdapter);
 		}
 	}
-	
-	
 
 	private void hideKeyboard(View view) {
 		// TODO Auto-generated method stub
@@ -330,7 +343,7 @@ public class AddLocationFragment extends Fragment {
 		pbSearchProg = (ProgressBar) v.findViewById(R.id.pbSearchProg);
 		locAdapter = new AddLocationAdapter(getActivity());
 		dbHelper = new WeatherExpertAdapter(getActivity());
-		
+
 		recentLocationAdapter = new AddLocationAdapter(getActivity());
 		lvRecentLocations = (ListView) v.findViewById(R.id.lvRecentLocations);
 
@@ -413,16 +426,20 @@ public class AddLocationFragment extends Fragment {
 			tvCountry.setText(getItem(position).country);
 			tvRegion.setText(getItem(position).region);
 
+			//This is for the button to add to favorites.
 			String tag = getItem(position).areaName + ";"
 					+ getItem(position).latitude + ";"
 					+ getItem(position).longitude;
+			
+			ibAddToFavs.setTag(tag);
+
+			
+			//this is to view the wether details.
 			String tag2 = getItem(position).areaName + ";"
 					+ getItem(position).latitude + ";"
 					+ getItem(position).longitude + ";"
 					+ getItem(position).country + ";"
-					+ getItem(position).areaName;
-			ibAddToFavs.setTag(tag);
-
+					+ getItem(position).region;// Was previously areaName. 
 			glAddLoc.setTag(tag2);
 
 			/*
@@ -455,7 +472,7 @@ public class AddLocationFragment extends Fragment {
 
 					c = dbHelper.query(FavouritesEnrty.TABLE_NAME, projection,
 							where, null, null, null, null);
-					//Log.d(TAG, String.valueOf(c.getCount()));
+					// Log.d(TAG, String.valueOf(c.getCount()));
 					if (c.getCount() == 0) {
 						ContentValues cv = new ContentValues();
 
@@ -467,20 +484,28 @@ public class AddLocationFragment extends Fragment {
 						cv.put(FavouritesEnrty.KEY_DEFAULT_LOC, "0");
 
 						long rowNum = 0;
-						
 
 						rowNum = dbHelper.insert(FavouritesEnrty.TABLE_NAME,
 								null, cv);
 
-						if (rowNum > 0){
+						if (rowNum > 0) {
 							Toast.makeText(getActivity(),
 									splitData[0] + " added to favourites",
 									Toast.LENGTH_SHORT).show();
-							c = dbHelper.query(FavouritesEnrty.TABLE_NAME, projection,
-									where, null, null, null, null);
-							if(c.getCount() > 0)
-								new DownloadWeatherForNewFav(splitData[1], splitData[2]
-										, c.getInt(0), splitData[0])
+							c = dbHelper.query(FavouritesEnrty.TABLE_NAME,
+									projection, where, null, null, null, null);
+							if (c.getCount() > 0)
+								/*
+								 * Accessing a location after just clicking add
+								 * - use the service to update the data.
+								 */
+								// getActivity().startService(new
+								// WeatherDetailsUpdateService());
+								if (NetworkDetails
+										.isNetworkAvailable(getActivity()))
+									new DownloadWeatherForNewFav(splitData[1],
+											splitData[2], c.getInt(0),
+											splitData[0])
 											.execute("Add weather details of new fav");
 						}
 
@@ -503,23 +528,27 @@ public class AddLocationFragment extends Fragment {
 			return;
 		}
 
-		if (getActivity() instanceof BaseActivity) {
-			BaseActivity ba = (BaseActivity) getActivity();
+		if (getActivity() instanceof MainActivity) {
+			MainActivity ba = (MainActivity) getActivity();
 			ba.switchLocation(location);
 		}
 	}
-	
-	/* Class similar to the download weather to add details of the weather when adding a favorite*/
-	private class DownloadWeatherForNewFav extends AsyncTask<String, String, String> {
+
+	/*
+	 * Class similar to the download weather to add details of the weather when
+	 * adding a favorite
+	 */
+	private class DownloadWeatherForNewFav extends
+			AsyncTask<String, String, String> {
 
 		private String lat;
 		private String lng;
 		private int favId;
 		private List<Weather> weathers;
 		private String location_name;
-		
-		public DownloadWeatherForNewFav(String lat,
-				String lng, int favId, String location_name){
+
+		public DownloadWeatherForNewFav(String lat, String lng, int favId,
+				String location_name) {
 			super();
 			this.lat = lat;
 			this.lng = lng;
@@ -527,81 +556,90 @@ public class AddLocationFragment extends Fragment {
 			this.location_name = location_name;
 			this.weathers = null;
 		}
-		
+
 		@Override
 		protected String doInBackground(String... arg0) {
 			// TODO Auto-generated method stub
-			
-			//create the feedUrl
+
+			// create the feedUrl
 			String feedUrl = "http://api.worldweatheronline.com/free/v1/weather.ashx?q="
 					+ lat// Latitude
-					+ ","
-					+ lng// Longitude
+					+ "," + lng// Longitude
 					+ "&format=xml&num_of_days=5&key=hkk8gqf7n85dhzns5xmhxa5f";
-			
-			FeedParser parser = FeedParserFactory.getParser(ParserType.XML_PULL, feedUrl);
+
+			FeedParser parser = FeedParserFactory.getParser(
+					ParserType.XML_PULL, feedUrl);
 			this.weathers = parser.parseWeather();
-			
+
 			return null;
 		}
-		
+
 		@Override
 		protected void onPostExecute(String result) {
 			// TODO Auto-generated method stub
 			addWeatherDetailsToDB();
 			super.onPostExecute(result);
 		}
-		
+
 		private void addWeatherDetailsToDB() {
 			// TODO Auto-generated method stub
 			for (Weather wd : weathers) {
 				ContentValues cv = new ContentValues();
 
-				if(wd instanceof CurrentWeather){
+				if (wd instanceof CurrentWeather) {
 					cv.put(WeatherDetailsEntry.KEY_LOCATION, this.location_name);
 					cv.put(WeatherDetailsEntry.KEY_OBSERVATION_TIME,
 							((CurrentWeather) wd).getObservationTime());
-					cv.put(WeatherDetailsEntry.KEY_TEMP_C, ((CurrentWeather) wd).getTemp_C());
-					cv.put(WeatherDetailsEntry.KEY_TEMP_F, ((CurrentWeather) wd).getTemp_F());
-					cv.put(WeatherDetailsEntry.KEY_HUMIDITY, ((CurrentWeather) wd).getHumidity());
-					cv.put(WeatherDetailsEntry.KEY_VISIBILITY, ((CurrentWeather) wd).getVisibility());
-					cv.put(WeatherDetailsEntry.KEY_PRESSURE, ((CurrentWeather) wd).getPressure());
-					cv.put(WeatherDetailsEntry.KEY_CLOUDCOVER, ((CurrentWeather) wd).getCloudCover());
-				}
-				else{
-					cv.put(WeatherDetailsEntry.KEY_TEMPMAX_C, ((DayWeather) wd).getTempMax_C());
-					cv.put(WeatherDetailsEntry.KEY_TEMPMAX_F, ((DayWeather) wd).getTempMax_F());
-					cv.put(WeatherDetailsEntry.KEY_TEMPMIN_C, ((DayWeather) wd).getTempMin_C());
-					cv.put(WeatherDetailsEntry.KEY_TEMPMIN_F, ((DayWeather) wd).getTempMin_F());
-					cv.put(WeatherDetailsEntry.KEY_WINDDIRECTION, ((DayWeather) wd).getWindDirection());
+					cv.put(WeatherDetailsEntry.KEY_TEMP_C,
+							((CurrentWeather) wd).getTemp_C());
+					cv.put(WeatherDetailsEntry.KEY_TEMP_F,
+							((CurrentWeather) wd).getTemp_F());
+					cv.put(WeatherDetailsEntry.KEY_HUMIDITY,
+							((CurrentWeather) wd).getHumidity());
+					cv.put(WeatherDetailsEntry.KEY_VISIBILITY,
+							((CurrentWeather) wd).getVisibility());
+					cv.put(WeatherDetailsEntry.KEY_PRESSURE,
+							((CurrentWeather) wd).getPressure());
+					cv.put(WeatherDetailsEntry.KEY_CLOUDCOVER,
+							((CurrentWeather) wd).getCloudCover());
+				} else {
+					cv.put(WeatherDetailsEntry.KEY_TEMPMAX_C,
+							((DayWeather) wd).getTempMax_C());
+					cv.put(WeatherDetailsEntry.KEY_TEMPMAX_F,
+							((DayWeather) wd).getTempMax_F());
+					cv.put(WeatherDetailsEntry.KEY_TEMPMIN_C,
+							((DayWeather) wd).getTempMin_C());
+					cv.put(WeatherDetailsEntry.KEY_TEMPMIN_F,
+							((DayWeather) wd).getTempMin_F());
+					cv.put(WeatherDetailsEntry.KEY_WINDDIRECTION,
+							((DayWeather) wd).getWindDirection());
 				}
 				cv.put(WeatherDetailsEntry.KEY_WD_FAV_ID, this.favId);
-				
-				
+
 				cv.put(WeatherDetailsEntry.KEY_WEATHER_CONDITION,
 						wd.getWeather_condition());
-				cv.put(WeatherDetailsEntry.KEY_DATE, String.valueOf(wd.getDate()));
+				cv.put(WeatherDetailsEntry.KEY_DATE,
+						String.valueOf(wd.getDate()));
 				cv.put(WeatherDetailsEntry.KEY_WINDSPEEDMILES,
 						wd.getWindSpeedMiles());
 				cv.put(WeatherDetailsEntry.KEY_KEY_WINDSPEEDKMPH,
 						wd.getWindSpeedKmph());
-				cv.put(WeatherDetailsEntry.KEY_WINDDIRDEGREE, wd.getWindDirDegree());
+				cv.put(WeatherDetailsEntry.KEY_WINDDIRDEGREE,
+						wd.getWindDirDegree());
 				cv.put(WeatherDetailsEntry.KEY_WINDDIR16POINT,
 						wd.getWindDir16Point());
 				cv.put(WeatherDetailsEntry.KEY_WEATHERICONURL,
 						wd.getWeatherIconUrl());
 				cv.put(WeatherDetailsEntry.KEY_WEATHERDESC, wd.getWeatherDesc());
 				cv.put(WeatherDetailsEntry.KEY_PRECIPMM, wd.getPrecipMM());
-				
-				
-				//cv.put(WeatherDetailsEntry.KEY_WEATHERTYPE, "");
+
+				// cv.put(WeatherDetailsEntry.KEY_WEATHERTYPE, "");
 
 				dbHelper.insert(WeatherDetailsEntry.TABLE_NAME, null, cv);
 
 			}
 		}
-		
-		
+
 	}
 
 	private class DownloadLocations extends AsyncTask<String, Integer, String> {
@@ -672,11 +710,9 @@ public class AddLocationFragment extends Fragment {
 		}
 
 	}
-	
-	
+
 	/**************************************************
 	 * Below classes are for the list of recent searches
 	 **************************************************/
-	 
 
 }

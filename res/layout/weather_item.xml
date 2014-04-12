@@ -14,9 +14,9 @@
             android:layout_column="0"
             android:text="Mon"
             android:textSize="12sp"
-            android:textColor="@color/blue_gray"
+            android:textColor="@color/WhiteSmoke"
             android:textStyle="bold"
-            android:typeface="monospace"/>
+            />
 
 
         <!-- <ImageView
@@ -40,18 +40,22 @@
                 android:id="@+id/tvWeatherPic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="72sp" />
+                android:textStyle="bold"
+                android:textSize="72sp"
+                android:text="123" />
 
             <TextView
                 android:id="@+id/tvWeatherPic1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textStyle="bold"
                 android:textSize="72sp" />
 
             <TextView
                 android:id="@+id/tvWeatherPic2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textStyle="bold"
                 android:textSize="72sp" />
         </RelativeLayout>
 
@@ -68,7 +72,6 @@
             android:layout_column="0"
             android:textSize="12sp"
             android:textStyle="bold"
-            android:typeface="monospace"
             android:padding="1dp"
             android:background="@drawable/orange_rectangle" />
 
@@ -83,7 +86,6 @@
             android:layout_column="0"
             android:textSize="12sp"
             android:textStyle="bold"
-            android:typeface="monospace"
             android:padding="1dp"
             android:background="@drawable/blue_rectangle" />
 

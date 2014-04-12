@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/dark_gray"
     android:orientation="vertical"
     android:padding="5dp" >
 
@@ -24,10 +24,9 @@
             android:layout_row="0"
             android:padding="3dp"
             android:text="@string/default_location"
-            android:textColor="@color/blue_gray"
+            android:textColor="@color/WhiteSmoke"
             android:textSize="12sp"
-            android:textStyle="italic"
-            android:typeface="monospace" />
+            android:textStyle="italic" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -50,24 +49,11 @@
                 android:layout_marginRight="5dp"
                 android:padding="3dp"
                 android:text="@string/default_current_time"
-                android:textColor="@color/blue_gray"
+                android:textColor="@color/WhiteSmoke"
                 android:textSize="12sp"
-                android:textStyle="italic"
-                android:typeface="monospace" />
+                android:textStyle="italic" />
         </LinearLayout>
-
-        <!--
-             <ImageView
-            android:id="@+id/ivCurrentWeatherIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="0"
-            android:layout_gravity="center"
-            android:layout_row="1"
-            android:contentDescription="@string/default_weather_icon_desc"
-            android:src="@drawable/no_weather" />
-        -->
-
+        
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -79,19 +65,23 @@
                 android:id="@+id/vIconView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="100sp" />
+                android:text=""
+                android:textSize="100sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/vIconView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="100sp" />
+                android:textSize="100sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/vIconView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="100sp" />
+                android:textSize="100sp"
+                android:textStyle="bold" />
         </RelativeLayout>
 
         <TextView
@@ -102,11 +92,11 @@
             android:layout_gravity="right|center_vertical"
             android:layout_row="1"
             android:padding="5dp"
+            android:layout_marginLeft="25dp"
             android:text="@string/default_max_temp"
-            android:textColor="@android:color/holo_red_dark"
-            android:textSize="72sp"
-            android:textStyle="bold"
-            android:typeface="monospace" />
+            android:textColor="@color/WhiteSmoke"
+            android:textSize="52sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvToadayMinTemp"
@@ -118,11 +108,11 @@
             android:background="@drawable/blue_rectangle"
             android:gravity="right"
             android:padding="5dp"
+            android:layout_marginRight="5dp"
             android:text="@string/default_min_temp"
             android:textColor="@android:color/white"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            android:typeface="monospace" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvToadayMaxTemp"
@@ -133,11 +123,25 @@
             android:layout_row="1"
             android:background="@drawable/orange_rectangle"
             android:padding="5dp"
+            android:layout_marginRight="5dp"
             android:text="@string/default_max_temp"
             android:textColor="@android:color/white"
-            android:textSize="25sp"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvCurrentWeatherConditionDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_columnSpan="3"
+            android:layout_row="2"
+            android:padding="3dp"
+            android:text="Weather description"
+            android:textSize="13sp"
             android:textStyle="bold"
-            android:typeface="monospace" />
+            android:textColor="@color/WhiteSmoke"
+             />
     </GridLayout>
 
     <GridLayout
@@ -155,37 +159,10 @@
             android:layout_column="0"
             android:layout_gravity="left|center_vertical"
             android:layout_marginBottom="3dp"
-            android:layout_row="0"
-            android:text="@string/lbl_weather_desc"
-            android:textColor="@color/blue_gray"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            android:typeface="monospace" />
-
-        <TextView
-            android:id="@+id/tvCurrentWeatherConditionDesc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:layout_gravity="right|center_vertical"
-            android:layout_marginBottom="3dp"
-            android:layout_row="0"
-            android:text="@string/default_weather_desc"
-            android:textColor="@android:color/holo_red_dark"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            android:typeface="monospace" />
-
-        <TextView
-            android:layout_column="0"
-            android:layout_gravity="left|center_vertical"
-            android:layout_marginBottom="3dp"
             android:layout_row="1"
             android:text="@string/lbl_humidity"
-            android:textColor="@color/blue_gray"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            android:typeface="monospace" />
+            android:textColor="@color/WhiteSmoke"
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/tvHumidity"
@@ -194,9 +171,8 @@
             android:layout_marginBottom="3dp"
             android:layout_row="1"
             android:text="@string/default_humidity"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            android:typeface="monospace" />
+            android:textColor="@color/WhiteSmoke"
+            android:textSize="13sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -205,10 +181,8 @@
             android:layout_marginBottom="3dp"
             android:layout_row="2"
             android:text="@string/lbl_visibility"
-            android:textColor="@color/blue_gray"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            android:typeface="monospace" />
+            android:textColor="@color/WhiteSmoke"
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/tvVisibility"
@@ -217,9 +191,8 @@
             android:layout_marginBottom="3dp"
             android:layout_row="2"
             android:text="@string/default_visibility"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            android:typeface="monospace" />
+            android:textColor="@color/WhiteSmoke"
+            android:textSize="13sp" />
 
         <TextView
             android:layout_column="0"
@@ -227,10 +200,8 @@
             android:layout_marginBottom="3dp"
             android:layout_row="3"
             android:text="@string/lbl_wind_speed"
-            android:textColor="@color/blue_gray"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            android:typeface="monospace" />
+            android:textColor="@color/WhiteSmoke"
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/tvWindSpeed"
@@ -239,9 +210,8 @@
             android:layout_marginBottom="3dp"
             android:layout_row="3"
             android:text="@string/default_wind_speed"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            android:typeface="monospace" />
+            android:textColor="@color/WhiteSmoke"
+            android:textSize="13sp" />
 
         <TextView
             android:layout_column="0"
@@ -249,10 +219,8 @@
             android:layout_marginBottom="3dp"
             android:layout_row="4"
             android:text="@string/lbl_wind_direction"
-            android:textColor="@color/blue_gray"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            android:typeface="monospace" />
+            android:textColor="@color/WhiteSmoke"
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/tvWindDirection"
@@ -261,9 +229,8 @@
             android:layout_marginBottom="3dp"
             android:layout_row="4"
             android:text="@string/default_wind_direction"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            android:typeface="monospace" />
+            android:textColor="@color/WhiteSmoke"
+            android:textSize="13sp" />
 
         <TextView
             android:layout_column="0"
@@ -271,10 +238,8 @@
             android:layout_marginBottom="3dp"
             android:layout_row="5"
             android:text="@string/lbl_pressure"
-            android:textColor="@color/blue_gray"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            android:typeface="monospace" />
+            android:textColor="@color/WhiteSmoke"
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/tvPressure"
@@ -283,9 +248,8 @@
             android:layout_marginBottom="3dp"
             android:layout_row="5"
             android:text="@string/default_pressure"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            android:typeface="monospace" />
+            android:textColor="@color/WhiteSmoke"
+            android:textSize="13sp" />
 
         <TextView
             android:layout_column="0"
@@ -293,10 +257,8 @@
             android:layout_marginBottom="3dp"
             android:layout_row="6"
             android:text="@string/lbl_cloud_cover"
-            android:textColor="@color/blue_gray"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            android:typeface="monospace" />
+            android:textColor="@color/WhiteSmoke"
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/tvCloudCover"
@@ -305,9 +267,8 @@
             android:layout_marginBottom="3dp"
             android:layout_row="6"
             android:text="@string/default_cloud_cover"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            android:typeface="monospace" />
+            android:textColor="@color/WhiteSmoke"
+            android:textSize="13sp" />
 
         <TextView
             android:layout_column="0"
@@ -315,10 +276,8 @@
             android:layout_marginBottom="3dp"
             android:layout_row="7"
             android:text="@string/lbl_precipitation"
-            android:textColor="@color/blue_gray"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            android:typeface="monospace" />
+            android:textColor="@color/WhiteSmoke"
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/tvPrecipitation"
@@ -327,9 +286,8 @@
             android:layout_marginBottom="3dp"
             android:layout_row="7"
             android:text="@string/default_precipitation"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            android:typeface="monospace" />
+            android:textColor="@color/WhiteSmoke"
+            android:textSize="13sp" />
     </GridLayout>
 
     <!-- <ScrollView -->
@@ -350,12 +308,28 @@
     <!-- android:layout_gravity="center_vertical" > -->
 
     <LinearLayout
-        android:id="@+id/llFiveDayWeather"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@drawable/backgroud_rectangle"
-        android:gravity="center"
-        android:orientation="horizontal" >
+        android:background= "@drawable/backgroud_rectangle"
+        android:orientation="vertical" >
+        
+        <TextView android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:padding="15dp"
+            android:textSize="13sp"
+            android:textColor="@color/WhiteSmoke"
+            android:textStyle="bold"
+            android:text="Next 4 Days"/>
+
+        <LinearLayout
+            android:id="@+id/llFiveDayWeather"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_margin="10dp"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+             >
+        </LinearLayout>
     </LinearLayout>
     <!-- </HorizontalScrollView> -->
     <!-- </ScrollView> -->

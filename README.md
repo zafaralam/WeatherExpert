@@ -25,18 +25,6 @@ This is a weather application and is still a work in progress.
 	- When clicking refresh call the service to reload all data.
 	- Add low resolution versions of weather details fragment.
 
-Google Console Sender id link
-https://code.google.com/apis/console/?pli=1#project:358661061117:services
-Sender Id: 358661061117
-
-API Key: AIzaSyCwduQ42lfgwf1eBgg2MKFu7CULuMoilNU
-
-Database Details:
-$mysql_host = "mysql10.000webhost.com";
-$mysql_database = "a3382353_gcm";
-$mysql_user = "a3382353_gcm";
-$mysql_password = "abc123";
-
 /*****************************************************************************/
 #Inner working of the WeatherFragment.java
 	- A variable(main_location) is used to hold the	location details.
